@@ -14,7 +14,7 @@ public class CryptonetPackage {
         let identifier = "CryptonetVisual"
         let storyboard = UIStoryboard(name: identifier, bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-
+        vc.isModalInPresentation = true
         viewController.present(vc, animated: true)
     }
     

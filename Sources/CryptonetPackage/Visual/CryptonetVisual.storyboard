@@ -5,44 +5,66 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Cryptonet Visual-->
-        <scene sceneID="s0d-6b-0kx">
+        <scene sceneID="L0m-aC-BWH">
             <objects>
-                <viewController storyboardIdentifier="CryptonetVisual" id="Y6W-OH-hqX" customClass="CryptonetVisual" customModule="CryptonetPackage" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                <viewController storyboardIdentifier="CryptonetVisual" id="gU8-gz-Jqy" customClass="CryptonetVisual" customModule="CryptonetPackage" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="e8r-tq-Hph">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gB4-Jp-4Ik">
-                                <rect key="frame" x="161" y="415.66666666666669" width="71" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jqe-Xr-Igp">
+                                <rect key="frame" x="20" y="249.66666666666663" width="353" height="353"/>
+                                <subviews>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4kj-6Y-AtN">
+                                        <rect key="frame" x="20" y="20.000000000000028" width="313" height="313"/>
+                                        <color key="backgroundColor" red="0.050980392159999999" green="0.070588235289999995" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="4kj-6Y-AtN" secondAttribute="height" multiplier="1:1" id="9Om-uV-mJZ"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusV">
+                                                <real key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.047058823530000002" green="0.062745098040000002" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="jqe-Xr-Igp" secondAttribute="height" multiplier="1:1" id="136-dr-aVL"/>
+                                    <constraint firstAttribute="trailing" secondItem="4kj-6Y-AtN" secondAttribute="trailing" constant="20" id="RXJ-gp-oZP"/>
+                                    <constraint firstItem="4kj-6Y-AtN" firstAttribute="leading" secondItem="jqe-Xr-Igp" secondAttribute="leading" constant="20" id="YbS-TE-ylT"/>
+                                    <constraint firstAttribute="bottom" secondItem="4kj-6Y-AtN" secondAttribute="bottom" constant="20" id="mix-EW-dZN"/>
+                                    <constraint firstItem="4kj-6Y-AtN" firstAttribute="top" secondItem="jqe-Xr-Igp" secondAttribute="top" constant="20" id="sBS-0t-HUD"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusV">
+                                        <real key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <viewLayoutGuide key="safeArea" id="3Wb-Q3-idJ"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="gB4-Jp-4Ik" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="BQk-Ru-bUx"/>
-                            <constraint firstItem="gB4-Jp-4Ik" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="VRj-LP-ENt"/>
+                            <constraint firstItem="jqe-Xr-Igp" firstAttribute="centerY" secondItem="e8r-tq-Hph" secondAttribute="centerY" id="Dmz-fi-4gm"/>
+                            <constraint firstItem="jqe-Xr-Igp" firstAttribute="centerX" secondItem="e8r-tq-Hph" secondAttribute="centerX" id="KVd-Tr-VDd"/>
+                            <constraint firstItem="jqe-Xr-Igp" firstAttribute="leading" secondItem="3Wb-Q3-idJ" secondAttribute="leading" constant="20" id="mum-vd-HcZ"/>
+                            <constraint firstItem="3Wb-Q3-idJ" firstAttribute="trailing" secondItem="jqe-Xr-Igp" secondAttribute="trailing" constant="20" id="trC-xE-dBe"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Wg6-hm-xhk"/>
                     <connections>
-                        <outlet property="greetings" destination="gB4-Jp-4Ik" id="d0m-yP-Wgu"/>
+                        <outlet property="videoContainer" destination="jqe-Xr-Igp" id="biG-zd-3bS"/>
+                        <outlet property="videoFrame" destination="4kj-6Y-AtN" id="Uxg-7K-MDa"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w5D-fC-f8m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="140" y="4"/>
+            <point key="canvasLocation" x="3355" y="-3"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

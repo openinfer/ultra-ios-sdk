@@ -12,7 +12,7 @@ public class CryptonetPackage {
     
     public func runVisual(on viewController: UIViewController) {
         let identifier = "CryptonetVisual"
-        let storyboard = UIStoryboard(name: identifier, bundle: Bundle.main)
+        let storyboard = UIStoryboard(name: identifier, bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
         viewController.present(vc, animated: true)

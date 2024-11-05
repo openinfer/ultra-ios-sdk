@@ -11,13 +11,11 @@ public class CryptonetPackage {
     public init() {}
     
     public func runVisual(on viewController: UIViewController) {
-        let visualView: CryptonetVisual = .fromNib()
-        
-        let visualVC = UIViewController()
-        visualView.frame = visualVC.view.frame
-        visualVC.view.addSubview(visualView)
-        
-        viewController.present(visualVC, animated: true)
+        let identifier = "CryptonetVisual"
+        let storyboard = UIStoryboard(name: identifier, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+
+        viewController.present(vc, animated: true)
     }
     
     private var sessionPointer: UnsafeMutableRawPointer?

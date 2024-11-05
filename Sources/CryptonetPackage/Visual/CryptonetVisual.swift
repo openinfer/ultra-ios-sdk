@@ -1,15 +1,20 @@
 import UIKit
 
-public class CryptonetVisual: UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+public class CryptonetVisual: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var greetings: UILabel!
     
-    public func runCamera(viewController: UIViewController) {
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        runCamera()
+    }
+    
+    public func runCamera() {
         print("Test")
         let cameraVc = UIImagePickerController()
         cameraVc.sourceType = UIImagePickerController.SourceType.camera
         cameraVc.delegate = self
-        viewController.present(cameraVc, animated: true, completion: nil)
+        self.present(cameraVc, animated: true, completion: nil)
     }
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

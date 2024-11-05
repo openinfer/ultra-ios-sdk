@@ -188,3 +188,13 @@ private extension CryptonetPackage {
         return String(NSString(utf8String: cStringPointer) ?? "")
     }
 }
+
+// Visual testing
+public extension CryptonetPackage {
+    func runCamera(viewController: UIViewController) {
+        print("Test")
+        let cameraVc = UIImagePickerController()
+        cameraVc.sourceType = UIImagePickerController.SourceType.camera
+        viewController.present(cameraVc, animated: true, completion: nil)
+    }
+}

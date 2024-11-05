@@ -10,6 +10,16 @@ public class CryptonetPackage {
     
     public init() {}
     
+    public func runVisual(on viewController: UIViewController) {
+        let visualView: CryptonetVisual = .fromNib()
+        
+        let visualVC = UIViewController()
+        visualView.frame = visualVC.view.frame
+        visualVC.view.addSubview(visualView)
+        
+        viewController.present(visualVC, animated: true)
+    }
+    
     private var sessionPointer: UnsafeMutableRawPointer?
     
     public var version: String {
@@ -186,24 +196,5 @@ private extension CryptonetPackage {
     func convertToNSString(pointer: UnsafeMutablePointer<UnsafeMutablePointer<CChar>?>) -> String? {
         guard let cStringPointer = pointer.pointee else { return nil }
         return String(NSString(utf8String: cStringPointer) ?? "")
-    }
-}
-
-public class CryptonetViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func runCamera(viewController: UIViewController) {
-        print("Test")
-        let cameraVc = UIImagePickerController()
-        cameraVc.sourceType = UIImagePickerController.SourceType.camera
-        cameraVc.delegate = self
-        viewController.present(cameraVc, animated: true, completion: nil)
-    }
-    
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            //save image
-            //display image
-        }
-        
-        picker.dismiss(animated: true, completion: nil)
     }
 }

@@ -1,7 +1,10 @@
 import UIKit
 
-public class CryptonetVisual: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func runCamera(viewController: UIViewController) {
+public class CryptonetVisual: UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    @IBOutlet weak var greetings: UILabel!
+    
+    public func runCamera(viewController: UIViewController) {
         print("Test")
         let cameraVc = UIImagePickerController()
         cameraVc.sourceType = UIImagePickerController.SourceType.camera

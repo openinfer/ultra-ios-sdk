@@ -11,6 +11,8 @@ public class CryptonetPackage {
     private var sessionPointer: UnsafeMutableRawPointer?
     private var sessionId: String?
     
+    public init() {}
+    
     public func start(path: NSString, sessionId: String, viewController: UIViewController) {
         self.initializeLib(path: path)
         self.sessionId = sessionId

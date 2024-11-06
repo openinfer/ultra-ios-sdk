@@ -8,28 +8,33 @@ enum CryptonetError: Error {
 
 public class CryptonetPackage {
     
-    public init() {}
+    private var sessionPointer: UnsafeMutableRawPointer?
+    private var sessionId: String?
+    
+    public func start(path: NSString, sessionId: String, viewController: UIViewController) {
+        self.initializeLib(path: path)
+        self.sessionId = sessionId
+        self.runVisual(on: viewController)
+    }
     
     public func runVisual(on viewController: UIViewController) {
         let identifier = "CryptonetVisual"
         let storyboard = UIStoryboard(name: identifier, bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-        vc.isModalInPresentation = true
+
         viewController.present(vc, animated: true)
     }
-    
-    private var sessionPointer: UnsafeMutableRawPointer?
-    
+
     public var version: String {
         let version = String(cString: privid_get_version(), encoding: .utf8)
         return version ?? ""
     }
     
-    public func initializeLib(path: NSString) {
+    func initializeLib(path: NSString) {
         privid_initialize_lib(UnsafeMutablePointer<CChar>(mutating: path.utf8String), Int32(path.length))
     }
     
-    public func initializeSession(settings: NSString) -> Bool {
+    func initializeSession(settings: NSString) -> Bool {
         let settingsPointer = UnsafeMutablePointer<CChar>(mutating: settings.utf8String)
         let sessionPointer = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
 
@@ -41,7 +46,7 @@ public class CryptonetPackage {
         return isDone
     }
     
-    public func deinitializeSession() -> Result<Bool, Error> {
+    func deinitializeSession() -> Result<Bool, Error> {
         guard let sessionPointer = self.sessionPointer else {
             return .failure(CryptonetError.failed)
         }
@@ -50,7 +55,7 @@ public class CryptonetPackage {
         return .success(true)
     }
     
-    public func enroll(image: UIImage, config: EnrollConfig) -> Result<String, Error> {
+    func enroll(image: UIImage, config: EnrollConfig) -> Result<String, Error> {
         guard let sessionPointer = self.sessionPointer,
               let resized = image.resizeImage(targetSize: CGSize(width: 1000, height: 1000)),
               let cgImage = resized.cgImage else {
@@ -93,7 +98,7 @@ public class CryptonetPackage {
         }
     }
     
-    public func predict(image: UIImage, config: PredictConfig) -> Result<String, Error> {
+    func predict(image: UIImage, config: PredictConfig) -> Result<String, Error> {
         guard let sessionPointer = self.sessionPointer,
               let resized = image.resizeImage(targetSize: CGSize(width: 1000, height: 1000)),
               let cgImage = resized.cgImage else {
@@ -136,7 +141,7 @@ public class CryptonetPackage {
         }
     }
     
-    public func compareEmbeddings(embeddingsOne: [UInt8], embeddingsTwo: [UInt8]) -> Result<String, Error> {
+    func compareEmbeddings(embeddingsOne: [UInt8], embeddingsTwo: [UInt8]) -> Result<String, Error> {
         guard let sessionPointer = self.sessionPointer else {
             return .failure(CryptonetError.failed)
         }

@@ -9,14 +9,24 @@ enum CryptonetError: Error {
 public class CryptonetPackage {
     
     private var sessionPointer: UnsafeMutableRawPointer?
-    private var sessionId: String?
     
     public init() {}
     
-    public func start(path: NSString, sessionId: String, settings: NSString, viewController: UIViewController) {
+    public func start(path: NSString, token: NSString, publicKey: NSString, viewController: UIViewController) {
+        
+        let settings = """
+        {
+          "collections": {
+            "default": {
+              "named_urls": {
+                "base_url": "https://api-orchestration-privateid.uberverify.com/v2/verification-session" } } },
+          "public_key": "\(publicKey)",
+          "session_token": "\(token)"
+        }
+        """
+        
         self.initializeLib(path: path)
-        self.initializeSession(settings: settings)
-        self.sessionId = sessionId
+        self.initializeSession(settings: NSString(string: settings))
         self.runVisual(on: viewController)
     }
     

@@ -1,6 +1,7 @@
 import UIKit
 import AVFoundation
 import CoreMedia
+import Alamofire
 
 public class CryptonetVisual: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
@@ -52,4 +53,37 @@ public class CryptonetVisual: UIViewController, AVCaptureVideoDataOutputSampleBu
             }
         }
     }
+}
+
+extension CryptonetVisual {
+    
+    // TODO:
+    
+    func test() {
+        guard let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/123/enroll") else { return }
+        
+        let parameters: [String : Any] = [
+            "test": "test"
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success:
+                    print("!!! Success")
+                case .failure:
+                    print("!!! Failure")
+                }
+            }
+    }
+}
+
+
+struct ResponseModel: Decodable {
+    let statusCode: Int?
 }

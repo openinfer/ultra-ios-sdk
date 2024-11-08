@@ -13,12 +13,16 @@ let package = Package(
             name: "CryptonetPackage",
             targets: ["CryptonetPackage"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.8.1"))
+    ],
     targets: [
         .target(name: "CryptonetPackage",
                 dependencies: [
                     .target(
                         name: "privid_fhe_uber"
-                    )
+                    ),
+                    "Alamofire"
                 ]
         ),
         .binaryTarget(name: "privid_fhe_uber", path: "./privid_fhe_uber.xcframework")

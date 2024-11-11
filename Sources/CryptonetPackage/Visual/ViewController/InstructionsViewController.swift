@@ -3,10 +3,12 @@ import UIKit
 final class InstructionsViewController: UIViewController {
     
     @IBOutlet weak var footerContainer: UIView!
+    @IBOutlet weak var mainImage: UIImageView!
     private let footer: FooterView = .fromNib()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.mainImage.image = UIImage(named: "KV")
         self.navigationItem.setHidesBackButton(true, animated: true)
         footerContainer.addSubview(footer)
     }

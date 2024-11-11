@@ -17,6 +17,8 @@ final class ScanViewController: UIViewController {
     @IBOutlet weak var barcodeDocStatus: UILabel!
     @IBOutlet weak var barcodeBarcodeStatus: UILabel!
     @IBOutlet weak var footerContainer: UIView!
+    @IBOutlet weak var lockImage: UIImageView!
+    
     private let footer: FooterView = .fromNib()
     
     private let session = AVCaptureSession()
@@ -48,6 +50,7 @@ final class ScanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: true)
+        self.lockImage.image = UIImage(named: "lock")
         self.titleLabel.attributedText = NSAttributedString(string: "Center your head in the frame",
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
 

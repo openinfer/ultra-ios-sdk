@@ -6,11 +6,14 @@ final class UserConsentViewController: UIViewController {
     @IBOutlet weak var termsButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var footerContainer: UIView!
+    @IBOutlet weak var mainImage: UIImageView!
+    
     private let footer: FooterView = .fromNib()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.mainImage.image = UIImage(named: "document-blue")
         footerContainer.addSubview(footer)
     }
     
@@ -38,6 +41,8 @@ final class UserConsentViewController: UIViewController {
     
     @IBAction func termsTapped(sender: UIButton) {
         termsButton.isSelected = !termsButton.isSelected
+        let imageButton =  termsButton.isSelected ? UIImage(named: "checkbox-active-1") : UIImage(named: "checkbox-inactive-1")
+        termsButton.setBackgroundImage(imageButton, for: .normal)
         updateContinueState(isOn: sender.isSelected)
     }
     
@@ -51,6 +56,7 @@ extension UserConsentViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + 1) >= (scrollView.contentSize.height - scrollView.frame.size.height) {
             termsButton.isSelected = true
+            termsButton.setBackgroundImage(UIImage(named: "checkbox-active-1"), for: .normal)
             updateContinueState(isOn: true)
          }
     }

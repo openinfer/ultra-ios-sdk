@@ -196,6 +196,7 @@
                     <navigationItem key="navigationItem" id="egc-B3-vub"/>
                     <connections>
                         <outlet property="footerContainer" destination="BP4-uk-tXM" id="jhG-Yb-Itk"/>
+                        <outlet property="mainImage" destination="9LA-yF-gaf" id="dgd-bY-z2N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkC-BO-Kq5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -451,6 +452,7 @@
                         <outlet property="barcodeTestView" destination="BRl-Tc-9UP" id="eez-pS-KOc"/>
                         <outlet property="confettiImageView" destination="iZt-d5-aSt" id="Adg-2v-JXz"/>
                         <outlet property="footerContainer" destination="YCP-q0-COD" id="Cqi-EW-Fin"/>
+                        <outlet property="lockImage" destination="K4Z-zw-5yG" id="CF4-Y2-HIS"/>
                         <outlet property="resultLabel" destination="gZz-Sj-ybP" id="9LU-Hc-A7X"/>
                         <outlet property="subresultLabel" destination="4mr-Hv-Ro9" id="irw-mL-e4d"/>
                         <outlet property="successContainer" destination="jcV-Nm-8j6" id="0l2-ef-kny"/>
@@ -771,7 +773,11 @@
                     <size key="freeformSize" width="430" height="1200"/>
                     <connections>
                         <outlet property="footerContainer" destination="HKt-19-HpG" id="7OV-tg-1hk"/>
+                        <outlet property="frameImage" destination="Fd3-4N-jpl" id="IuW-Jg-LG5"/>
+                        <outlet property="glassesImage" destination="45d-yk-zdo" id="uWv-rA-0xS"/>
                         <outlet property="instructionImageView" destination="3qQ-CP-uks" id="NeG-Uw-Mc4"/>
+                        <outlet property="lightImage" destination="Td6-ky-Frb" id="Ekc-Ti-59e"/>
+                        <outlet property="mainImage" destination="3qQ-CP-uks" id="Dyf-xd-k98"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j8u-Oc-fPO" sceneMemberID="firstResponder"/>
@@ -1066,6 +1072,7 @@ I have read and accepted the Private Identity LLC </string>
                     <connections>
                         <outlet property="continueButton" destination="5ga-6g-Lfp" id="KIZ-YO-G9e"/>
                         <outlet property="footerContainer" destination="VQ7-VC-6Lx" id="1mp-7S-Kwo"/>
+                        <outlet property="mainImage" destination="SWW-nV-3yv" id="B6B-kf-V60"/>
                         <outlet property="scrollView" destination="1un-Bn-Uxk" id="bYX-YO-dLo"/>
                         <outlet property="termsButton" destination="nyG-iT-YCJ" id="TL6-uV-tEu"/>
                     </connections>

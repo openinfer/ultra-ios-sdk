@@ -12,18 +12,20 @@ public class CryptonetPackage {
     
     public init() {}
     
-    public func start(path: NSString, token: NSString, publicKey: NSString, viewController: UIViewController) {
+    public func start(path: NSString, token: NSString, publicKey: NSString, baseURL: NSString, viewController: UIViewController) {
         
         let settings = """
         {
           "collections": {
             "default": {
               "named_urls": {
-                "base_url": "https://api-orchestration-privateid.uberverify.com/v2/verification-session" } } },
+                "base_url": "\(baseURL)" } } },
           "public_key": "\(publicKey)",
           "session_token": "\(token)"
         }
         """
+        CryptonetManager.shared.sessionToken = String(token)
+        CryptonetManager.shared.cryptonet = self
         
         self.initializeLib(path: path)
         self.initializeSession(settings: NSString(string: settings))
@@ -31,7 +33,7 @@ public class CryptonetPackage {
     }
     
     public func runVisual(on viewController: UIViewController) {
-        let identifier = "CryptonetVisual"
+        let identifier = "InstructionsViewController"
         let storyboard = UIStoryboard(name: identifier, bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         vc.isModalInPresentation = true

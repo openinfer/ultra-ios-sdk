@@ -20,7 +20,7 @@ final class InstructionsViewController: UIViewController {
     
     @IBAction func confirmTapped() {
         let identifier = "UserConsentViewController"
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: nil)
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         self.navigationController?.pushViewController(vc, animated: true)
     }

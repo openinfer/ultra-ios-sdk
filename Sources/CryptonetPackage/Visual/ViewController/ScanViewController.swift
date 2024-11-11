@@ -215,7 +215,7 @@ final class ScanViewController: UIViewController {
     }
     
     func navigateToFinalWithFailure() {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: nil)
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         if let vc = storyboard.instantiateViewController(withIdentifier: "VerifyingViewController") as? VerifyingViewController {
             vc.isVerified = false
             vc.isSucced = false
@@ -224,7 +224,7 @@ final class ScanViewController: UIViewController {
     }
     
     func navigateToVerifyingPage(isVerified: Bool) {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: nil)
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         if let vc = storyboard.instantiateViewController(withIdentifier: "VerifyingViewController") as? VerifyingViewController {
             vc.isVerified = isVerified
             vc.isSucced = true

@@ -35,9 +35,7 @@ public class CryptonetPackage {
     public func runVisual(on viewController: UIViewController) {
         let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "InstructionsViewController")
-        vc.isModalInPresentation = true
-        let navController = UINavigationController(rootViewController: vc)
-        viewController.present(navController, animated: true, completion: nil)
+        viewController.navigationController?.pushViewController(vc, animated: true)
     }
 
     public var version: String {

@@ -14,22 +14,6 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Navigation Controller-->
-        <scene sceneID="pmV-o4-EKN">
-            <objects>
-                <navigationController id="4ty-TH-8vR" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a3x-xi-F9g">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="MFE-ng-a2m" kind="relationship" relationship="rootViewController" id="XhM-hg-KsH"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8fY-z3-MIJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-65" y="830"/>
-        </scene>
         <!--Instructions View Controller-->
         <scene sceneID="T1y-kg-poR">
             <objects>
@@ -59,13 +43,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Take a selfie to register" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mf-WW-MFD">
-                                <rect key="frame" x="20" y="103" width="353" height="29"/>
+                                <rect key="frame" x="20" y="59" width="353" height="29"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KV" translatesAutoresizingMaskIntoConstraints="NO" id="9LA-yF-gaf">
-                                <rect key="frame" x="20" y="180" width="353" height="220.66666666666663"/>
+                                <rect key="frame" x="20" y="136" width="353" height="220.66666666666663"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="9LA-yF-gaf" secondAttribute="height" multiplier="16:10" id="1gC-P8-I4q"/>
                                     <constraint firstAttribute="width" secondItem="9LA-yF-gaf" secondAttribute="height" multiplier="16:10" id="gib-C0-lae"/>
@@ -77,7 +61,7 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EH-oA-GST">
-                                <rect key="frame" x="16" y="420.66666666666669" width="361" height="133.66666666666669"/>
+                                <rect key="frame" x="16" y="376.66666666666669" width="361" height="133.66666666666669"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity </string>
@@ -121,7 +105,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdJ-WO-cSb">
-                                <rect key="frame" x="20" y="564.33333333333337" width="353" height="19.333333333333371"/>
+                                <rect key="frame" x="20" y="520.33333333333337" width="353" height="19.333333333333371"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Learn">
                                         <attributes>
@@ -162,7 +146,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="No images will leave your device." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FF9-fB-VSZ">
-                                <rect key="frame" x="20" y="136" width="353" height="24"/>
+                                <rect key="frame" x="20" y="92" width="353" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>

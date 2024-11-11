@@ -30,7 +30,7 @@ final class UserConsentViewController: UIViewController {
     }
     
     @IBAction func doneTapped(sender: UIButton) {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: nil)
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         if let vc = storyboard.instantiateViewController(withIdentifier: "FaceInstructionViewController") as? FaceInstructionViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }

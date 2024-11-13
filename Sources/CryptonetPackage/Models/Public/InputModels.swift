@@ -45,6 +45,7 @@ public struct PredictConfig: Codable {
     public let thresholdHighVerticalPredict: Double
     public let thresholdProfilePredict: Double
     public let mfCountOverride: Double
+    public let disablePredictMf: Bool
     
     public init(imageFormat: String = "rgba",
                 skipAntispoof: Bool = true, mfToken: String? = nil,
@@ -56,7 +57,8 @@ public struct PredictConfig: Codable {
                 thresholdDownVerticalPredict: Double = 0.7,
                 thresholdHighVerticalPredict: Double = -0.1,
                 thresholdProfilePredict: Double = 0.7,
-                mfCountOverride: Double = 3) {
+                mfCountOverride: Double = 3,
+                disablePredictMf: Bool = false) {
         self.imageFormat = imageFormat
         self.skipAntispoof = skipAntispoof
         self.mfToken = mfToken
@@ -69,6 +71,7 @@ public struct PredictConfig: Codable {
         self.thresholdHighVerticalPredict = thresholdHighVerticalPredict
         self.thresholdProfilePredict = thresholdProfilePredict
         self.mfCountOverride = mfCountOverride
+        self.disablePredictMf = disablePredictMf
     }
     
     enum CodingKeys: String, CodingKey {
@@ -84,6 +87,7 @@ public struct PredictConfig: Codable {
         case thresholdHighVerticalPredict = "threshold_high_vertical_predict"
         case thresholdProfilePredict = "threshold_profile_predict"
         case mfCountOverride = "mf_count_override"
+        case disablePredictMf = "disable_predict_mf"
     }
 }
 

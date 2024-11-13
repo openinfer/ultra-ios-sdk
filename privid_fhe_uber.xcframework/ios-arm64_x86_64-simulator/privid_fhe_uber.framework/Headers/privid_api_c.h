@@ -146,6 +146,12 @@ PRIVID_API_ATTRIB int32_t privid_compare_embeddings(
     char** result_out, int* result_out_length);
 
 /**
+* Checks if all needed models are loaded properly and initialized correctly.
+*
+*/
+PRIVID_API_ATTRIB bool privid_check_models();
+
+/**
 * Gets the library version string for debugging/information purposes.
 *
 * \return       Static UTF8-encoded string - you don't need to free the returned memory.

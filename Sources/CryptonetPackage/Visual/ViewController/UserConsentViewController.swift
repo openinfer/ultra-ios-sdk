@@ -14,6 +14,7 @@ final class UserConsentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mainImage.image = UIImage(named: "document-blue")
+        self.termsButton.setBackgroundImage(UIImage(named: "checkbox-inactive-1"), for: .normal)
         footerContainer.addSubview(footer)
     }
     

@@ -56,6 +56,7 @@ extension ScanViewController {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             self.showSucccessAnimation()
                             self.activityLoading.startAnimating()
+                            self.updateImage(image: image)
                             self.updatePredict(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv)
                         }
                     }
@@ -116,6 +117,7 @@ private extension ScanViewController {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             self.showSucccessAnimation()
                             self.activityLoading.startAnimating()
+                            self.updateImage(image: image)
                             self.updateEnroll(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv)
                         }
                     }
@@ -324,5 +326,36 @@ extension ScanViewController {
                     self.navigateToFinalWithFailure()
                 }
             }
+    }
+    
+    func updateImage(image: UIImage) {
+        guard let token = CryptonetManager.shared.sessionToken,
+              let data = image.toBase64(),
+              let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/img") else { return }
+        let parameters: [String : Any] = [
+            "portrait": "data:image/png;base64,\(data)"
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success(_):
+                    print("Success update image")
+                case .failure:
+                    print("Failure update image")
+            }
+        }
+    }
+}
+
+extension UIImage {
+    func toBase64() -> String? {
+        guard let imageData = self.pngData() else { return nil }
+        return imageData.base64EncodedString(options: .lineLength64Characters)
     }
 }

@@ -12,7 +12,7 @@ public class CryptonetPackage {
     
     public init() {}
     
-    public func start(path: NSString, token: NSString, publicKey: NSString, baseURL: NSString, viewController: UIViewController) {
+    public func start(path: NSString, token: NSString, publicKey: NSString, baseURL: NSString, viewController: UIViewController) -> Bool {
         
         let settings = """
         {
@@ -28,8 +28,8 @@ public class CryptonetPackage {
         CryptonetManager.shared.cryptonet = self
         
         self.initializeLib(path: path)
-        self.initializeSession(settings: NSString(string: settings))
-        self.runVisual(on: viewController)
+        let result = self.initializeSession(settings: NSString(string: settings))
+        return result
     }
     
     public func runVisual(on viewController: UIViewController) {
@@ -47,15 +47,16 @@ public class CryptonetPackage {
         privid_initialize_lib(UnsafeMutablePointer<CChar>(mutating: path.utf8String), Int32(path.length))
     }
     
-    func initializeSession(settings: NSString) {
+    func initializeSession(settings: NSString) -> Bool {
         let settingsPointer = UnsafeMutablePointer<CChar>(mutating: settings.utf8String)
         let sessionPointer = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
 
-        let _ = privid_initialize_session(settingsPointer,
+        let result = privid_initialize_session(settingsPointer,
                                                UInt32(settings.length),
                                                sessionPointer)
 
         self.sessionPointer = sessionPointer.pointee
+        return result
     }
     
     func deinitializeSession() -> Result<Bool, Error> {

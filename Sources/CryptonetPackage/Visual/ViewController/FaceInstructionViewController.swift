@@ -22,7 +22,9 @@ class FaceInstructionViewController: UIViewController {
         
         let url = URL(string: "https://i.ibb.co/7Yc6400/Scan-face.gif")
         let loader = UIActivityIndicatorView(style: .medium)
-        self.instructionImageView.setGifFromURL(url!, customLoader: loader)
+        
+        instructionImageView.setGifFromURL(url!, levelOfIntegrity: .lowForManyGifs, customLoader: loader)
+        instructionImageView.startAnimatingGif()
         footerContainer.addSubview(footer)
     }
     

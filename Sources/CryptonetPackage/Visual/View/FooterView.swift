@@ -27,18 +27,20 @@ final class FooterView: UIView {
     }
     
     @IBAction func privacyTapped() {
-        if let url = URL(string: "https://github.com/openinfer/PrivateIdentity/wiki/Privacy-Policy") {
+        if let url = URL(string: "https://privateid.uberverify.com/privacy-policy") {
             UIApplication.shared.open(url)
         }
     }
     
     @IBAction func termsTapped() {
-        if let url = URL(string: "https://github.com/openinfer/PrivateIdentity/wiki/Terms-of-Use") {
+        if let url = URL(string: "https://privateid.uberverify.com/terms") {
             UIApplication.shared.open(url)
         }
     }
     
     @IBAction func feedbackTapped() {
-        // TODO:
+        if let url = URL(string: "https://privateid.uberverify.com/feedback") {
+            UIApplication.shared.open(url)
+        }
     }
 }

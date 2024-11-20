@@ -35,12 +35,7 @@ final class VerifyingViewController: UIViewController {
     }
     
     @IBAction func homeTapped() {
-        let link = CryptonetManager.shared.redirectURL ?? "https://www.google.com/"
-        UIApplication.openIfPossible(link: link)
         self.navigationController?.popToRootViewController(animated: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            exit(0)
-        }
     }
     
     @IBAction func saveUUIDTapped() {
@@ -81,7 +76,6 @@ extension VerifyingViewController {
         imageView.image = UIImage(named: "success")
         titleLabel.text = isVerified ? "Your account is verified!" : "Your account is registered!"
         homeButton.isHidden = false
-//        copyUUIDButton.isHidden = isVerified
     }
     
     func showFailurePage() {

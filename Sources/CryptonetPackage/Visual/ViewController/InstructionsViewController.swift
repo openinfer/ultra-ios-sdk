@@ -28,10 +28,6 @@ final class InstructionsViewController: UIViewController {
     }
     
     @IBAction func backTapped() {
-        let link = CryptonetManager.shared.redirectURL ?? "https://www.google.com/"
-        UIApplication.openIfPossible(link: link)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            exit(0)
-        }
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }

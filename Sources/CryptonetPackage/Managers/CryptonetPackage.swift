@@ -12,7 +12,7 @@ public class CryptonetPackage {
     
     public init() {}
     
-    public func start(path: NSString, token: NSString, publicKey: NSString, baseURL: NSString, viewController: UIViewController) -> Bool {
+    public func start(path: NSString, token: NSString, publicKey: NSString, baseURL: NSString, securityModel: SecurityModel) -> Bool {
         
         let settings = """
         {
@@ -29,7 +29,8 @@ public class CryptonetPackage {
         
         self.initializeLib(path: path)
         let result = self.initializeSession(settings: NSString(string: settings))
-        return result
+        let securityCheck = self.checkSecurityConditions(securityModel: securityModel)
+        return result && securityCheck
     }
     
     public func runVisual(on viewController: UIViewController) {
@@ -41,6 +42,15 @@ public class CryptonetPackage {
     public var version: String {
         let version = String(cString: privid_get_version(), encoding: .utf8)
         return version ?? ""
+    }
+    
+    func checkSecurityConditions(securityModel: SecurityModel) -> Bool {
+        return securityModel.model == UIDevice.current.model &&
+               securityModel.sceenBounds == UIScreen.main.bounds &&
+               securityModel.orientation == UIDevice.current.orientation &&
+               securityModel.processorCount == ProcessInfo().processorCount &&
+               securityModel.battertLevel == UIDevice.current.batteryLevel &&
+               securityModel.languageCode == Locale.current.languageCode
     }
     
     func initializeLib(path: NSString) {

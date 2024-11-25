@@ -1,10 +1,19 @@
 import UIKit
 
-public struct SecurityModel {
-    let model: String = UIDevice.current.model
-    let sceenBounds: CGRect = UIScreen.main.bounds
-    let orientation: UIDeviceOrientation = UIDevice.current.orientation
-    let processorCount: Int = ProcessInfo().processorCount
-    let battertLevel: Float = UIDevice.current.batteryLevel
-    let languageCode: String? = Locale.current.languageCode
+public class SecurityModel {
+    let model: String
+    let sceenBounds: CGRect
+    let orientation: UIDeviceOrientation
+    let processorCount: Int
+    let battertLevel: Float
+    let languageCode: String?
+    
+    public init() {
+        self.model = UIDevice.current.model
+        self.sceenBounds = UIScreen.main.bounds
+        self.orientation = UIDevice.current.orientation
+        self.processorCount = ProcessInfo().processorCount
+        self.battertLevel = UIDevice.current.batteryLevel
+        self.languageCode = Locale.current.languageCode
+    }
 }

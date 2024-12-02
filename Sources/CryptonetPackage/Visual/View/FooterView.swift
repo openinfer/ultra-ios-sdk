@@ -44,8 +44,6 @@ final class FooterView: UIView {
     }
     
     @IBAction func feedbackTapped() {
-        if let url = URL(string: "https://privateid.uberverify.com/feedback") {
-            UIApplication.shared.open(url)
-        }
+        delegate?.feedbackTapped()
     }
 }

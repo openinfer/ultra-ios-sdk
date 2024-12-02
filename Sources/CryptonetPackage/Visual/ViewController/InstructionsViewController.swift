@@ -10,6 +10,7 @@ final class InstructionsViewController: UIViewController {
         super.viewDidLoad()
         self.mainImage.image = UIImage(named: "KV")
         self.navigationItem.setHidesBackButton(true, animated: true)
+        footer.delegate = self
         footerContainer.addSubview(footer)
     }
     
@@ -29,5 +30,13 @@ final class InstructionsViewController: UIViewController {
     
     @IBAction func backTapped() {
         self.navigationController?.popToRootViewController(animated: true)
+    }
+}
+
+extension InstructionsViewController: FooterViewDelegate {
+    func feedbackTapped() {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

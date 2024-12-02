@@ -15,6 +15,7 @@ final class UserConsentViewController: UIViewController {
         super.viewDidLoad()
         self.mainImage.image = UIImage(named: "document-blue")
         self.termsButton.setBackgroundImage(UIImage(named: "checkbox-inactive-1"), for: .normal)
+        footer.delegate = self
         footerContainer.addSubview(footer)
     }
     
@@ -60,5 +61,13 @@ extension UserConsentViewController: UIScrollViewDelegate {
             termsButton.setBackgroundImage(UIImage(named: "checkbox-active-1"), for: .normal)
             updateContinueState(isOn: true)
          }
+    }
+}
+
+extension UserConsentViewController: FooterViewDelegate {
+    func feedbackTapped() {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

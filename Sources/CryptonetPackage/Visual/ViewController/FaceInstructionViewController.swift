@@ -25,6 +25,7 @@ class FaceInstructionViewController: UIViewController {
         
         instructionImageView.setGifFromURL(url!, levelOfIntegrity: .lowForManyGifs, customLoader: loader)
         instructionImageView.startAnimatingGif()
+        footer.delegate = self
         footerContainer.addSubview(footer)
     }
     
@@ -75,5 +76,13 @@ class FaceInstructionViewController: UIViewController {
             
             self.present(alert, animated: true, completion: nil)
         }
+    }
+}
+
+extension FaceInstructionViewController: FooterViewDelegate {
+    func feedbackTapped() {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -20,6 +20,7 @@ final class VerifyingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: true)
+        footer.delegate = self
         footerContainer.addSubview(footer)
         if isSucced {
             fetchSessionDetails()
@@ -88,5 +89,13 @@ extension VerifyingViewController {
         imageView.image = UIImage(named: "failure")
         titleLabel.text = "Your session was failed. Try to run the app again."
         homeButton.isHidden = false
+    }
+}
+
+extension VerifyingViewController: FooterViewDelegate {
+    func feedbackTapped() {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

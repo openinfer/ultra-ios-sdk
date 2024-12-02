@@ -53,7 +53,7 @@ final class ScanViewController: UIViewController {
         self.lockImage.image = UIImage(named: "lock")
         self.titleLabel.attributedText = NSAttributedString(string: "Center your head in the frame",
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-
+        footer.delegate = self
         footerContainer.addSubview(footer)
     }
     
@@ -352,5 +352,13 @@ extension ScanViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         let cgImage: CGImage = context.createCGImage(cmage, from: cmage.extent)!
         let image:UIImage = UIImage.init(cgImage: cgImage)
         return image
+    }
+}
+
+extension ScanViewController: FooterViewDelegate {
+    func feedbackTapped() {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

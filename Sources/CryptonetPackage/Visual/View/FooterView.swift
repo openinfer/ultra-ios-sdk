@@ -2,6 +2,11 @@ import UIKit
 
 protocol FooterViewDelegate: AnyObject {
     func languageTapped()
+    func feedbackTapped()
+}
+
+extension FooterViewDelegate {
+    func languageTapped() {}
 }
 
 final class FooterView: UIView {

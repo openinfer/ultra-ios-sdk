@@ -1368,6 +1368,7 @@ I have read and accepted the Private Identity LLC </string>
                         <outlet property="frustrationLabel" destination="Myn-hu-aMf" id="aYO-yS-Rcw"/>
                         <outlet property="happyButton" destination="gBr-EV-jKy" id="8Cf-M5-5JQ"/>
                         <outlet property="happyLabel" destination="RU2-7J-hmO" id="beH-Am-ukU"/>
+                        <outlet property="homeButton" destination="XOB-OK-9Ut" id="eFI-De-TqR"/>
                         <outlet property="sadButton" destination="sc5-B1-496" id="J5Z-62-kZk"/>
                         <outlet property="sadLabel" destination="1Bx-JM-vMz" id="cNV-dn-9Rl"/>
                     </connections>

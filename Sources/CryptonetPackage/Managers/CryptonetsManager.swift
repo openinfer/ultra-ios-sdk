@@ -13,4 +13,8 @@ final class CryptonetManager {
     var redirectURL: String?
 
     private init() { }
+    
+    func resetSession() {
+        CryptonetManager.shared.sessionToken = nil
+    }
 }

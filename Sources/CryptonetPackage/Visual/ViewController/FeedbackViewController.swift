@@ -4,9 +4,17 @@ import ProgressHUD
 
 final class FeedbackViewController: UIViewController {
     
+    enum FeedbackEnum: String {
+      case delight = "Delight"
+      case happy = "Happy"
+      case sad = "Sad"
+      case frustration = "Frustration"
+    }
+    
     @IBOutlet weak var footerContainer: UIView!
     private let footer: FooterView = .fromNib()
     
+    @IBOutlet weak var homeButton: UIButton!
     @IBOutlet weak var delightButton: UIButton!
     @IBOutlet weak var happyButton: UIButton!
     @IBOutlet weak var sadButton: UIButton!
@@ -17,6 +25,8 @@ final class FeedbackViewController: UIViewController {
     @IBOutlet weak var sadLabel: UILabel!
     @IBOutlet weak var frustrationLabel: UILabel!
     
+    private var feedback: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,6 +36,8 @@ final class FeedbackViewController: UIViewController {
         frustrationButton.setImage(UIImage(named: "frustration"), for: .normal)
         footer.delegate = self
         footerContainer.addSubview(footer)
+        homeButton.alpha = 0.6
+        homeButton.isUserInteractionEnabled = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -42,9 +54,9 @@ final class FeedbackViewController: UIViewController {
     }
     
     @IBAction func homepageTapped(sender: UIButton) {
-        self.navigationController?.popToRootViewController(animated: true)
+        ProgressHUD.animate()
+        sendFeedback()
     }
-    
     
     @IBAction func delightButtonTapped() {
         disableAll()
@@ -88,5 +100,39 @@ extension FeedbackViewController: FooterViewDelegate {
         let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension FeedbackViewController {
+    func sendFeedback() {
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/feedback") else { return }
+        
+        let parameters: [String : Any] = [
+            "feedback": self.feedback
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success:
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        ProgressHUD.dismiss()
+                        CryptonetManager.shared.resetSession()
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                case .failure:
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        ProgressHUD.failed()
+                        CryptonetManager.shared.resetSession()
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                }
+        }
     }
 }

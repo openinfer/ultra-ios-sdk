@@ -20,7 +20,7 @@ extension ScanViewController {
     func predict(image: UIImage) {
         guard isEnrollRunning == false else { return }
         self.isEnrollRunning = true
-
+        
         let result = CryptonetManager.shared.cryptonet.predict(image: image, config: PredictConfig(skipAntispoof: false, mfToken: self.mfToken))
         switch result {
         case .success(let json):
@@ -43,7 +43,11 @@ extension ScanViewController {
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
                     self.handleFaceStatus(faceStatus: status)
                 }
-
+                
+                if self.isFocused {
+                    self.circularProgressView?.progress = self.estimateAttempts > 100 ? 100.0 : self.estimateAttempts
+                }
+                
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
                     let encryptedMessage = model.uberOperationResult?.response?.encryptedMessage,
                     let gcmAad = model.uberOperationResult?.response?.gcmAad,
@@ -53,12 +57,15 @@ extension ScanViewController {
                         self.stopSession()
                         self.stopFaceAnimationTimer()
                         self.stopTimer()
+                        self.updateCounter(currentValue: 0, toValue: 1.0)
+                        self.circularProgressView?.timeToFill = 0.5
+                        self.circularProgressView?.progress = 100.0
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             self.showSucccessAnimation()
                             self.activityLoading.startAnimating()
                             self.updateImage(image: image)
-                            self.updatePredict(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv)
+                            self.updateCollect(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv)
                         }
                     }
                 } else {
@@ -104,7 +111,11 @@ private extension ScanViewController {
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
                     self.handleFaceStatus(faceStatus: status)
                 }
-
+                
+                if let status = model.uberOperationResult?.face?.faceValidationStatus {
+                    self.handleFaceStatus(faceStatus: status)
+                }
+                
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
                     let encryptedMessage = model.uberOperationResult?.response?.encryptedMessage,
                     let gcmAad = model.uberOperationResult?.response?.gcmAad,
@@ -114,12 +125,15 @@ private extension ScanViewController {
                         self.stopSession()
                         self.stopFaceAnimationTimer()
                         self.stopTimer()
+                        self.updateCounter(currentValue: 0, toValue: 1.0)
+                        self.circularProgressView?.timeToFill = 0.5
+                        self.circularProgressView?.progress = 100.0
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             self.showSucccessAnimation()
                             self.activityLoading.startAnimating()
                             self.updateImage(image: image)
-                            self.updateEnroll(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv)
+                            self.updateCollect(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv)
                         }
                     }
                 } else {
@@ -148,17 +162,28 @@ private extension ScanViewController {
 extension ScanViewController {
     
     func handleFaceStatus(faceStatus: Int, isAntispoof: Bool = false, isHoldStill: Bool = true) {
-        let isFailure = faceStatus != 0 && faceStatus != 10
+        let isFailure = faceStatus != 0
         if isFailure {
             self.estimateAttempts = 0
+            self.circularProgressView?.progress = 0.0
             self.subresultLabel.attributedText = NSAttributedString(string: "0%",
-                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            
+            if faceStatus == 10 && FlowManager.shared.current == .enroll {
+                self.titleLabel.attributedText = NSAttributedString(string: "Remove glasses",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            }
         }
-
+        
+        if (FlowManager.shared.current == .signIn && faceStatus == 10) ||
+            (FlowManager.shared.current == .matchFace && faceStatus == 10) {
+            self.focusCamera()
+        }
+        
         self.isFaceScanFailed = isFailure
         
         guard self.isFocused == true || faceStatus == 0 else { return }
-
+        
         if isAntispoof {
             switch faceStatus {
             case -100, -5, -4, -2, 1:
@@ -197,6 +222,8 @@ extension ScanViewController {
                 self.titleLabel.attributedText = NSAttributedString(string: "Please hold still",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 10:
+                guard FlowManager.shared.current != .signIn,
+                      FlowManager.shared.current != .matchFace else { return }
                 self.titleLabel.attributedText = NSAttributedString(string: "Remove glasses",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 11:
@@ -250,6 +277,50 @@ extension ScanViewController {
 }
 
 extension ScanViewController {
+    
+    func updateCollect(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String) {
+        self.titleLabel.attributedText = NSAttributedString(string: "Processing...",
+                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/collect") else { return }
+        
+        let parameters: [String : Any] = [
+            "encryptedKey": encryptedKey,
+            "encryptedMessage": encryptedMessage,
+            "gcmAad": gcmAad,
+            "gcmTag": gcmTag,
+            "iv": iv
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success:
+                    
+                    switch FlowManager.shared.current {
+                    case .signIn, .matchFace:
+                        self.updatePredict(encryptedKey: encryptedKey,
+                                           encryptedMessage: encryptedMessage,
+                                           gcmAad: gcmAad, gcmTag: gcmTag, iv: iv)
+                    case .enroll:
+                        self.updateEnroll(encryptedKey: encryptedKey,
+                                          encryptedMessage: encryptedMessage,
+                                          gcmAad: gcmAad, gcmTag: gcmTag, iv: iv)
+                    }
+                    
+                case .failure:
+                    self.activityLoading.stopAnimating()
+                    self.navigateToFinalWithFailure()
+                }
+            }
+    }
+    
+    
     func updateEnroll(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String) {
         self.titleLabel.attributedText = NSAttributedString(string: "Processing...",
                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
@@ -331,24 +402,33 @@ extension ScanViewController {
     
     func updateImage(image: UIImage) {
         guard let token = CryptonetManager.shared.sessionToken,
-              let data = image.toBase64(),
               let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/img") else { return }
-        let parameters: [String : Any] = [
-            "portrait": "data:image/png;base64,\(data)"
+        
+        guard let imageData = image.jpegData(compressionQuality: 0.3) else {
+            print("Failed to convert image to data")
+            return
+        }
+        
+        // Headers (optional)
+        let headers: HTTPHeaders = [
+            "Content-Type": "multipart/form-data",
+            "x-api-key": "0000000000000000test"
         ]
         
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-        ]
-
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-            .validate()
-            .responseDecodable(of: ResponseModel.self) { response in
-                switch response.result {
-                case .success(_):
-                    print("Success update image")
-                case .failure:
-                    print("Failure update image")
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imageData, withName: "portrait", fileName: UUID().uuidString, mimeType: "image/jpeg")
+            },
+            to: url,
+            headers: headers
+        ).response { response in
+            switch response.result {
+            case .success(let data):
+                if let jsonData = data {
+                    print("Success:", String(data: jsonData, encoding: .utf8) ?? "No readable response")
+                }
+            case .failure(let error):
+                print("Error uploading image:", error.localizedDescription)
             }
         }
     }

@@ -40,10 +40,3 @@ extension UIImage {
         return newImage
     }
 }
-
-extension UIImage {
-    func toBase64() -> String? {
-        guard let imageData = self.pngData() else { return nil }
-        return imageData.base64EncodedString(options: .lineLength64Characters)
-    }
-}

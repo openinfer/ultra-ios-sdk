@@ -39,7 +39,7 @@ final class ScanViewController: UIViewController {
     var isPredictRunning: Bool = false
     var isEnrollRunning: Bool = false
     var isDocumentScan: Bool = false
-    var estimateAttempts = 0
+    var estimateAttempts: Float = 0
     var mfToken: String? = nil
     var enrollProgress: Double = 0.0
     var isFaceScanFailed: Bool = true
@@ -71,7 +71,7 @@ final class ScanViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         stopTimer()
-        stopFaceAnimationTimer()
+//        stopFaceAnimationTimer()
         stopSession()
     }
     
@@ -85,7 +85,7 @@ final class ScanViewController: UIViewController {
                                                               width: videoContainer.frame.width - lineWidth * 2,
                                                               height: videoContainer.frame.height - lineWidth * 2),
                                                               lineWidth: lineWidth, rounded: false,
-                                                         isRectAnimation: false, isDahsed: !true)
+                                                         isRectAnimation: false, isDahsed: true)
             circularProgressView?.progressColor = .systemGreen
             circularProgressView?.trackColor = .white
             circularProgressView?.alpha = 0.0

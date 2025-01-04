@@ -55,9 +55,11 @@ public class UltraPackage {
     }
     
     public func runVisual(on viewController: UIViewController) {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
-        let vc = storyboard.instantiateViewController(withIdentifier: "InstructionsViewController")
-        viewController.navigationController?.pushViewController(vc, animated: true)
+        NetworkManager.shared.checkFlowStatus { _ in
+            let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+            let vc = storyboard.instantiateViewController(withIdentifier: "InstructionsViewController")
+            viewController.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func checkSecurityConditions(securityModel: SecurityModel) -> Bool {

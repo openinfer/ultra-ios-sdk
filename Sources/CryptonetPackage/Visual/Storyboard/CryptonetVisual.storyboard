@@ -1310,7 +1310,7 @@ I have read and accepted the Private Identity LLC </string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="sc5-B1-496" secondAttribute="bottom" id="3HP-vB-MKx"/>
                                     <constraint firstItem="1Bx-JM-vMz" firstAttribute="centerX" secondItem="sc5-B1-496" secondAttribute="centerX" id="Ams-Hh-OkJ"/>
@@ -1344,7 +1344,7 @@ I have read and accepted the Private Identity LLC </string>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jVO-y1-8s1"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="M4x-o7-qgc" firstAttribute="leading" secondItem="jVO-y1-8s1" secondAttribute="leading" constant="15" id="0Hr-hJ-fPJ"/>
                             <constraint firstItem="iN0-jl-dZs" firstAttribute="top" secondItem="aFb-Cd-JRm" secondAttribute="bottom" constant="20" id="AkT-hk-PG3"/>
@@ -1396,9 +1396,6 @@ I have read and accepted the Private Identity LLC </string>
         <image name="sentence-2" width="48" height="48"/>
         <image name="sentence-3" width="48" height="48"/>
         <image name="step-1" width="654" height="432"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

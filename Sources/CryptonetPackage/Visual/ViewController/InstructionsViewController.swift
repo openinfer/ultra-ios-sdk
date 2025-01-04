@@ -8,7 +8,6 @@ final class InstructionsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mainImage.image = UIImage(named: "KV")
         self.navigationItem.setHidesBackButton(true, animated: true)
         footer.delegate = self
         footerContainer.addSubview(footer)

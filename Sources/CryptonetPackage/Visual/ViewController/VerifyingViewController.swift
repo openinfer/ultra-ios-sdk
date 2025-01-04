@@ -74,19 +74,19 @@ extension VerifyingViewController {
     }
     
     func showSuccessPage() {
-        imageView.image = UIImage(named: "success")
+        imageView.image = UIImage.SPMImage(named: "success")
         titleLabel.text = isVerified ? "Your account is verified!" : "Your account is registered!"
         homeButton.isHidden = false
     }
     
     func showFailurePage() {
-        imageView.image = UIImage(named: "failure")
+        imageView.image = UIImage.SPMImage(named: "failure")
         titleLabel.text = "Your account is not approved."
         homeButton.isHidden = false
     }
     
     func showFailureSession() {
-        imageView.image = UIImage(named: "failure")
+        imageView.image = UIImage.SPMImage(named: "failure")
         titleLabel.text = "Your session was failed. Try to run the app again."
         homeButton.isHidden = false
     }

@@ -29,11 +29,6 @@ final class FeedbackViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        delightButton.setImage(UIImage(named: "delight"), for: .normal)
-        happyButton.setImage(UIImage(named: "happy"), for: .normal)
-        sadButton.setImage(UIImage(named: "sad"), for: .normal)
-        frustrationButton.setImage(UIImage(named: "frustration"), for: .normal)
         footer.delegate = self
         footerContainer.addSubview(footer)
         homeButton.alpha = 0.6

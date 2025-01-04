@@ -14,12 +14,7 @@ class FaceInstructionViewController: UIViewController {
     private let footer: FooterView = .fromNib()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        mainImage.image = UIImage(named: "step-1")
-        glassesImage.image = UIImage(named: "sentence-1")
-        lightImage.image = UIImage(named: "sentence-3")
-        frameImage.image = UIImage(named: "sentence-2")
-        
+        super.viewDidLoad()        
         let url = URL(string: "https://i.ibb.co/7Yc6400/Scan-face.gif")
         let loader = UIActivityIndicatorView(style: .medium)
         

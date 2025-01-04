@@ -50,7 +50,6 @@ final class ScanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: true)
-        self.lockImage.image = UIImage(named: "lock")
         self.titleLabel.attributedText = NSAttributedString(string: "Center your head in the frame",
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         footer.delegate = self

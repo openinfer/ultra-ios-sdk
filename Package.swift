@@ -4,31 +4,69 @@
 import PackageDescription
 
 let package = Package(
-    name: "CryptonetPackage",
+    name: "UltraPackage",
     platforms: [
         .iOS(.v14)
     ],
     products: [
         .library(
-            name: "CryptonetPackage",
-            targets: ["CryptonetPackage"]),
+            name: "UltraPackage",
+            targets: ["UltraPackage"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/openinfer/ultra-verify-sdk-ios", branch: "main"),
         .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.8.1")),
         .package(url: "https://github.com/relatedcode/ProgressHUD", from: "14.1.1"),
         .package(url: "https://github.com/alexiscreuzot/SwiftyGif", from: "5.4.5")
     ],
     targets: [
-        .target(name: "CryptonetPackage",
+        .target(name: "UltraPackage",
                 dependencies: [
-                    .target(
-                        name: "privid_fhe_uber"
-                    ),
+                    .product(name: "CryptonetPackage", package: "ultra-verify-sdk-ios"),
                     "Alamofire",
                     "ProgressHUD",
                     "SwiftyGif"
                 ]
-        ),
-        .binaryTarget(name: "privid_fhe_uber", path: "./privid_fhe_uber.xcframework")
+        )
     ]
 )
+
+
+
+
+
+
+
+//
+//let package = Package(
+//    name: "CryptonetPackage",
+//    platforms: [
+//        .iOS(.v14)
+//    ],
+//    products: [
+//        .library(
+//            name: "CryptonetPackage",
+//            targets: ["CryptonetPackage"]),
+//    ],
+//    dependencies: [
+////        .package(url: "https://github.com/openinfer/ultra-verify-sdk-ios", branch: "main"),
+//
+//        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.8.1")),
+//        .package(url: "https://github.com/relatedcode/ProgressHUD", from: "14.1.1"),
+//        .package(url: "https://github.com/alexiscreuzot/SwiftyGif", from: "5.4.5")
+//    ],
+//    targets: [
+//        .target(name: "CryptonetPackage",
+//                dependencies: [
+////                    ,
+////                    .product(name: "CryptonetPackage", package: "charlie-lib-ios"),
+//                    "Alamofire",
+//                    "ProgressHUD",
+//                    "SwiftyGif"
+//                ]
+//        ),
+//    ]
+//)
+//
+//
+//

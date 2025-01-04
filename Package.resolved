@@ -26,6 +26,15 @@
         "revision" : "4430cbc148baa3907651d40562d96325426f409a",
         "version" : "5.4.5"
       }
+    },
+    {
+      "identity" : "ultra-verify-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/openinfer/ultra-verify-sdk-ios",
+      "state" : {
+        "branch" : "main",
+        "revision" : "491ca9f359bc01a50357984e31edd755e6c65808"
+      }
     }
   ],
   "version" : 2

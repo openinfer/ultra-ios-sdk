@@ -1,4 +1,5 @@
 import UIKit
+import CryptonetPackage
 import Alamofire
 
 extension ScanViewController {
@@ -20,7 +21,7 @@ extension ScanViewController {
         guard isEnrollRunning == false else { return }
         self.isEnrollRunning = true
 
-        let result = CryptonetManager.shared.cryptonet!.predict(image: image, config: PredictConfig(skipAntispoof: false, mfToken: self.mfToken))
+        let result = CryptonetManager.shared.cryptonet.predict(image: image, config: PredictConfig(skipAntispoof: false, mfToken: self.mfToken))
         switch result {
         case .success(let json):
             print(json)
@@ -81,7 +82,7 @@ private extension ScanViewController {
         guard self.isEnrollRunning == false else { return }
         self.isEnrollRunning = true
         
-        let result = CryptonetManager.shared.cryptonet!.enroll(image: image, config: EnrollConfig(mfToken: self.mfToken, skipAntispoof: false))
+        let result = CryptonetManager.shared.cryptonet.enroll(image: image, config: EnrollConfig(mfToken: self.mfToken, skipAntispoof: false))
         switch result {
         case .success(let json):
             print(json)

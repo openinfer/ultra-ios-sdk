@@ -1,11 +1,12 @@
 import UIKit
 import ProgressHUD
+import CryptonetPackage
 
 final class CryptonetManager {
     
     static let shared = CryptonetManager()
     
-    var cryptonet: CryptonetPackage?
+    let cryptonet = CryptonetPackage()
     
     var sessionToken: String?
     var publicKey: String?
@@ -13,6 +14,18 @@ final class CryptonetManager {
     var redirectURL: String?
 
     private init() { }
+    
+    func initializeLib(path: NSString) {
+        cryptonet.initializeLib(path: path)
+    }
+
+    func initializeSession(settings: NSString) -> Bool {
+        return cryptonet.initializeSession(settings: settings)
+    }
+    
+    func version() -> String {
+        return cryptonet.version
+    }
     
     func resetSession() {
         CryptonetManager.shared.sessionToken = nil

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="GoogleSans-Bold.ttf">
+            <string>GoogleSans-Bold</string>
+        </array>
         <array key="GoogleSans-Medium.ttf">
             <string>GoogleSans-Medium</string>
         </array>
@@ -17,7 +20,7 @@
         <!--Instructions View Controller-->
         <scene sceneID="T1y-kg-poR">
             <objects>
-                <viewController storyboardIdentifier="InstructionsViewController" id="MFE-ng-a2m" customClass="InstructionsViewController" customModule="CryptonetPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InstructionsViewController" id="MFE-ng-a2m" customClass="InstructionsViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ARq-gi-TOS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -206,7 +209,7 @@
         <!--Scan View Controller-->
         <scene sceneID="nMb-R5-ugK">
             <objects>
-                <viewController storyboardIdentifier="ScanViewController" id="wiu-P0-YoP" customClass="ScanViewController" customModule="CryptonetPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ScanViewController" id="wiu-P0-YoP" customClass="ScanViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VYd-YZ-0ll">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -468,7 +471,7 @@
         <!--Face Instruction View Controller-->
         <scene sceneID="T3z-ja-P5m">
             <objects>
-                <viewController storyboardIdentifier="FaceInstructionViewController" id="OD0-La-Mq6" customClass="FaceInstructionViewController" customModule="CryptonetPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FaceInstructionViewController" id="OD0-La-Mq6" customClass="FaceInstructionViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XyG-tT-MB3">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -787,7 +790,7 @@
         <!--User Consent View Controller-->
         <scene sceneID="OJN-e9-cyB">
             <objects>
-                <viewController storyboardIdentifier="UserConsentViewController" id="jUJ-cI-Yhg" customClass="UserConsentViewController" customModule="CryptonetPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UserConsentViewController" id="jUJ-cI-Yhg" customClass="UserConsentViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C1h-5p-SwX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1084,7 +1087,7 @@ I have read and accepted the Private Identity LLC </string>
         <!--Verifying View Controller-->
         <scene sceneID="wdZ-EX-RTv">
             <objects>
-                <viewController storyboardIdentifier="VerifyingViewController" id="4L6-zm-yCK" customClass="VerifyingViewController" customModule="CryptonetPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VerifyingViewController" id="4L6-zm-yCK" customClass="VerifyingViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Tq-Y6-cpg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1185,7 +1188,7 @@ I have read and accepted the Private Identity LLC </string>
         <!--Feedback View Controller-->
         <scene sceneID="Pn5-Pt-ZyO">
             <objects>
-                <viewController storyboardIdentifier="FeedbackViewController" id="5IL-YF-o7j" customClass="FeedbackViewController" customModule="CryptonetPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FeedbackViewController" id="5IL-YF-o7j" customClass="FeedbackViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8O3-m3-38U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

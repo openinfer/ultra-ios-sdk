@@ -11,7 +11,10 @@ public class UltraPackage {
     
     public init() {}
     
-    public func start(path: NSString, token: NSString, publicKey: NSString, baseURL: NSString, securityModel: SecurityModel) -> Bool {
+    public func start(path: String, token: String, publicKey: String, browser: String, securityModel: SecurityModel) -> Bool {
+        
+        // todo:
+        let baseURL = "https://api-orchestration-privateid.uberverify.com/"
         
         let settings = """
         {
@@ -23,9 +26,10 @@ public class UltraPackage {
           "session_token": "\(token)"
         }
         """
-        CryptonetManager.shared.sessionToken = String(token)
-        
-        CryptonetManager.shared.initializeLib(path: path)
+        CryptonetManager.shared.sessionToken = token
+        CryptonetManager.shared.publicKey = publicKey
+        CryptonetManager.shared.selectedBrowser = browser
+        CryptonetManager.shared.initializeLib(path: NSString(string: path))
         let result = CryptonetManager.shared.initializeSession(settings: NSString(string: settings))
         let securityCheck = self.checkSecurityConditions(securityModel: securityModel)
         return result && securityCheck

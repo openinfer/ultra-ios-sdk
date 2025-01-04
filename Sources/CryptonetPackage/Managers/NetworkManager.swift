@@ -121,4 +121,188 @@ final class NetworkManager {
                 }
             }
     }
+    
+    func fetchSessionDetails(responseModel: @escaping (SessionDetailsModel?) -> Void) {
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "\(baseURL)v2/verification-session/\(token)/webhook-payload") else {
+            responseModel(nil)
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: SessionDetailsModel.self) { response in
+                switch response.result {
+                case .success(let model):
+                    responseModel(model)
+                case .failure:
+                    responseModel(nil)
+                }
+            }
+    }
+    
+    func sendFeedback(feedback: String, finished: @escaping (Bool) -> Void) {
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/feedback") else {
+            finished(false)
+            return
+        }
+        
+        let parameters: [String : Any] = [
+            "feedback": feedback
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success:
+                    finished(true)
+                case .failure:
+                    finished(false)
+                }
+        }
+    }
+    
+    func updateImage(image: UIImage) {
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "\(baseURL)v2/verification-session/\(token)/img") else { return }
+        
+        guard let imageData = image.jpegData(compressionQuality: 0.3) else {
+            print("Failed to convert image to data")
+            return
+        }
+        
+        // Headers (optional)
+        let headers: HTTPHeaders = [
+            "Content-Type": "multipart/form-data",
+            "x-api-key": "0000000000000000test"
+        ]
+        
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imageData, withName: "portrait", fileName: UUID().uuidString, mimeType: "image/jpeg")
+            },
+            to: url,
+            headers: headers
+        ).response { response in
+            switch response.result {
+            case .success(let data):
+                if let jsonData = data {
+                    print("Success:", String(data: jsonData, encoding: .utf8) ?? "No readable response")
+                }
+            case .failure(let error):
+                print("Error uploading image:", error.localizedDescription)
+            }
+        }
+    }
+    
+    func updateCollect(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage, finished: @escaping (Bool) -> Void) {
+        self.updateImage(image: image)
+
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/collect") else {
+            finished(false)
+            return
+        }
+        
+        let parameters: [String : Any] = [
+            "encryptedKey": encryptedKey,
+            "encryptedMessage": encryptedMessage,
+            "gcmAad": gcmAad,
+            "gcmTag": gcmTag,
+            "iv": iv
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success:
+                    
+                    switch FlowManager.shared.current {
+                    case .signIn, .matchFace:
+                        self.updatePredict(encryptedKey: encryptedKey,
+                                           encryptedMessage: encryptedMessage,
+                                           gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, finished: finished)
+                    case .enroll:
+                        self.updateEnroll(encryptedKey: encryptedKey,
+                                          encryptedMessage: encryptedMessage,
+                                          gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, finished: finished)
+                    }
+                    
+                case .failure:
+                    finished(false)
+                }
+            }
+    }
+    
+    
+    func updateEnroll(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "\(baseURL)v2/verification-session/\(token)/enroll") else { return }
+        
+        let parameters: [String : Any] = [
+            "encryptedKey": encryptedKey,
+            "encryptedMessage": encryptedMessage,
+            "gcmAad": gcmAad,
+            "gcmTag": gcmTag,
+            "iv": iv
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success:
+                    finished(true)
+                case .failure:
+                    finished(false)
+                }
+            }
+    }
+    
+    func updatePredict(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "\(baseURL)v2/verification-session/\(token)/verify") else { return }
+        
+        let parameters: [String : Any] = [
+            "encryptedKey": encryptedKey,
+            "encryptedMessage": encryptedMessage,
+            "gcmAad": gcmAad,
+            "gcmTag": gcmTag,
+            "iv": iv
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success:
+                    finished(true)
+                case .failure:
+                    finished(false)
+                }
+            }
+    }
 }

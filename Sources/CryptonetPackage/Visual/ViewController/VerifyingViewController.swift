@@ -23,7 +23,15 @@ final class VerifyingViewController: UIViewController {
         footer.delegate = self
         footerContainer.addSubview(footer)
         if isSucced {
-            fetchSessionDetails()
+            NetworkManager.shared.fetchSessionDetails { [weak self] model in
+                guard let self = self else { return }
+                if let model = model {
+                    self.sessionModel = model
+                    self.showSuccessPage()
+                } else {
+                    self.showFailurePage()
+                }
+            }
         } else {
             showFailureSession()
         }
@@ -51,28 +59,6 @@ final class VerifyingViewController: UIViewController {
 }
 
 extension VerifyingViewController {
-    func fetchSessionDetails() {
-        guard let token = CryptonetManager.shared.sessionToken else { return }
-        guard let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/webhook-payload") else { return }
-        
-
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-        ]
-        
-        AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers)
-            .validate()
-            .responseDecodable(of: SessionDetailsModel.self) { response in
-                switch response.result {
-                case .success(let model):
-                    self.sessionModel = model
-                    self.showSuccessPage()
-                case .failure:
-                    self.showFailurePage()
-                }
-            }
-    }
-    
     func showSuccessPage() {
         imageView.image = UIImage.SPMImage(named: "success")
         titleLabel.text = isVerified ? "Your account is verified!" : "Your account is registered!"

@@ -50,7 +50,21 @@ final class FeedbackViewController: UIViewController {
     
     @IBAction func homepageTapped(sender: UIButton) {
         ProgressHUD.animate()
-        sendFeedback()
+        NetworkManager.shared.sendFeedback(feedback: self.feedback) { [weak self] finished in
+            guard let self = self else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                if finished == true {
+                    ProgressHUD.dismiss()
+                    CryptonetManager.shared.resetSession()
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
+                    ProgressHUD.failed()
+                    CryptonetManager.shared.resetSession()
+                    self.navigationController?.popToRootViewController(animated: true)
+                    
+                }
+            }
+        }
     }
     
     @IBAction func delightButtonTapped() {
@@ -95,39 +109,5 @@ extension FeedbackViewController: FooterViewDelegate {
         let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
         self.navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-extension FeedbackViewController {
-    func sendFeedback() {
-        guard let token = CryptonetManager.shared.sessionToken,
-              let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/feedback") else { return }
-        
-        let parameters: [String : Any] = [
-            "feedback": self.feedback
-        ]
-        
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-        ]
-        
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-            .validate()
-            .responseDecodable(of: ResponseModel.self) { response in
-                switch response.result {
-                case .success:
-                    DispatchQueue.main.asyncAfter(deadline: .now()) {
-                        ProgressHUD.dismiss()
-                        CryptonetManager.shared.resetSession()
-                        self.navigationController?.popToRootViewController(animated: true)
-                    }
-                case .failure:
-                    DispatchQueue.main.asyncAfter(deadline: .now()) {
-                        ProgressHUD.failed()
-                        CryptonetManager.shared.resetSession()
-                        self.navigationController?.popToRootViewController(animated: true)
-                    }
-                }
-        }
     }
 }

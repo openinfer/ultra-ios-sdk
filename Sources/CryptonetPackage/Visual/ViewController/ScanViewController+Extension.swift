@@ -85,7 +85,7 @@ extension ScanViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showSucccessAnimation()
             self.activityLoading.startAnimating()
-            self.titleLabel.attributedText = NSAttributedString(string: "Processing...",
+            self.titleLabel.attributedText = NSAttributedString(string: "processing".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             NetworkManager.shared.updateCollect(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, image: image) { [weak self] result in
                 guard let self = self else { return }
@@ -93,7 +93,7 @@ extension ScanViewController {
                     if result == true {
                         self.showSucccessAnimation()
                         self.activityLoading.stopAnimating()
-                        self.titleLabel.attributedText = NSAttributedString(string: "Success",
+                        self.titleLabel.attributedText = NSAttributedString(string: "success.message".localized,
                                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
                         self.liveIconSucceed(self.successContainer)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -187,7 +187,7 @@ extension ScanViewController {
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             
             if faceStatus == 10 && FlowManager.shared.current == .enroll {
-                self.titleLabel.attributedText = NSAttributedString(string: "Remove glasses",
+                self.titleLabel.attributedText = NSAttributedString(string: "remove.glasses".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             }
         }
@@ -204,13 +204,13 @@ extension ScanViewController {
         if isAntispoof {
             switch faceStatus {
             case -100, -5, -4, -2, 1:
-                self.titleLabel.attributedText = NSAttributedString(string: "Too dim - increase lighting",
+                self.titleLabel.attributedText = NSAttributedString(string: "increase.lighting".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case -3:
-                self.titleLabel.attributedText = NSAttributedString(string: "Move face into circle",
+                self.titleLabel.attributedText = NSAttributedString(string: "face.into.circle".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case -1:
-                self.titleLabel.attributedText = NSAttributedString(string: "Looking for face",
+                self.titleLabel.attributedText = NSAttributedString(string: "looking.for.face".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             default: break
             }
@@ -223,58 +223,58 @@ extension ScanViewController {
             case 0:
                 self.focusCamera()
                 if isHoldStill {
-                    self.titleLabel.attributedText = NSAttributedString(string: "Processing hold still",
+                    self.titleLabel.attributedText = NSAttributedString(string: "processing.hold.still".localized,
                                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
                 }
             case 1, 2, 3:
-                self.titleLabel.attributedText = NSAttributedString(string: "Please move back",
+                self.titleLabel.attributedText = NSAttributedString(string: "please.move.back".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 4:
-                self.titleLabel.attributedText = NSAttributedString(string: "Please move closer",
+                self.titleLabel.attributedText = NSAttributedString(string: "please.move.closer".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 5, 6, 7, 8:
-                self.titleLabel.attributedText = NSAttributedString(string: "Move face into circle",
+                self.titleLabel.attributedText = NSAttributedString(string: "move.face.into.circle".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 9:
-                self.titleLabel.attributedText = NSAttributedString(string: "Please hold still",
+                self.titleLabel.attributedText = NSAttributedString(string: "hold.still".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 10:
                 guard FlowManager.shared.current != .signIn,
                       FlowManager.shared.current != .matchFace else { return }
-                self.titleLabel.attributedText = NSAttributedString(string: "Remove glasses",
+                self.titleLabel.attributedText = NSAttributedString(string: "remove.glasses".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 11:
                 self.titleLabel.attributedText = NSAttributedString(string: "",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 12, 13:
-                self.titleLabel.attributedText = NSAttributedString(string: "Please look at camera",
+                self.titleLabel.attributedText = NSAttributedString(string: "please.look.at.camera".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 14:
-                self.titleLabel.attributedText = NSAttributedString(string: "Raise phone level to face",
+                self.titleLabel.attributedText = NSAttributedString(string: "raise.phone.level.to.face".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 15:
-                self.titleLabel.attributedText = NSAttributedString(string: "Lower phone level to face",
+                self.titleLabel.attributedText = NSAttributedString(string: "lower.phone.level.to.face".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 16:
-                self.titleLabel.attributedText = NSAttributedString(string: "Too dim - increase lighting",
+                self.titleLabel.attributedText = NSAttributedString(string: "increase.lighting".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 17:
-                self.titleLabel.attributedText = NSAttributedString(string: "Too bright - lower lighting",
+                self.titleLabel.attributedText = NSAttributedString(string: "too.bright".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 18:
-                self.titleLabel.attributedText = NSAttributedString(string: "Please hold still",
+                self.titleLabel.attributedText = NSAttributedString(string: "hold.still".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 19:
                 self.titleLabel.attributedText = NSAttributedString(string: "",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 20:
-                self.titleLabel.attributedText = NSAttributedString(string: "Please hold still",
+                self.titleLabel.attributedText = NSAttributedString(string: "hold.still".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 21:
-                self.titleLabel.attributedText = NSAttributedString(string: "Please close mouth",
+                self.titleLabel.attributedText = NSAttributedString(string: "please.close.mouth".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 22, 23:
-                self.titleLabel.attributedText = NSAttributedString(string: "Please straighten head",
+                self.titleLabel.attributedText = NSAttributedString(string: "please.straighten.head".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             default:
                 self.titleLabel.attributedText = NSAttributedString(string: "",

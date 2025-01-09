@@ -11,6 +11,17 @@ class FaceInstructionViewController: UIViewController {
     @IBOutlet weak var glassesImage: UIImageView!
     @IBOutlet weak var lightImage: UIImageView!
     @IBOutlet weak var frameImage: UIImageView!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var mainTitle: UILabel!
+    @IBOutlet weak var subTitle: UILabel!
+    @IBOutlet weak var glassesTitle: UILabel!
+    @IBOutlet weak var glassesSubtitle: UILabel!
+    @IBOutlet weak var backgroundTitle: UILabel!
+    @IBOutlet weak var backgroundSubtitle: UILabel!
+    @IBOutlet weak var ligthTitle: UILabel!
+    @IBOutlet weak var lightSubtitle: UILabel!
+    
+    
     private let footer: FooterView = .fromNib()
     
     override func viewDidLoad() {
@@ -22,6 +33,16 @@ class FaceInstructionViewController: UIViewController {
         instructionImageView.startAnimatingGif()
         footer.delegate = self
         footerContainer.addSubview(footer)
+        
+        self.mainTitle.text = "verify.identity.selfie.message".localized
+        self.subTitle.text = "verify.identity.selfie.message2".localized
+        self.glassesTitle.text = "take.off.glasses".localized
+        self.glassesSubtitle.text = "ensure.nothing.covers.face".localized
+        self.backgroundTitle.text = "uncluttered.backgrounds".localized
+        self.backgroundSubtitle.text = "ensure.face.in.frame".localized
+        self.ligthTitle.text = "ensure.good.lighting".localized
+        self.lightSubtitle.text = "your.face.backlit.light.source".localized
+        self.startButton.setTitle("start".localized, for: .normal)
     }
     
     override func viewDidLayoutSubviews() {
@@ -53,10 +74,10 @@ class FaceInstructionViewController: UIViewController {
     
     private func showAlertForDeclinedRequest() {
         DispatchQueue.main.async { [unowned self] in
-            let alert = UIAlertController(title: "Camera usage is not allowed.",
-                                          message: "Please, allow camera usage in Settings.", preferredStyle: .alert)
+            let alert = UIAlertController(title: "camera.usage.is.not.allowed".localized,
+                                          message: "allow.camera.usage.in.settings".localized, preferredStyle: .alert)
             
-            alert.addAction(UIAlertAction(title: "Go to settings", style: .default, handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: "go.to.settings".localized, style: .default, handler:{ (UIAlertAction) in
                 guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                     return
                 }
@@ -65,7 +86,7 @@ class FaceInstructionViewController: UIViewController {
                     UIApplication.shared.open(settingsUrl, completionHandler: nil)
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Exit", style: .default, handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: "exit".localized, style: .default, handler:{ (UIAlertAction) in
                 self.navigationController?.popToRootViewController(animated: true)
             }))
             

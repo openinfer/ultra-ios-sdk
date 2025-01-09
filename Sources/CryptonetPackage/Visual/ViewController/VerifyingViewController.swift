@@ -20,6 +20,8 @@ final class VerifyingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: true)
+        titleLabel.text = "wait.a.sec".localized
+        homeButton.setTitle("done".localized, for: .normal)
         footer.delegate = self
         footerContainer.addSubview(footer)
         if isSucced {
@@ -61,19 +63,19 @@ final class VerifyingViewController: UIViewController {
 extension VerifyingViewController {
     func showSuccessPage() {
         imageView.image = UIImage.SPMImage(named: "success")
-        titleLabel.text = isVerified ? "Your account is verified!" : "Your account is registered!"
+        titleLabel.text = isVerified ? "account.is.verified".localized : "account.is.registered".localized
         homeButton.isHidden = false
     }
     
     func showFailurePage() {
         imageView.image = UIImage.SPMImage(named: "failure")
-        titleLabel.text = "Your account is not approved."
+        titleLabel.text = "account.is.not.approved".localized
         homeButton.isHidden = false
     }
     
     func showFailureSession() {
         imageView.image = UIImage.SPMImage(named: "failure")
-        titleLabel.text = "Your session was failed. Try to run the app again."
+        titleLabel.text = "session.was.failed".localized
         homeButton.isHidden = false
     }
 }

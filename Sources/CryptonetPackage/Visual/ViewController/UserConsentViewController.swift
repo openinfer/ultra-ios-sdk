@@ -2,11 +2,14 @@ import UIKit
 
 final class UserConsentViewController: UIViewController {
     
+    @IBOutlet weak var mainTitle: UILabel!
+    @IBOutlet weak var termsTitle: UILabel!
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var termsButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var footerContainer: UIView!
     @IBOutlet weak var mainImage: UIImageView!
+
     
     private let footer: FooterView = .fromNib()
     
@@ -15,6 +18,10 @@ final class UserConsentViewController: UIViewController {
         super.viewDidLoad()
         footer.delegate = self
         footerContainer.addSubview(footer)
+        
+        mainTitle.text = "user.consent".localized
+        termsTitle.text = "agree.terms.policy".localized
+        continueButton.setTitle("continue.button".localized, for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {

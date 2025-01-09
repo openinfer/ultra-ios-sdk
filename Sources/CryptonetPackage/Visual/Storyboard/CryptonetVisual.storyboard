@@ -46,13 +46,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Take a selfie to register" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mf-WW-MFD">
-                                <rect key="frame" x="20" y="20" width="335" height="29"/>
+                                <rect key="frame" x="20" y="70" width="335" height="29"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KV" translatesAutoresizingMaskIntoConstraints="NO" id="9LA-yF-gaf">
-                                <rect key="frame" x="20" y="97" width="335" height="209.5"/>
+                                <rect key="frame" x="20" y="99" width="335" height="209.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="9LA-yF-gaf" secondAttribute="height" multiplier="16:10" id="1gC-P8-I4q"/>
                                     <constraint firstAttribute="width" secondItem="9LA-yF-gaf" secondAttribute="height" multiplier="16:10" id="gib-C0-lae"/>
@@ -64,7 +64,7 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EH-oA-GST">
-                                <rect key="frame" x="16" y="326.5" width="343" height="134"/>
+                                <rect key="frame" x="16" y="328.5" width="343" height="134"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity </string>
@@ -108,7 +108,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdJ-WO-cSb">
-                                <rect key="frame" x="20" y="470.5" width="335" height="19.5"/>
+                                <rect key="frame" x="20" y="472.5" width="335" height="19.5"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Learn">
                                         <attributes>
@@ -148,12 +148,6 @@
                                     <action selector="backTapped" destination="MFE-ng-a2m" eventType="touchUpInside" id="dmj-Br-akn"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="No images will leave your device." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FF9-fB-VSZ">
-                                <rect key="frame" x="20" y="53" width="335" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BP4-uk-tXM">
                                 <rect key="frame" x="0.0" y="587" width="375" height="60"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
@@ -161,31 +155,37 @@
                                     <constraint firstAttribute="height" constant="60" id="Zrk-bC-jgG"/>
                                 </constraints>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-image" translatesAutoresizingMaskIntoConstraints="NO" id="hFa-Od-iHb">
+                                <rect key="frame" x="0.0" y="20" width="375" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2HZ-XQ-ZIw"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tn1-O1-xAB"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="fdJ-WO-cSb" secondAttribute="trailing" constant="20" id="01U-w1-tmw"/>
-                            <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="FF9-fB-VSZ" secondAttribute="trailing" constant="20" id="2vR-8K-wsf"/>
                             <constraint firstItem="fdJ-WO-cSb" firstAttribute="top" secondItem="4EH-oA-GST" secondAttribute="bottom" constant="10" id="6YD-PW-9mM"/>
+                            <constraint firstItem="6mf-WW-MFD" firstAttribute="top" secondItem="hFa-Od-iHb" secondAttribute="bottom" constant="20" id="8fZ-AM-1MT"/>
                             <constraint firstItem="4EH-oA-GST" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="16" id="AsB-0n-CAb"/>
-                            <constraint firstItem="FF9-fB-VSZ" firstAttribute="top" secondItem="6mf-WW-MFD" secondAttribute="bottom" constant="4" id="Bxt-94-UWQ"/>
+                            <constraint firstItem="hFa-Od-iHb" firstAttribute="leading" secondItem="ARq-gi-TOS" secondAttribute="leading" id="Bcm-pT-lzP"/>
                             <constraint firstItem="BP4-uk-tXM" firstAttribute="top" secondItem="R6c-4D-yLY" secondAttribute="bottom" constant="25" id="CXG-xg-2C5"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="6mf-WW-MFD" secondAttribute="trailing" constant="20" id="H0w-17-qWB"/>
                             <constraint firstAttribute="trailing" secondItem="BP4-uk-tXM" secondAttribute="trailing" id="HSp-tT-VZP"/>
                             <constraint firstItem="6mf-WW-MFD" firstAttribute="leading" secondItem="ARq-gi-TOS" secondAttribute="leading" constant="20" id="IiI-fv-UeT"/>
                             <constraint firstItem="BP4-uk-tXM" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" id="JPf-EM-hgt"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="9LA-yF-gaf" secondAttribute="trailing" constant="20" id="KMK-BP-F0b"/>
-                            <constraint firstItem="FF9-fB-VSZ" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="LEY-vo-QUT"/>
                             <constraint firstItem="4EH-oA-GST" firstAttribute="top" secondItem="9LA-yF-gaf" secondAttribute="bottom" constant="20" id="MSe-rn-Zka"/>
                             <constraint firstItem="R6c-4D-yLY" firstAttribute="leading" secondItem="c03-ez-OEF" secondAttribute="trailing" constant="8" id="Y6b-HS-K0k"/>
-                            <constraint firstItem="9LA-yF-gaf" firstAttribute="top" secondItem="FF9-fB-VSZ" secondAttribute="bottom" constant="20" id="aA7-Vf-aAc"/>
                             <constraint firstItem="c03-ez-OEF" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="esS-R8-peF"/>
                             <constraint firstAttribute="bottom" secondItem="BP4-uk-tXM" secondAttribute="bottom" constant="20" id="jBS-WV-ngm"/>
                             <constraint firstItem="fdJ-WO-cSb" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="joR-c2-5IU"/>
                             <constraint firstItem="R6c-4D-yLY" firstAttribute="width" secondItem="c03-ez-OEF" secondAttribute="width" id="nWf-C3-c8s"/>
                             <constraint firstItem="c03-ez-OEF" firstAttribute="centerY" secondItem="R6c-4D-yLY" secondAttribute="centerY" id="nfQ-iD-rUN"/>
-                            <constraint firstItem="6mf-WW-MFD" firstAttribute="top" secondItem="tn1-O1-xAB" secondAttribute="top" id="oOs-nW-4fQ"/>
+                            <constraint firstItem="9LA-yF-gaf" firstAttribute="top" secondItem="6mf-WW-MFD" secondAttribute="bottom" id="rvu-km-kdV"/>
+                            <constraint firstItem="hFa-Od-iHb" firstAttribute="top" secondItem="tn1-O1-xAB" secondAttribute="top" id="tXb-xb-eCK"/>
+                            <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="hFa-Od-iHb" secondAttribute="trailing" id="ury-nW-MSu"/>
                             <constraint firstItem="9LA-yF-gaf" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="wB2-pm-bNe"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="R6c-4D-yLY" secondAttribute="trailing" constant="20" id="wDn-Ro-4Jv"/>
                             <constraint firstAttribute="trailing" secondItem="4EH-oA-GST" secondAttribute="trailing" constant="16" id="zaI-Ip-660"/>
@@ -198,8 +198,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="egc-B3-vub"/>
                     <connections>
+                        <outlet property="agreeButton" destination="c03-ez-OEF" id="Tbg-SF-WGM"/>
+                        <outlet property="backOptionButton" destination="R6c-4D-yLY" id="gBD-UF-gAr"/>
                         <outlet property="footerContainer" destination="BP4-uk-tXM" id="jhG-Yb-Itk"/>
                         <outlet property="mainImage" destination="9LA-yF-gaf" id="dgd-bY-z2N"/>
+                        <outlet property="mainTitle" destination="6mf-WW-MFD" id="mc8-XI-wZB"/>
+                        <outlet property="subtitleLabel" destination="fdJ-WO-cSb" id="xil-Na-qTf"/>
+                        <outlet property="titleLabel" destination="4EH-oA-GST" id="oiA-pO-e2Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkC-BO-Kq5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -775,12 +780,21 @@
                     <navigationItem key="navigationItem" id="FxA-uh-qM4"/>
                     <size key="freeformSize" width="430" height="1200"/>
                     <connections>
+                        <outlet property="backgroundSubtitle" destination="5ka-tJ-D0b" id="tGj-6N-vJf"/>
+                        <outlet property="backgroundTitle" destination="SJS-2m-rgX" id="3wS-b4-USO"/>
                         <outlet property="footerContainer" destination="HKt-19-HpG" id="7OV-tg-1hk"/>
                         <outlet property="frameImage" destination="Fd3-4N-jpl" id="IuW-Jg-LG5"/>
                         <outlet property="glassesImage" destination="45d-yk-zdo" id="uWv-rA-0xS"/>
+                        <outlet property="glassesSubtitle" destination="WmS-7D-TsM" id="JPt-YV-SVY"/>
+                        <outlet property="glassesTitle" destination="m1k-VT-Bnt" id="3dM-vF-EfU"/>
                         <outlet property="instructionImageView" destination="3qQ-CP-uks" id="NeG-Uw-Mc4"/>
                         <outlet property="lightImage" destination="Td6-ky-Frb" id="Ekc-Ti-59e"/>
+                        <outlet property="lightSubtitle" destination="QRT-X0-Tj9" id="6fo-UF-gsg"/>
+                        <outlet property="ligthTitle" destination="2cG-5z-n0M" id="rhp-MR-Z9k"/>
                         <outlet property="mainImage" destination="3qQ-CP-uks" id="Dyf-xd-k98"/>
+                        <outlet property="mainTitle" destination="cpL-2N-dsv" id="CLv-Ej-vm8"/>
+                        <outlet property="startButton" destination="6SR-Zf-0fO" id="7e6-3s-ZKP"/>
+                        <outlet property="subTitle" destination="AQQ-g8-xsI" id="4Ky-3f-OrG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j8u-Oc-fPO" sceneMemberID="firstResponder"/>
@@ -1076,8 +1090,10 @@ I have read and accepted the Private Identity LLC </string>
                         <outlet property="continueButton" destination="5ga-6g-Lfp" id="KIZ-YO-G9e"/>
                         <outlet property="footerContainer" destination="VQ7-VC-6Lx" id="1mp-7S-Kwo"/>
                         <outlet property="mainImage" destination="SWW-nV-3yv" id="B6B-kf-V60"/>
+                        <outlet property="mainTitle" destination="lPd-sh-B20" id="zBb-c9-IqI"/>
                         <outlet property="scrollView" destination="1un-Bn-Uxk" id="bYX-YO-dLo"/>
                         <outlet property="termsButton" destination="nyG-iT-YCJ" id="TL6-uV-tEu"/>
+                        <outlet property="termsTitle" destination="6N7-Ed-vSa" id="oTK-EW-gaI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eGk-Uy-d8C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1372,6 +1388,9 @@ I have read and accepted the Private Identity LLC </string>
                         <outlet property="happyButton" destination="gBr-EV-jKy" id="8Cf-M5-5JQ"/>
                         <outlet property="happyLabel" destination="RU2-7J-hmO" id="beH-Am-ukU"/>
                         <outlet property="homeButton" destination="XOB-OK-9Ut" id="eFI-De-TqR"/>
+                        <outlet property="mainTitle" destination="W5Z-XX-kAp" id="7XI-UZ-wEH"/>
+                        <outlet property="noThanks" destination="aFb-Cd-JRm" id="JiL-ai-zVa"/>
+                        <outlet property="returnHome" destination="XOB-OK-9Ut" id="nzH-ro-jRF"/>
                         <outlet property="sadButton" destination="sc5-B1-496" id="J5Z-62-kZk"/>
                         <outlet property="sadLabel" destination="1Bx-JM-vMz" id="cNV-dn-9Rl"/>
                     </connections>
@@ -1391,6 +1410,7 @@ I have read and accepted the Private Identity LLC </string>
         <image name="frustration" width="144" height="144"/>
         <image name="happy" width="102" height="96"/>
         <image name="lock" width="12" height="12"/>
+        <image name="logo-image" width="543" height="102"/>
         <image name="sad" width="96" height="90"/>
         <image name="sentence-1" width="48" height="48"/>
         <image name="sentence-2" width="48" height="48"/>

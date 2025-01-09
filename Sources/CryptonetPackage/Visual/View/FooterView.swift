@@ -22,9 +22,9 @@ final class FooterView: UIView {
     }
     
     func setup() {
-        self.privacyLabel.setTitle("Privacy", for: .normal)
-        self.termsLabel.setTitle("Feedback", for: .normal)
-        self.feedbackLabel.setTitle("Terms", for: .normal)
+        self.privacyLabel.setTitle("feedback.privacy".localized, for: .normal)
+        self.termsLabel.setTitle("feedback.terms".localized, for: .normal)
+        self.feedbackLabel.setTitle("feedback.title".localized, for: .normal)
     }
     
     @IBAction func languageTapped() {

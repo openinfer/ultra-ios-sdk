@@ -15,6 +15,8 @@ final class FeedbackViewController: UIViewController {
     private let footer: FooterView = .fromNib()
     
     @IBOutlet weak var homeButton: UIButton!
+    @IBOutlet weak var mainTitle: UILabel!
+    
     @IBOutlet weak var delightButton: UIButton!
     @IBOutlet weak var happyButton: UIButton!
     @IBOutlet weak var sadButton: UIButton!
@@ -25,6 +27,9 @@ final class FeedbackViewController: UIViewController {
     @IBOutlet weak var sadLabel: UILabel!
     @IBOutlet weak var frustrationLabel: UILabel!
     
+    @IBOutlet weak var returnHome: UIButton!
+    @IBOutlet weak var noThanks: UIButton!
+    
     private var feedback: String = ""
     
     override func viewDidLoad() {
@@ -33,6 +38,14 @@ final class FeedbackViewController: UIViewController {
         footerContainer.addSubview(footer)
         homeButton.alpha = 0.6
         homeButton.isUserInteractionEnabled = false
+        
+        mainTitle.text = "rate.your.experience".localized
+        delightLabel.text = "delight".localized
+        sadLabel.text = "happy".localized
+        sadLabel.text = "sad".localized
+        frustrationLabel.text = "frustration".localized
+        returnHome.setTitle("return.to.homepage".localized, for: .normal)
+        noThanks.setTitle("noThanks".localized, for: .normal)
     }
     
     override func viewDidLayoutSubviews() {

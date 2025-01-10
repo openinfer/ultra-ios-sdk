@@ -27,6 +27,9 @@ let package = Package(
                     "Alamofire",
                     "ProgressHUD",
                     "SwiftyGif"
+                ],
+                resources: [
+                    .process("Resources")
                 ]
         )
     ]

@@ -126,3 +126,9 @@
 "rate.your.experience" = "How would you rate your experience?";
 "return.to.homepage" = "Return to homepage";
 "wait.a.sec" = "Please wait a sec, we’re verifying your identity...";
+"account.is.verified" = "Account is verified";
+"account.is.registered" = "Account is registered";
+"account.is.not.approved" = "Account is not approved";
+"session.was.failed" = "Session was failed";
+"user.consent" = "User consent";
+"agree.terms.policy" = "I acknowledge that I have read, understood and agree to Private ID’s Terms and Privacy Policy";

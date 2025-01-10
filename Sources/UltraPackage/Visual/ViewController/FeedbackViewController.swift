@@ -114,6 +114,10 @@ final class FeedbackViewController: UIViewController {
         happyLabel.alpha = 0.3
         sadLabel.alpha = 0.3
         frustrationLabel.alpha = 0.3
+        
+        
+        homeButton.alpha = 1.0
+        homeButton.isUserInteractionEnabled = true
     }
 }
 

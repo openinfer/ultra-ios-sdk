@@ -2,7 +2,7 @@ import Foundation
 
 public extension String {
     var localized: String {
-        return NSLocalizedString(self, comment: "")
+        return NSLocalizedString(self, bundle: .module, comment: "")
     }
     
     func localized(with arguments: CVarArg...) -> String {

@@ -12,11 +12,11 @@ public class UltraPackage {
     
     public init() {}
     
-    public func start(path: String, token: String?, publicKey: String?, browser: String?, securityModel: SecurityModel, finished: @escaping (Bool) -> Void) {
+    public func start(path: String, token: String?, publicKey: String?, browser: String?, type: NetworkManager.SessionFlow = NetworkManager.SessionFlow.predict, securityModel: SecurityModel, finished: @escaping (Bool) -> Void) {
         CryptonetManager.shared.initializeLib(path: NSString(string: path))
         CryptonetManager.shared.selectedBrowser = browser ?? "chrome"
         
-        NetworkManager.shared.getSessionToken { newToken in
+        NetworkManager.shared.getSessionToken(type: type) { newToken in
             guard let newToken = newToken else {
                 ProgressHUD.failed("Empty session token")
                 finished(false)

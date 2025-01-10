@@ -2,9 +2,9 @@ import UIKit
 import Alamofire
 import ProgressHUD
 
-final class NetworkManager {
+public final class NetworkManager {
     
-    enum SessionFlow: String {
+    public enum SessionFlow: String {
         case enroll = "ENROLL"
         case predict = "VERIFY"
     }

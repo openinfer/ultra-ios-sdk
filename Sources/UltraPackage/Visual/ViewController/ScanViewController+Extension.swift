@@ -54,12 +54,6 @@ extension ScanViewController {
                     let gcmTag = model.uberOperationResult?.response?.gcmTag,
                     let iv = model.uberOperationResult?.response?.iv {
                     DispatchQueue.main.async {
-                        self.stopSession()
-                        self.stopFaceAnimationTimer()
-                        self.stopTimer()
-                        self.updateCounter(currentValue: 0, toValue: 1.0)
-                        self.circularProgressView?.timeToFill = 0.5
-                        self.circularProgressView?.progress = 100.0
                         self.stopScan(encryptedKey: encryptedKey,
                                       encryptedMessage: encryptedMessage,
                                       gcmAad: gcmAad,
@@ -82,6 +76,12 @@ extension ScanViewController {
     }
     
     func stopScan(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage) {
+        self.stopSession()
+        self.stopFaceAnimationTimer()
+        self.stopTimer()
+        self.updateCounter(currentValue: 0, toValue: 1.0)
+        self.circularProgressView?.timeToFill = 0.5
+        self.circularProgressView?.progress = 100.0
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showSucccessAnimation()
             self.activityLoading.startAnimating()
@@ -97,7 +97,8 @@ extension ScanViewController {
                                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
                         self.liveIconSucceed(self.successContainer)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            self.navigateToVerifyingPage(isVerified: false)
+                            let isVerified = FlowManager.shared.current == .enroll ? false : true
+                            self.navigateToVerifyingPage(isVerified: isVerified)
                         }
                     } else {
                         self.activityLoading.stopAnimating()

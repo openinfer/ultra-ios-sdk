@@ -138,13 +138,13 @@ final class ScanViewController: UIViewController {
         sessionCountdown -= 1
         ToastCenter.default.currentToast?.cancel()
         
-        if sessionCountdown <= 20 && sessionCountdown >= 10 {
+        if sessionCountdown <= 20 && sessionCountdown > 10 {
             Toast(text: String(format: "session_timer_title".localized, "\(sessionCountdown)"), duration: Delay.short).show()
-        } else if sessionCountdown <= 10 && sessionCountdown >= 5 {
+        } else if sessionCountdown <= 10 && sessionCountdown > 5 {
             ToastView.appearance().backgroundColor = .yellow
             ToastView.appearance().textColor = .black
             Toast(text: String.init(format: "session_timer_title".localized, "\(sessionCountdown)"), duration: Delay.short).show()
-        } else if sessionCountdown <= 5 && sessionCountdown >= 0 {
+        } else if sessionCountdown <= 5 && sessionCountdown > 0 {
             ToastView.appearance().backgroundColor = .red
             ToastView.appearance().textColor = .white
             Toast(text: String.init(format: "session_timer_title".localized, "\(sessionCountdown)"), duration: Delay.short).show()

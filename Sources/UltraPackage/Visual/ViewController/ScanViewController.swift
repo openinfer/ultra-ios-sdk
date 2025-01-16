@@ -31,6 +31,10 @@ final class ScanViewController: UIViewController {
     
     var faceAnimationTimer: Timer?
     var faceAnimationTimeInterval: TimeInterval = 1.5
+    
+    var sessionTimer: Timer?
+    var sessionTimeInterval: TimeInterval = 1.0
+    var sessionCountdown: Int = 35
 
     var nextStepForFlows: String?
     var isScanSuccess: Bool = false
@@ -55,6 +59,8 @@ final class ScanViewController: UIViewController {
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         footer.delegate = self
         footerContainer.addSubview(footer)
+        
+        ToastView.appearance().bottomOffsetPortrait = 100.0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,12 +71,8 @@ final class ScanViewController: UIViewController {
             setupTimer()
             startFaceAnimationTimer()
             startSession()
+            startSessionTimer()
         }
-        
-        ToastView.appearance().backgroundColor = .red
-        ToastView.appearance().bottomOffsetPortrait = 100.0
-        
-        Toast(text: "Hello, world!", delay: Delay.short, duration: Delay.long).show()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -132,6 +134,22 @@ final class ScanViewController: UIViewController {
         }
     }
     
+    @objc func sessionTimerAction() {
+        sessionCountdown -= 1
+        
+        Toast(text: "Session timer: \(sessionCountdown)").show()
+        
+        if sessionCountdown <= 0 {
+            stopSessionTimer()
+            let link = CryptonetManager.shared.redirectURL ?? "https://www.google.com/"
+            UIApplication.openIfPossible(link: link)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                exit(0)
+            }
+        }
+    }
+    
     func updateCounter(currentValue: Int, toValue: Double) {
         if currentValue <= Int(toValue * 100) {
                 self.subresultLabel.attributedText = NSAttributedString(string: "\(currentValue)%",
@@ -160,6 +178,18 @@ final class ScanViewController: UIViewController {
     func stopFaceAnimationTimer() {
         faceAnimationTimer?.invalidate()
         faceAnimationTimer = nil
+    }
+    
+    func startSessionTimer() {
+        sessionTimer = Timer.scheduledTimer(timeInterval: sessionTimeInterval,
+                                            target: self,
+                                            selector: #selector(sessionTimerAction),
+                                            userInfo: nil, repeats: true)
+    }
+    
+    func stopSessionTimer() {
+        sessionTimer?.invalidate()
+        sessionTimer = nil
     }
     
     func stopTimer() {

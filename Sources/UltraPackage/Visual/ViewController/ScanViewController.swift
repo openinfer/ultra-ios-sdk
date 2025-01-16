@@ -67,6 +67,9 @@ final class ScanViewController: UIViewController {
             startSession()
         }
         
+        ToastView.appearance().backgroundColor = .red
+        ToastView.appearance().bottomOffsetPortrait = 100.0
+        
         Toast(text: "Hello, world!", delay: Delay.short, duration: Delay.long).show()
     }
     

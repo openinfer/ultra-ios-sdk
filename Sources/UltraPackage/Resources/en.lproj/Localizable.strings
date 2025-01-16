@@ -132,3 +132,5 @@
 "session.was.failed" = "Session was failed";
 "user.consent" = "User consent";
 "agree.terms.policy" = "I acknowledge that I have read, understood and agree to Private ID’s Terms and Privacy Policy";
+"session_timer_title" = "You have %@ seconds to complete the session";
+"session_timer_error" = "Error. Time limit exceeded";

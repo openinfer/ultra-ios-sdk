@@ -34,7 +34,7 @@ final class ScanViewController: UIViewController {
     
     var sessionTimer: Timer?
     var sessionTimeInterval: TimeInterval = 1.0
-    var sessionCountdown: Int = 35
+    var sessionCountdown: Int = 30
 
     var nextStepForFlows: String?
     var isScanSuccess: Bool = false
@@ -136,16 +136,27 @@ final class ScanViewController: UIViewController {
     
     @objc func sessionTimerAction() {
         sessionCountdown -= 1
+        ToastCenter.default.currentToast?.cancel()
         
-        Toast(text: "Session timer: \(sessionCountdown)").show()
-        
-        if sessionCountdown <= 0 {
+        if sessionCountdown <= 20 && sessionCountdown >= 10 {
+            Toast(text: String(format: "session_timer_title".localized, sessionCountdown), duration: Delay.short).show()
+        } else if sessionCountdown <= 10 && sessionCountdown >= 5 {
+            ToastView.appearance().backgroundColor = .yellow
+            Toast(text: String(format: "session_timer_title".localized, sessionCountdown), duration: Delay.short).show()
+        } else if sessionCountdown <= 5 && sessionCountdown >= 0 {
+            ToastView.appearance().backgroundColor = .red
+            Toast(text: String(format: "session_timer_title".localized, sessionCountdown), duration: Delay.short).show()
+        } else if sessionCountdown <= 0 {
+            ToastView.appearance().backgroundColor = .red
+            Toast(text: String("session_timer_error".localized), duration: Delay.short).show()
             stopSessionTimer()
-            let link = CryptonetManager.shared.redirectURL ?? "https://www.google.com/"
-            UIApplication.openIfPossible(link: link)
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                exit(0)
+                let link = CryptonetManager.shared.redirectURL ?? "https://www.google.com/"
+                UIApplication.openIfPossible(link: link)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    exit(0)
+                }
             }
         }
     }

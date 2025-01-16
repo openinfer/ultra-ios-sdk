@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "toaster",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/devxoul/Toaster",
+      "state" : {
+        "branch" : "master",
+        "revision" : "db7f2f5096b642c711dcdcedceb450382bbc5abe"
+      }
+    },
+    {
       "identity" : "ultra-verify-sdk-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/openinfer/ultra-verify-sdk-ios",

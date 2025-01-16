@@ -1,6 +1,7 @@
 import UIKit
 import AVFoundation
 import CoreMedia
+import Toaster
 
 final class ScanViewController: UIViewController {
     
@@ -65,6 +66,8 @@ final class ScanViewController: UIViewController {
             startFaceAnimationTimer()
             startSession()
         }
+        
+        Toast(text: "Hello, world!", delay: Delay.short, duration: Delay.long).show()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

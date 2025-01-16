@@ -143,23 +143,23 @@ final class ScanViewController: UIViewController {
             Toast(text: "You have \(sessionCountdown) seconds to complete the session", duration: Delay.short).show()
         } else if sessionCountdown <= 10 && sessionCountdown >= 5 {
             ToastView.appearance().backgroundColor = .yellow
+            ToastView.appearance().textColor = .black
             //Toast(text: String(format: "session_timer_title".localized, sessionCountdown), duration: Delay.short).show()
             Toast(text: "You have \(sessionCountdown) seconds to complete the session", duration: Delay.short).show()
         } else if sessionCountdown <= 5 && sessionCountdown >= 0 {
             ToastView.appearance().backgroundColor = .red
+            ToastView.appearance().textColor = .white
             //Toast(text: String(format: "session_timer_title".localized, sessionCountdown), duration: Delay.short).show()
             Toast(text: "You have \(sessionCountdown) seconds to complete the session", duration: Delay.short).show()
         } else if sessionCountdown <= 0 {
             ToastView.appearance().backgroundColor = .red
+            ToastView.appearance().textColor = .white
             Toast(text: String("session_timer_error".localized), duration: Delay.short).show()
             stopSessionTimer()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 let link = CryptonetManager.shared.redirectURL ?? "https://www.google.com/"
                 UIApplication.openIfPossible(link: link)
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    exit(0)
-                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { exit(0) }
             }
         }
     }

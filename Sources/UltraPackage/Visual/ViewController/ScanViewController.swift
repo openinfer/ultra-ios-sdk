@@ -34,7 +34,7 @@ final class ScanViewController: UIViewController {
     
     var sessionTimer: Timer?
     var sessionTimeInterval: TimeInterval = 1.0
-    var sessionCountdown: Int = 30
+    var sessionCountdown: Int = 45
 
     var nextStepForFlows: String?
     var isScanSuccess: Bool = false

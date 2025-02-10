@@ -147,7 +147,7 @@ public final class NetworkManager {
     
     func sendFeedback(feedback: String, finished: @escaping (Bool) -> Void) {
         guard let token = CryptonetManager.shared.sessionToken,
-              let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/feedback") else {
+              let url = URL(string: "\(baseURL)v2/verification-session/\(token)/feedback") else {
             finished(false)
             return
         }
@@ -209,7 +209,7 @@ public final class NetworkManager {
         self.updateImage(image: image)
 
         guard let token = CryptonetManager.shared.sessionToken,
-              let url = URL(string: "https://api-orchestration-privateid.uberverify.com/v2/verification-session/\(token)/collect") else {
+              let url = URL(string: "\(baseURL)v2/verification-session/\(token)/collect") else {
             finished(false)
             return
         }

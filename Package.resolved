@@ -3,7 +3,7 @@
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "location" : "https://github.com/Alamofire/Alamofire",
       "state" : {
         "revision" : "e16d3481f5ed35f0472cb93350085853d754913f",
         "version" : "5.10.1"
@@ -42,7 +42,7 @@
       "location" : "https://github.com/openinfer/ultra-verify-sdk-ios",
       "state" : {
         "branch" : "main",
-        "revision" : "301c569de6a15b3f7da8172165b30b6de021a08f"
+        "revision" : "bcbc7fbfcf13d78c052d80118bd210c472492988"
       }
     }
   ],

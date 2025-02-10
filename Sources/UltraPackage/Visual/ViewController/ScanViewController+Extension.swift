@@ -38,7 +38,7 @@ extension ScanViewController {
                 
                 if self.mfToken.isEmpty == false && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 33.33
-                } else if self.mfToken.isEmpty == true {
+                } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
                     self.estimateAttempts = 0
                 }
 
@@ -132,7 +132,7 @@ private extension ScanViewController {
                 
                 if self.mfToken.isEmpty == false && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 20
-                } else if self.mfToken.isEmpty == true {
+                } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
                     self.estimateAttempts = 0
                 }
                 

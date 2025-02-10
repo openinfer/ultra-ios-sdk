@@ -73,7 +73,7 @@ final class ScanViewController: UIViewController {
             isCameraRunning = true
             setupCamera()
             setupTimer()
-            startFaceAnimationTimer()
+//            startFaceAnimationTimer()
             startSession()
             startSessionTimer()
         }

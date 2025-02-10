@@ -50,7 +50,7 @@ final class ScanViewController: UIViewController {
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         }
     }
-    var mfToken: String? = nil
+    var mfToken: String = ""
     var isFaceScanFailed: Bool = true
     var isFocused: Bool = false
     

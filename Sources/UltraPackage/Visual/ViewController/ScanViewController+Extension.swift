@@ -30,15 +30,15 @@ extension ScanViewController {
             
             do {
                 let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
-                self.mfToken = model.callStatus?.mfToken
+                self.mfToken = model.callStatus?.mfToken ?? ""
                 
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
-                if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
+                if self.mfToken.isEmpty == false && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 33.33
-                } else if self.mfToken == nil && model.callStatus?.mfToken == nil {
+                } else if self.mfToken.isEmpty == true {
                     self.estimateAttempts = 0
                 }
 
@@ -124,15 +124,15 @@ private extension ScanViewController {
             
             do {
                 let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
-                self.mfToken = model.callStatus?.mfToken
+                self.mfToken = model.callStatus?.mfToken ?? ""
                 
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
-                if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
-                    self.estimateAttempts = self.estimateAttempts + 25
-                } else if self.mfToken == nil && model.callStatus?.mfToken == nil {
+                if self.mfToken.isEmpty == false && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
+                    self.estimateAttempts = self.estimateAttempts + 20
+                } else if self.mfToken.isEmpty == true {
                     self.estimateAttempts = 0
                 }
                 
@@ -168,7 +168,7 @@ private extension ScanViewController {
     
     private func enrollFailed() {
         self.estimateAttempts = 0
-        self.mfToken = nil
+        self.mfToken = ""
         self.isEnrollRunning = false
     }
 }

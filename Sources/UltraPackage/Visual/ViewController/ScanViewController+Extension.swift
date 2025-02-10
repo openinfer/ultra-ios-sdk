@@ -32,20 +32,18 @@ extension ScanViewController {
                 let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
                 self.mfToken = model.callStatus?.mfToken
                 
-                if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 {
-                    self.estimateAttempts = self.estimateAttempts + 20
-                    self.enrollProgress = self.enrollProgress + 0.2
-                } else if self.mfToken == nil && model.callStatus?.mfToken == nil {
-                    self.estimateAttempts = 0
-                    self.enrollProgress = 0.0
-                }
-                
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
+                if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 {
+                    self.estimateAttempts = self.estimateAttempts + 33.33
+                } else if self.mfToken == nil && model.callStatus?.mfToken == nil {
+                    self.estimateAttempts = 0
+                }
+
                 if self.isFocused {
-                    self.circularProgressView?.progress = self.estimateAttempts > 100 ? 100.0 : self.estimateAttempts
+                    self.circularProgressView?.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -79,13 +77,14 @@ extension ScanViewController {
         self.stopSession()
         self.stopFaceAnimationTimer()
         self.stopTimer()
-        self.updateCounter(currentValue: 0, toValue: 1.0)
         self.circularProgressView?.timeToFill = 0.5
-        self.circularProgressView?.progress = 100.0
+        self.circularProgressView?.progress = 1.0
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showSucccessAnimation()
             self.activityLoading.startAnimating()
             self.titleLabel.attributedText = NSAttributedString(string: "processing".localized,
+                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            self.subresultLabel.attributedText = NSAttributedString(string: "100%",
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             NetworkManager.shared.updateCollect(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, image: image) { [weak self] result in
                 guard let self = self else { return }
@@ -127,20 +126,18 @@ private extension ScanViewController {
                 let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
                 self.mfToken = model.callStatus?.mfToken
                 
+                if let status = model.uberOperationResult?.face?.faceValidationStatus {
+                    self.handleFaceStatus(faceStatus: status)
+                }
+                
                 if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 {
-                    self.estimateAttempts = self.estimateAttempts + 20
-                    self.enrollProgress = self.enrollProgress + 0.2
+                    self.estimateAttempts = self.estimateAttempts + 25
                 } else if self.mfToken == nil && model.callStatus?.mfToken == nil {
                     self.estimateAttempts = 0
-                    self.enrollProgress = 0.0
                 }
                 
-                if let status = model.uberOperationResult?.face?.faceValidationStatus {
-                    self.handleFaceStatus(faceStatus: status)
-                }
-                
-                if let status = model.uberOperationResult?.face?.faceValidationStatus {
-                    self.handleFaceStatus(faceStatus: status)
+                if self.isFocused {
+                    self.circularProgressView?.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -170,7 +167,6 @@ private extension ScanViewController {
     }
     
     private func enrollFailed() {
-        self.enrollProgress = 0.0
         self.estimateAttempts = 0
         self.mfToken = nil
         self.isEnrollRunning = false
@@ -285,11 +281,10 @@ extension ScanViewController {
     }
     
     func focusCamera() {
+        self.isFocused = true
         UIView.animate(withDuration: 0.6) {
             self.videoFrame.layer.cornerRadius = self.videoFrame.frame.width / 2
             self.circularProgressView?.alpha = 1.0
-        } completion: { _ in
-            self.isFocused = true
         }
     }
 }

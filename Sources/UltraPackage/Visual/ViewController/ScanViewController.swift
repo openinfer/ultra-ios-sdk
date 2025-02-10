@@ -44,9 +44,13 @@ final class ScanViewController: UIViewController {
     var isPredictRunning: Bool = false
     var isEnrollRunning: Bool = false
     var isDocumentScan: Bool = false
-    var estimateAttempts: Float = 0
+    var estimateAttempts: Float = 0.0 {
+        willSet {
+            self.subresultLabel.attributedText = NSAttributedString(string: "\(Int(newValue))%",
+                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        }
+    }
     var mfToken: String? = nil
-    var enrollProgress: Double = 0.0
     var isFaceScanFailed: Bool = true
     var isFocused: Bool = false
     
@@ -119,7 +123,7 @@ final class ScanViewController: UIViewController {
     @objc func faceAnimationCircule() {
         DispatchQueue.main.async {
             self.circularProgressView?.progressColor = self.isFaceScanFailed ? UIColor.white : UIColor.green
-            let isFinished = self.circularProgressView?.progressColor == UIColor.green && self.circularProgressView?.progress == 100
+            let isFinished = self.circularProgressView?.progressColor == UIColor.green && self.circularProgressView?.progress == 1.0
             guard isFinished == false else { return }
             if self.circularProgressView?.progressColor == UIColor.green {
                 self.updateCounter(currentValue: 0, toValue: 1.0)
@@ -130,7 +134,7 @@ final class ScanViewController: UIViewController {
            
             self.circularProgressView?.progress = 0.0
             self.circularProgressView?.timeToFill = 1.5
-            self.circularProgressView?.progress = 100.0
+            self.circularProgressView?.progress = 1.0
         }
     }
     

@@ -36,7 +36,7 @@ extension ScanViewController {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
-                if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 {
+                if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 33.33
                 } else if self.mfToken == nil && model.callStatus?.mfToken == nil {
                     self.estimateAttempts = 0
@@ -130,7 +130,7 @@ private extension ScanViewController {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
-                if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 {
+                if self.mfToken != nil && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 25
                 } else if self.mfToken == nil && model.callStatus?.mfToken == nil {
                     self.estimateAttempts = 0

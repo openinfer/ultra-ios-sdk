@@ -43,7 +43,7 @@ final class InstructionsViewController: BaseViewController {
         }
         
         for tappable in tappableTexts {
-            let ranges = findRanges(of: tappable, in: titleText)
+            let ranges = findRanges(of: tappable, in: subtitleText)
             for range in ranges {
                 attributedSubtitleString.addAttributes([
                     .foregroundColor: UIColor.black,

@@ -96,31 +96,29 @@
                                     <constraint firstAttribute="height" constant="30" id="2HZ-XQ-ZIw"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oel-Ii-0NK">
-                                <rect key="frame" x="20" y="326" width="335" height="134"/>
-                                <string key="text">By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
-
-Learn how identity verification works.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Jy-3z-WxL">
+                                <rect key="frame" x="20" y="326" width="335" height="57.5"/>
+                                <string key="text">I have read and accepted the Private Identity LLC Terms of Use and Privacy Policy, CentralAMS Terms of Use and Privacy Policy, and the IDEMIA Terms of Use and Privacy Policy.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tn1-O1-xAB"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Oel-Ii-0NK" firstAttribute="top" secondItem="9LA-yF-gaf" secondAttribute="bottom" constant="20" id="46b-pK-WC2"/>
-                            <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="Oel-Ii-0NK" secondAttribute="trailing" constant="20" id="5pn-AI-zNd"/>
+                            <constraint firstItem="2Jy-3z-WxL" firstAttribute="leading" secondItem="ARq-gi-TOS" secondAttribute="leading" constant="20" id="7Mc-7J-3uX"/>
                             <constraint firstItem="6mf-WW-MFD" firstAttribute="top" secondItem="hFa-Od-iHb" secondAttribute="bottom" constant="20" id="8fZ-AM-1MT"/>
                             <constraint firstItem="hFa-Od-iHb" firstAttribute="leading" secondItem="ARq-gi-TOS" secondAttribute="leading" id="Bcm-pT-lzP"/>
                             <constraint firstItem="BP4-uk-tXM" firstAttribute="top" secondItem="R6c-4D-yLY" secondAttribute="bottom" constant="25" id="CXG-xg-2C5"/>
+                            <constraint firstItem="2Jy-3z-WxL" firstAttribute="top" secondItem="9LA-yF-gaf" secondAttribute="bottom" constant="20" id="DfI-xV-21p"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="6mf-WW-MFD" secondAttribute="trailing" constant="20" id="H0w-17-qWB"/>
                             <constraint firstAttribute="trailing" secondItem="BP4-uk-tXM" secondAttribute="trailing" id="HSp-tT-VZP"/>
                             <constraint firstItem="6mf-WW-MFD" firstAttribute="leading" secondItem="ARq-gi-TOS" secondAttribute="leading" constant="20" id="IiI-fv-UeT"/>
                             <constraint firstItem="BP4-uk-tXM" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" id="JPf-EM-hgt"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="9LA-yF-gaf" secondAttribute="trailing" constant="20" id="KMK-BP-F0b"/>
-                            <constraint firstItem="Oel-Ii-0NK" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="NYj-Rg-kBo"/>
                             <constraint firstItem="R6c-4D-yLY" firstAttribute="leading" secondItem="c03-ez-OEF" secondAttribute="trailing" constant="8" id="Y6b-HS-K0k"/>
+                            <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="2Jy-3z-WxL" secondAttribute="trailing" constant="20" id="e8d-gG-s3w"/>
                             <constraint firstItem="c03-ez-OEF" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="esS-R8-peF"/>
                             <constraint firstAttribute="bottom" secondItem="BP4-uk-tXM" secondAttribute="bottom" constant="20" id="jBS-WV-ngm"/>
                             <constraint firstItem="R6c-4D-yLY" firstAttribute="width" secondItem="c03-ez-OEF" secondAttribute="width" id="nWf-C3-c8s"/>
@@ -144,7 +142,6 @@ Learn how identity verification works.</string>
                         <outlet property="footerContainer" destination="BP4-uk-tXM" id="jhG-Yb-Itk"/>
                         <outlet property="mainImage" destination="9LA-yF-gaf" id="dgd-bY-z2N"/>
                         <outlet property="mainTitle" destination="6mf-WW-MFD" id="mc8-XI-wZB"/>
-                        <outlet property="titleLabel" destination="Oel-Ii-0NK" id="IFc-yy-Wn1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkC-BO-Kq5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

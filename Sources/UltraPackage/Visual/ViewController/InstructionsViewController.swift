@@ -18,7 +18,11 @@ final class InstructionsViewController: BaseViewController {
         footer.delegate = self
         footerContainer.addSubview(footer)
         
-        let titleText = "I have read and accepted the Private Identity LLC Terms of Use and Privacy Policy, CentralAMS Terms of Use and Privacy Policy, and the IDEMIA Terms of Use and Privacy Policy."
+        let titleText = """
+        By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
+        
+        Learn how identity verification works.
+        """
 
         let attributedTitleString = NSMutableAttributedString(string: titleText)
 

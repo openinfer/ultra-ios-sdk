@@ -63,19 +63,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EH-oA-GST">
-                                <rect key="frame" x="16" y="326" width="343" height="100.5"/>
-                                <string key="text">By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use , and understand how your personal data will be processed in connection with your use of the Age Estimation Service</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learn how identity verification works." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdJ-WO-cSb">
-                                <rect key="frame" x="20" y="436.5" width="335" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R6c-4D-yLY">
                                 <rect key="frame" x="191.5" y="518" width="163.5" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -109,14 +96,22 @@
                                     <constraint firstAttribute="height" constant="30" id="2HZ-XQ-ZIw"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oel-Ii-0NK">
+                                <rect key="frame" x="20" y="326" width="335" height="134"/>
+                                <string key="text">By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
+
+Learn how identity verification works.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tn1-O1-xAB"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="fdJ-WO-cSb" secondAttribute="trailing" constant="20" id="01U-w1-tmw"/>
-                            <constraint firstItem="fdJ-WO-cSb" firstAttribute="top" secondItem="4EH-oA-GST" secondAttribute="bottom" constant="10" id="6YD-PW-9mM"/>
+                            <constraint firstItem="Oel-Ii-0NK" firstAttribute="top" secondItem="9LA-yF-gaf" secondAttribute="bottom" constant="20" id="46b-pK-WC2"/>
+                            <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="Oel-Ii-0NK" secondAttribute="trailing" constant="20" id="5pn-AI-zNd"/>
                             <constraint firstItem="6mf-WW-MFD" firstAttribute="top" secondItem="hFa-Od-iHb" secondAttribute="bottom" constant="20" id="8fZ-AM-1MT"/>
-                            <constraint firstItem="4EH-oA-GST" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="16" id="AsB-0n-CAb"/>
                             <constraint firstItem="hFa-Od-iHb" firstAttribute="leading" secondItem="ARq-gi-TOS" secondAttribute="leading" id="Bcm-pT-lzP"/>
                             <constraint firstItem="BP4-uk-tXM" firstAttribute="top" secondItem="R6c-4D-yLY" secondAttribute="bottom" constant="25" id="CXG-xg-2C5"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="6mf-WW-MFD" secondAttribute="trailing" constant="20" id="H0w-17-qWB"/>
@@ -124,11 +119,10 @@
                             <constraint firstItem="6mf-WW-MFD" firstAttribute="leading" secondItem="ARq-gi-TOS" secondAttribute="leading" constant="20" id="IiI-fv-UeT"/>
                             <constraint firstItem="BP4-uk-tXM" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" id="JPf-EM-hgt"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="9LA-yF-gaf" secondAttribute="trailing" constant="20" id="KMK-BP-F0b"/>
-                            <constraint firstItem="4EH-oA-GST" firstAttribute="top" secondItem="9LA-yF-gaf" secondAttribute="bottom" constant="20" id="MSe-rn-Zka"/>
+                            <constraint firstItem="Oel-Ii-0NK" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="NYj-Rg-kBo"/>
                             <constraint firstItem="R6c-4D-yLY" firstAttribute="leading" secondItem="c03-ez-OEF" secondAttribute="trailing" constant="8" id="Y6b-HS-K0k"/>
                             <constraint firstItem="c03-ez-OEF" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="esS-R8-peF"/>
                             <constraint firstAttribute="bottom" secondItem="BP4-uk-tXM" secondAttribute="bottom" constant="20" id="jBS-WV-ngm"/>
-                            <constraint firstItem="fdJ-WO-cSb" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="joR-c2-5IU"/>
                             <constraint firstItem="R6c-4D-yLY" firstAttribute="width" secondItem="c03-ez-OEF" secondAttribute="width" id="nWf-C3-c8s"/>
                             <constraint firstItem="c03-ez-OEF" firstAttribute="centerY" secondItem="R6c-4D-yLY" secondAttribute="centerY" id="nfQ-iD-rUN"/>
                             <constraint firstItem="9LA-yF-gaf" firstAttribute="top" secondItem="6mf-WW-MFD" secondAttribute="bottom" id="rvu-km-kdV"/>
@@ -136,7 +130,6 @@
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="hFa-Od-iHb" secondAttribute="trailing" id="ury-nW-MSu"/>
                             <constraint firstItem="9LA-yF-gaf" firstAttribute="leading" secondItem="tn1-O1-xAB" secondAttribute="leading" constant="20" id="wB2-pm-bNe"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="R6c-4D-yLY" secondAttribute="trailing" constant="20" id="wDn-Ro-4Jv"/>
-                            <constraint firstAttribute="trailing" secondItem="4EH-oA-GST" secondAttribute="trailing" constant="16" id="zaI-Ip-660"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColorV">
@@ -151,8 +144,7 @@
                         <outlet property="footerContainer" destination="BP4-uk-tXM" id="jhG-Yb-Itk"/>
                         <outlet property="mainImage" destination="9LA-yF-gaf" id="dgd-bY-z2N"/>
                         <outlet property="mainTitle" destination="6mf-WW-MFD" id="mc8-XI-wZB"/>
-                        <outlet property="subtitleLabel" destination="fdJ-WO-cSb" id="xil-Na-qTf"/>
-                        <outlet property="titleLabel" destination="4EH-oA-GST" id="oiA-pO-e2Z"/>
+                        <outlet property="titleLabel" destination="Oel-Ii-0NK" id="IFc-yy-Wn1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkC-BO-Kq5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

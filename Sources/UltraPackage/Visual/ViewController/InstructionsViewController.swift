@@ -11,7 +11,7 @@ final class InstructionsViewController: BaseViewController {
     @IBOutlet weak var mainImage: UIImageView!
     private let footer: FooterView = .fromNib()
     
-    private let tappableTexts = ["verify.identity.privacy.policy".localized, "verify.identity.privacy.terms".localized, "learn_word".localized]
+    private let tappableTexts = ["Privacy Policy", "Terms of Use", "Learn"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,14 +19,9 @@ final class InstructionsViewController: BaseViewController {
         footer.delegate = self
         footerContainer.addSubview(footer)
         
-        let titleText = "privacy.message2".localized + " " +
-        "verify.identity.privacy.policy".localized + " " +
-        "verify.identity.privacy.and".localized + " " +
-        "verify.identity.privacy.terms".localized + " " +
-        "privacy.message3".localized + "."
+        let titleText = "By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use , and understand how your personal data will be processed in connection with your use of the Age Estimation Service." // TODO
         
-        let subtitleText = "learn_word".localized + " " +
-        "learn_rest_sentence".localized + " "
+        let subtitleText = "Learn how identity verification works." // TODO:
         
         let attributedTitleString = NSMutableAttributedString(string: titleText)
         let attributedSubtitleString = NSMutableAttributedString(string: subtitleText)
@@ -91,9 +86,9 @@ final class InstructionsViewController: BaseViewController {
         if let tappedIndex = characterIndexAtPoint(tapLocation, in: titleLabel) {
            let tappedData = getTappedTextAtIndex(tappedIndex, in: attributedText.string)
 
-            if tappedData == "verify.identity.privacy.policy".localized {
+            if tappedData == "Privacy Policy" {
                 runPrivacyPolicy()
-            } else if tappedData == "verify.identity.privacy.terms".localized {
+            } else if tappedData == "Terms of Use" {
                 runTermsofUse()
             }
         }
@@ -107,7 +102,7 @@ final class InstructionsViewController: BaseViewController {
         if let tappedIndex = characterIndexAtPoint(tapLocation, in: titleLabel) {
            let tappedData = getTappedTextAtIndex(tappedIndex, in: attributedText.string)
 
-            if tappedData == "learn_word".localized {
+            if tappedData == "Learn" {
                 runLearn()
             }
         }

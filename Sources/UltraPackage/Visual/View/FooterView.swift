@@ -32,13 +32,13 @@ final class FooterView: UIView {
     }
     
     @IBAction func privacyTapped() {
-        if let url = URL(string: "https://privateid.uberverify.com/privacy-policy") {
+        if let url = URL(string: CryptonetManager.privacyURL) {
             UIApplication.shared.open(url)
         }
     }
     
     @IBAction func termsTapped() {
-        if let url = URL(string: "https://privateid.uberverify.com/terms") {
+        if let url = URL(string: CryptonetManager.termsURL) {
             UIApplication.shared.open(url)
         }
     }

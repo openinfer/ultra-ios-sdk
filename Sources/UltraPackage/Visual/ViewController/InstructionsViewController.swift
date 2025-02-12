@@ -19,7 +19,7 @@ final class InstructionsViewController: BaseViewController {
         footer.delegate = self
         footerContainer.addSubview(footer)
         
-        let titleText = "By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use , and understand how your personal data will be processed in connection with your use of the Age Estimation Service." // TODO
+        let titleText = "By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service." // TODO
         
         let subtitleText = "Learn how identity verification works." // TODO:
         
@@ -77,7 +77,7 @@ final class InstructionsViewController: BaseViewController {
     @IBAction func backTapped() {
         self.navigationController?.popToRootViewController(animated: true)
     }
-    
+
     @objc func titleTapped(_ gesture: UITapGestureRecognizer) {
         guard let attributedText = titleLabel.attributedText else { return }
         
@@ -93,13 +93,13 @@ final class InstructionsViewController: BaseViewController {
             }
         }
     }
-    
+
     @objc func subtitleTapped(_ gesture: UITapGestureRecognizer) {
-        guard let attributedText = titleLabel.attributedText else { return }
+        guard let attributedText = subtitleLabel.attributedText else { return }
         
-        let tapLocation = gesture.location(in: titleLabel)
+        let tapLocation = gesture.location(in: subtitleLabel)
         
-        if let tappedIndex = characterIndexAtPoint(tapLocation, in: titleLabel) {
+        if let tappedIndex = characterIndexAtPoint(tapLocation, in: subtitleLabel) {
            let tappedData = getTappedTextAtIndex(tappedIndex, in: attributedText.string)
 
             if tappedData == "Learn" {

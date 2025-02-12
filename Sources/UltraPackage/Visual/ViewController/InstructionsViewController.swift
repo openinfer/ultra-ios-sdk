@@ -1,7 +1,7 @@
 import UIKit
 
 final class InstructionsViewController: UIViewController {
-
+    
     @IBOutlet weak var mainTitle: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
@@ -10,22 +10,23 @@ final class InstructionsViewController: UIViewController {
     @IBOutlet weak var footerContainer: UIView!
     @IBOutlet weak var mainImage: UIImageView!
     private let footer: FooterView = .fromNib()
-
+    
     private let tappableTexts = ["Privacy Policy", "Terms of Use", "Learn"]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: true)
         footer.delegate = self
         footerContainer.addSubview(footer)
-
+        
         let titleText = "By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service."
         
         let subtitleText = "Learn how identity verification works."
-
+        
         let attributedTitleString = NSMutableAttributedString(string: titleText)
         let attributedSubtitleString = NSMutableAttributedString(string: subtitleText)
-
+        
+        // Apply underline attributes for tappable text
         for tappable in tappableTexts {
             let ranges = findRanges(of: tappable, in: titleText)
             for range in ranges {
@@ -35,7 +36,7 @@ final class InstructionsViewController: UIViewController {
                 ], range: range)
             }
         }
-
+        
         for tappable in tappableTexts {
             let ranges = findRanges(of: tappable, in: subtitleText)
             for range in ranges {
@@ -45,14 +46,14 @@ final class InstructionsViewController: UIViewController {
                 ], range: range)
             }
         }
-
+        
         self.titleLabel.attributedText = attributedTitleString
         self.subtitleLabel.attributedText = attributedSubtitleString
 
         let tapTitleGesture = UITapGestureRecognizer(target: self, action: #selector(titleTapped(_:)))
         titleLabel.addGestureRecognizer(tapTitleGesture)
         titleLabel.isUserInteractionEnabled = true
-
+        
         let tapSubtitleGesture = UITapGestureRecognizer(target: self, action: #selector(subtitleTapped(_:)))
         subtitleLabel.addGestureRecognizer(tapSubtitleGesture)
         subtitleLabel.isUserInteractionEnabled = true
@@ -61,13 +62,24 @@ final class InstructionsViewController: UIViewController {
         self.agreeButton.setTitle("privacy.agree.continue.button".localized, for: .normal)
         self.backOptionButton.setTitle("noThanks".localized, for: .normal)
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         footer.frame = footerContainer.bounds
     }
-
+    
     // MARK: - Actions
+    
+    @IBAction func confirmTapped() {
+        let identifier = "UserConsentViewController"
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func backTapped() {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
 
     @objc func titleTapped(_ gesture: UITapGestureRecognizer) {
         handleTap(gesture, in: titleLabel)
@@ -108,6 +120,14 @@ final class InstructionsViewController: UIViewController {
             }
         }
         return ""
+    }
+}
+
+extension InstructionsViewController: FooterViewDelegate {
+    func feedbackTapped() {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -157,7 +177,7 @@ extension InstructionsViewController {
 
         // Convert to glyph index
         let glyphIndex = layoutManager.glyphIndex(for: adjustedPoint, in: textContainer)
-        
+
         // Convert glyph index to character index
         let characterIndex = layoutManager.characterIndexForGlyph(at: glyphIndex)
 
@@ -180,13 +200,5 @@ extension InstructionsViewController {
         if let url = URL(string: CryptonetManager.learnURL) {
             UIApplication.shared.open(url)
         }
-    }
-}
-
-extension InstructionsViewController: FooterViewDelegate {
-    func feedbackTapped() {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
-        let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
-        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

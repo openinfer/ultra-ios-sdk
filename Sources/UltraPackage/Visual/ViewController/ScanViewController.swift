@@ -63,7 +63,7 @@ final class ScanViewController: UIViewController {
         footer.delegate = self
         footerContainer.addSubview(footer)
         
-        ToastView.appearance().bottomOffsetPortrait = 100.0
+        ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 100.0
     }
     
     override func viewDidAppear(_ animated: Bool) {

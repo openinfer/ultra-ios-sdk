@@ -58,7 +58,6 @@ final class ScanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.setHidesBackButton(true, animated: true)
         self.titleLabel.attributedText = NSAttributedString(string: "center.your.head".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         footer.delegate = self

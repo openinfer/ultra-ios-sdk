@@ -2,7 +2,7 @@ import UIKit
 import Alamofire
 import ProgressHUD
 
-final class VerifyingViewController: UIViewController {
+final class VerifyingViewController: BaseViewController {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -46,7 +46,7 @@ final class VerifyingViewController: UIViewController {
     }
     
     @IBAction func homeTapped() {
-        self.navigationController?.popToRootViewController(animated: true)
+        reset()
     }
     
     @IBAction func saveUUIDTapped() {

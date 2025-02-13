@@ -21,6 +21,7 @@ final class UserConsentViewController: BaseViewController {
         footerContainer.addSubview(footer)
         
         mainTitle.text = "user.consent".localized
+        setUpCloseButton()
         
         let text = "I have read and accepted the Private Identity LLC Terms of Use and Privacy Policy, CentralAMS Terms of Use and Privacy Policy, and the IDEMIA Terms of Use and Privacy Policy."
         

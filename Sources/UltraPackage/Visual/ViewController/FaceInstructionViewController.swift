@@ -3,7 +3,7 @@ import ProgressHUD
 import AVFoundation
 import SwiftyGif
 
-class FaceInstructionViewController: UIViewController {
+class FaceInstructionViewController: BaseViewController {
     
     @IBOutlet weak var instructionImageView: UIImageView!
     @IBOutlet weak var footerContainer: UIView!
@@ -20,7 +20,7 @@ class FaceInstructionViewController: UIViewController {
     @IBOutlet weak var backgroundSubtitle: UILabel!
     @IBOutlet weak var ligthTitle: UILabel!
     @IBOutlet weak var lightSubtitle: UILabel!
-    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     private let footer: FooterView = .fromNib()
     
@@ -43,6 +43,16 @@ class FaceInstructionViewController: UIViewController {
         self.ligthTitle.text = "ensure.good.lighting".localized
         self.lightSubtitle.text = "your.face.backlit.light.source".localized
         self.startButton.setTitle("start".localized, for: .normal)
+        
+        setUpCloseButton()
+        self.startButton.alpha = 0.6
+        self.startButton.isUserInteractionEnabled = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.startButton.alpha = 1.0
+            self.startButton.isUserInteractionEnabled = true
+            self.activityIndicator.stopAnimating()
+        }
     }
     
     override func viewDidLayoutSubviews() {

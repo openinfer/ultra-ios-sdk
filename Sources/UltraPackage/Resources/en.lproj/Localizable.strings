@@ -26,8 +26,8 @@
 "click.message1" = "Click";
 "click.message2" = "here";
 "click.message3" = "to learn how age estimation works";
-"verify.identity.selfie.message2" = "No images will leave your device.";
-"verify.identity.selfie.message" = "Take a selfie to verify your age.";
+"verify.identity.selfie.message2" = "On the next screen, hold your phone at eye level";
+"verify.identity.selfie.message" = "Take a selfie to register";
 "privacy.agree.continue.button" = "Agree and continue";
 "noThanks" = "No Thanks";
 "verify.identity.privacy.message" = "No images or private details will leave your device. Data is strictly processed according to Private ID’s";

@@ -83,6 +83,7 @@ final class ScanViewController: UIViewController {
         stopTimer()
 //        stopFaceAnimationTimer()
         stopSession()
+        stopSessionTimer()
     }
     
     override func viewDidLayoutSubviews() {

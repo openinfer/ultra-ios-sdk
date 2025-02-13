@@ -291,6 +291,7 @@ extension ScanViewController {
     
     func focusCamera() {
         self.isFocused = true
+        self.stopSessionTimer()
         UIView.animate(withDuration: 0.6) {
             self.videoFrame.layer.cornerRadius = self.videoFrame.frame.width / 2
             self.circularProgressView?.alpha = 1.0

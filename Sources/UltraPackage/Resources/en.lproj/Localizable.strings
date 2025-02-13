@@ -38,7 +38,7 @@
 "ensure.good.lighting" = "Ensure good lighting";
 "your.face.backlit.light.source" = "Your face isn't backlit by a light source";
 "good.job" = "Good job!";
-"100.recognised" = "100% recognised";
+"100.recognised" = "100% recognized";
 "image.deleted" = "Your image has been deleted";
 "sorry" = "Sorry";
 "not.pass.verification" = "You did not pass the verification.";
@@ -46,7 +46,7 @@
 "center.your.head" = "Center your head in the frame";
 "position.your.document" = "Position your document in the frame";
 "done" = "Done";
-"recognised" = "recognised";
+"recognised" = "recognized";
 "hold.still" = "Please hold still";
 "face.not.detected" = "Face is not detected";
 "unknown.error" = "Unknown error";

@@ -3,7 +3,7 @@ import AVFoundation
 import CoreMedia
 import Toaster
 
-final class ScanViewController: UIViewController {
+final class ScanViewController: BaseViewController {
     
     @IBOutlet weak var videoFrame: UIView!
     @IBOutlet weak var videoContainer: UIView!
@@ -157,11 +157,12 @@ final class ScanViewController: UIViewController {
             ToastView.appearance().textColor = .white
             Toast(text: String("session_timer_error".localized), duration: Delay.short).show()
             stopSessionTimer()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                let link = CryptonetManager.shared.redirectURL ?? "https://www.google.com/"
-                UIApplication.openIfPossible(link: link)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { exit(0) }
-            }
+            reset()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                let link = CryptonetManager.shared.redirectURL ?? "https://www.google.com/"
+//                UIApplication.openIfPossible(link: link)
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { exit(0) }
+//            }
         }
     }
     

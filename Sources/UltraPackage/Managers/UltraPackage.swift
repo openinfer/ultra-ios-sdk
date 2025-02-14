@@ -9,12 +9,14 @@ enum CryptonetError: Error {
 public class UltraPackage {
     
     private var sessionPointer: UnsafeMutableRawPointer?
+    private var startedType: NetworkManager.SessionFlow?
     
     public init() {}
     
     public func start(path: String, token: String?, publicKey: String?, browser: String?, type: NetworkManager.SessionFlow = NetworkManager.SessionFlow.predict, securityModel: SecurityModel, finished: @escaping (Bool) -> Void) {
         CryptonetManager.shared.initializeLib(path: NSString(string: path))
         CryptonetManager.shared.selectedBrowser = browser ?? "chrome"
+        self.startedType = type
         
         NetworkManager.shared.getSessionToken(type: type) { newToken in
             guard let newToken = newToken else {
@@ -55,10 +57,23 @@ public class UltraPackage {
     }
     
     public func runVisual(on viewController: UIViewController) {
-        NetworkManager.shared.checkFlowStatus { _ in
-            let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
-            let vc = storyboard.instantiateViewController(withIdentifier: "InstructionsViewController")
-            viewController.navigationController?.pushViewController(vc, animated: true)
+        guard let startedType = startedType else {
+            ProgressHUD.failed("Started type is empty")
+            return
+        }
+        switch startedType {
+        case .enroll:
+            NetworkManager.shared.checkFlowStatus { _ in
+                let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+                let vc = storyboard.instantiateViewController(withIdentifier: "InstructionsViewController")
+                viewController.navigationController?.pushViewController(vc, animated: true)
+            }
+        case .predict:
+            NetworkManager.shared.checkFlowStatus { _ in
+                let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+                let vc = storyboard.instantiateViewController(withIdentifier: "CryptonetVisual")
+                viewController.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     

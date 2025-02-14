@@ -71,7 +71,7 @@ public class UltraPackage {
         case .predict:
             NetworkManager.shared.checkFlowStatus { _ in
                 let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
-                let vc = storyboard.instantiateViewController(withIdentifier: "CryptonetVisual")
+                let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
                 viewController.navigationController?.pushViewController(vc, animated: true)
             }
         }

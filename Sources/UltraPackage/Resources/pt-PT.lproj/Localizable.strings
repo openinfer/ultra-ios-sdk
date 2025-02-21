@@ -136,3 +136,7 @@
 "session_timer_error" = "Error. Time limit exceeded";
 "learn_word" = "Learn";
 "learn_rest_sentence" = "how identity verification works.";
+"confirmation_title" = "Confirmation";
+"confirmation_message" = "Are you sure you want to go back?";
+"cancel" = "Cancel";
+"ok" = "OK";

@@ -24,20 +24,21 @@ final class VerifyingViewController: BaseViewController {
         homeButton.setTitle("done".localized, for: .normal)
         footer.delegate = self
         footerContainer.addSubview(footer)
+        imageView.setGifFromURL(URL(string: "https://i.ibb.co/8Jx4hTm/Face-ID.gif")!, levelOfIntegrity: .lowForManyGifs, customLoader: UIActivityIndicatorView(style: .medium))
+        CryptonetManager.shared.resetSession()
         if isSucced {
             NetworkManager.shared.fetchSessionDetails { [weak self] model in
                 guard let self = self else { return }
-                if let model = model {
-                    self.sessionModel = model
-                    self.showSuccessPage()
+                if model != nil {
+//                    self.sessionModel = model
+                    self.reset()
                 } else {
-                    self.showFailurePage()
+                    self.reset()
                 }
             }
         } else {
-            showFailureSession()
+            reset()
         }
-        
     }
     
     override func viewDidLayoutSubviews() {

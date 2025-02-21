@@ -63,7 +63,8 @@ final class ScanViewController: BaseViewController {
         footer.delegate = self
         footerContainer.addSubview(footer)
         
-        ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 200.0
+        ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
+        ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -197,6 +198,7 @@ final class ScanViewController: BaseViewController {
     }
     
     func startSessionTimer() {
+        stopSessionTimer()
         sessionTimer = Timer.scheduledTimer(timeInterval: sessionTimeInterval,
                                             target: self,
                                             selector: #selector(sessionTimerAction),
@@ -250,11 +252,40 @@ final class ScanViewController: BaseViewController {
     }
     
     
+//    func liveIconSucceed(_ view: UIView) {
+//        let url = URL(string: "https://i.ibb.co/3pnnYyR/Confetti.gif")
+//        let loader = UIActivityIndicatorView(style: .medium)
+//        self.confettiImageView.setGifFromURL(url!, customLoader: loader)
+//        self.activityLoading.stopAnimating()
+//    }
+    
     func liveIconSucceed(_ view: UIView) {
-        let url = URL(string: "https://i.ibb.co/3pnnYyR/Confetti.gif")
-        let loader = UIActivityIndicatorView(style: .medium)
-        self.confettiImageView.setGifFromURL(url!, customLoader: loader)
-        self.activityLoading.stopAnimating()
+        let length = view.frame.width
+
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: length * 0.15, y: length * 0.50))
+        path.addLine(to: CGPoint(x: length * 0.5, y: length * 0.80))
+        path.addLine(to: CGPoint(x: length * 1.0, y: length * 0.25))
+
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.25
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = false
+        animation.beginTime = CACurrentMediaTime()
+
+        let layer = CAShapeLayer()
+        layer.path = path.cgPath
+        layer.fillColor = UIColor.clear.cgColor
+        layer.strokeColor = UIColor.gray.cgColor
+        layer.lineWidth = 9
+        layer.lineCap = .round
+        layer.lineJoin = .round
+        layer.strokeEnd = 0
+
+        layer.add(animation, forKey: "animation")
+        view.layer.addSublayer(layer)
     }
     
     func showFailedAnimation() {

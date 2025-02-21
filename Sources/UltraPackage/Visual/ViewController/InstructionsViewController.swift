@@ -54,14 +54,26 @@ final class InstructionsViewController: BaseViewController {
     // MARK: - Actions
     
     @IBAction func confirmTapped() {
-        let identifier = "UserConsentViewController"
+        let identifier = "FaceInstructionViewController"
         let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func backTapped() {
-        self.navigationController?.popToRootViewController(animated: true)
+        DispatchQueue.main.async { [unowned self] in
+            let alert = UIAlertController(title: "confirmation_title".localized,
+                                          message: "confirmation_message".localized, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "ok".localized, style: .default, handler:{ (UIAlertAction) in
+                self.navigationController?.popToRootViewController(animated: true)
+            }))
+            alert.addAction(UIAlertAction(title: "cancel".localized, style: .cancel, handler:{ (UIAlertAction) in
+
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @objc func titleTapped(_ gesture: UITapGestureRecognizer) {

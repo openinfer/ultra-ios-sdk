@@ -26,18 +26,20 @@ final class VerifyingViewController: BaseViewController {
         footerContainer.addSubview(footer)
         imageView.setGifFromURL(URL(string: "https://i.ibb.co/8Jx4hTm/Face-ID.gif")!, levelOfIntegrity: .lowForManyGifs, customLoader: UIActivityIndicatorView(style: .medium))
         CryptonetManager.shared.resetSession()
-        if isSucced {
-            NetworkManager.shared.fetchSessionDetails { [weak self] model in
-                guard let self = self else { return }
-                if model != nil {
-//                    self.sessionModel = model
-                    self.reset()
-                } else {
-                    self.reset()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            if isSucced {
+                NetworkManager.shared.fetchSessionDetails { [weak self] model in
+                    guard let self = self else { return }
+                    if model != nil {
+    //                    self.sessionModel = model
+                        self.reset()
+                    } else {
+                        self.reset()
+                    }
                 }
+            } else {
+                reset()
             }
-        } else {
-            reset()
         }
     }
     

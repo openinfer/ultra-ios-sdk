@@ -27,7 +27,7 @@ final class VerifyingViewController: BaseViewController {
         imageView.setGifFromURL(URL(string: "https://i.ibb.co/8Jx4hTm/Face-ID.gif")!, levelOfIntegrity: .lowForManyGifs, customLoader: UIActivityIndicatorView(style: .medium))
         CryptonetManager.shared.resetSession()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            if isSucced {
+            if self.isSucced {
                 NetworkManager.shared.fetchSessionDetails { [weak self] model in
                     guard let self = self else { return }
                     if model != nil {
@@ -38,7 +38,7 @@ final class VerifyingViewController: BaseViewController {
                     }
                 }
             } else {
-                reset()
+                self.reset()
             }
         }
     }

@@ -70,9 +70,7 @@ public class UltraPackage {
             }
         case .predict:
             NetworkManager.shared.checkFlowStatus { _ in
-                let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
-                let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
-                viewController.navigationController?.pushViewController(vc, animated: true)
+                self.runPredictWithFaceId(on: viewController)
             }
         }
     }
@@ -84,5 +82,19 @@ public class UltraPackage {
         securityModel.processorCount == ProcessInfo().processorCount &&
         securityModel.battertLevel == UIDevice.current.batteryLevel &&
         securityModel.languageCode == Locale.current.languageCode
+    }
+    
+    private func runPredictWithFaceId(on viewController: UIViewController) {
+        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
+            if isAllowed {
+                let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+                let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
+                viewController.navigationController?.pushViewController(vc, animated: true)
+            } else if let error = error {
+                ProgressHUD.failed(error.localizedDescription)
+            } else {
+                ProgressHUD.failed("Face ID is failed. Please, try again.")
+            }
+        }
     }
 }

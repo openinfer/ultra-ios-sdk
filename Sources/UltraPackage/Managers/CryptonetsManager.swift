@@ -1,6 +1,7 @@
 import UIKit
 import ProgressHUD
 import CryptonetPackage
+import LocalAuthentication
 
 final class CryptonetManager {
     
@@ -33,5 +34,33 @@ final class CryptonetManager {
     
     func resetSession() {
         CryptonetManager.shared.sessionToken = nil
+    }
+    
+    func authenticateWithFaceIDWithoutPasscode(completion: @escaping (Bool, Error?) -> Void) {
+        if isFaceIDAvailableWithoutPasscode() {
+            let context = LAContext()
+            context.localizedCancelTitle = "Cancel"
+            context.interactionNotAllowed = false  // Set to true if you want silent authentication (no UI)
+
+            let reason = "Authenticate using Face ID."
+
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+                DispatchQueue.main.async {
+                    completion(success, error)
+                }
+            }
+        } else {
+            completion(true, nil)
+        }
+    }
+    
+    private func isFaceIDAvailableWithoutPasscode() -> Bool {
+        let context = LAContext()
+        var error: NSError?
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            return context.biometryType == .faceID
+        }
+        return false
     }
 }

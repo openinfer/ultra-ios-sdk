@@ -26,7 +26,7 @@ class FaceInstructionViewController: BaseViewController {
     private let footer: FooterView = .fromNib()
     
     override func viewDidLoad() {
-        super.viewDidLoad()        
+        super.viewDidLoad()
         let url = URL(string: "https://i.ibb.co/7Yc6400/Scan-face.gif")
         let loader = UIActivityIndicatorView(style: .medium)
         
@@ -74,46 +74,17 @@ class FaceInstructionViewController: BaseViewController {
     }
     
     private func nextIfModelsReady() {
-        if isFaceIDAvailableWithoutPasscode() {
-            self.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
-                if isAllowed {
-                    self.proceed()
-                } else if let error = error {
-                    ProgressHUD.failed(error.localizedDescription)
-                } else {
-                    ProgressHUD.failed("Face ID is failed. Please, try again.")
-                }
-            }
-        } else {
-            proceed()
-        }
-    }
-    
-    private func isFaceIDAvailableWithoutPasscode() -> Bool {
-        let context = LAContext()
-        var error: NSError?
-
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            return context.biometryType == .faceID
-        }
-        return false
-    }
-
-    
-    private func authenticateWithFaceIDWithoutPasscode(completion: @escaping (Bool, Error?) -> Void) {
-        let context = LAContext()
-        context.localizedCancelTitle = "Cancel"
-        context.interactionNotAllowed = false  // Set to true if you want silent authentication (no UI)
-
-        let reason = "Authenticate using Face ID."
-
-        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
-            DispatchQueue.main.async {
-                completion(success, error)
+        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
+            if isAllowed {
+                self.proceed()
+            } else if let error = error {
+                ProgressHUD.failed(error.localizedDescription)
+            } else {
+                ProgressHUD.failed("Face ID is failed. Please, try again.")
             }
         }
     }
-
+    
     private func proceed() {
         let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
@@ -129,7 +100,7 @@ class FaceInstructionViewController: BaseViewController {
                 guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                     return
                 }
-
+                
                 if UIApplication.shared.canOpenURL(settingsUrl) {
                     UIApplication.shared.open(settingsUrl, completionHandler: nil)
                 }

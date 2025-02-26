@@ -2,6 +2,7 @@ import UIKit
 import ProgressHUD
 import AVFoundation
 import SwiftyGif
+import LocalAuthentication
 
 class FaceInstructionViewController: BaseViewController {
     
@@ -73,9 +74,46 @@ class FaceInstructionViewController: BaseViewController {
     }
     
     private func nextIfModelsReady() {
-        proceed()
+        if isFaceIDAvailableWithoutPasscode() {
+            self.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
+                if isAllowed {
+                    self.proceed()
+                } else if let error = error {
+                    ProgressHUD.failed(error.localizedDescription)
+                } else {
+                    ProgressHUD.failed("Face ID is failed. Please, try again.")
+                }
+            }
+        } else {
+            proceed()
+        }
     }
     
+    private func isFaceIDAvailableWithoutPasscode() -> Bool {
+        let context = LAContext()
+        var error: NSError?
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            return context.biometryType == .faceID
+        }
+        return false
+    }
+
+    
+    private func authenticateWithFaceIDWithoutPasscode(completion: @escaping (Bool, Error?) -> Void) {
+        let context = LAContext()
+        context.localizedCancelTitle = "Cancel"
+        context.interactionNotAllowed = false  // Set to true if you want silent authentication (no UI)
+
+        let reason = "Authenticate using Face ID."
+
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+            DispatchQueue.main.async {
+                completion(success, error)
+            }
+        }
+    }
+
     private func proceed() {
         let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")

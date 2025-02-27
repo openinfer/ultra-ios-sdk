@@ -55,36 +55,52 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
     }
     
     func setupTermsTextView() {
+        let fullText = """
+        By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
+
+        Learn how identity verification works.
+        """
+
+        let attributedString = NSMutableAttributedString(string: fullText)
+
+        let privacyPolicyRange = (fullText as NSString).range(of: "Privacy Policy")
+        let termsOfUseRange = (fullText as NSString).range(of: "Terms of Use")
+        let learnRange = (fullText as NSString).range(of: "Learn")
+
+        // Apply link attributes
+        attributedString.addAttribute(.link, value: CryptonetManager.privacyURL, range: privacyPolicyRange)
+        attributedString.addAttribute(.link, value: CryptonetManager.termsURL, range: termsOfUseRange)
+        attributedString.addAttribute(.link, value: CryptonetManager.learnURL, range: learnRange)
+
+        // Center align text
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, fullText.count))
+
+        // Set UITextView properties
+        termsTextView.attributedText = attributedString
+        termsTextView.delegate = self
         termsTextView.isEditable = false
         termsTextView.isScrollEnabled = false
         termsTextView.isSelectable = true
         termsTextView.textAlignment = .center
         termsTextView.backgroundColor = .clear
-        
-        let fullText = """
-           By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
-           
-           Learn how identity verification works.
-           """
-        
-        let attributedString = NSMutableAttributedString(string: fullText)
-        
-        let privacyPolicyRange = (fullText as NSString).range(of: "Privacy Policy")
-        let termsOfUseRange = (fullText as NSString).range(of: "Terms of Use")
-        let learnRange = (fullText as NSString).range(of: "Learn")
-        
-        attributedString.addAttribute(.link, value: CryptonetManager.privacyURL, range: privacyPolicyRange)
-        attributedString.addAttribute(.link, value: CryptonetManager.termsURL, range: termsOfUseRange)
-        attributedString.addAttribute(.link, value: CryptonetManager.learnURL, range: learnRange)
-        
-        // Set UITextView properties
-        termsTextView.attributedText = attributedString
-        termsTextView.delegate = self
         termsTextView.linkTextAttributes = [
-            .foregroundColor: UIColor.blue,
+            .foregroundColor: UIColor.black,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
+
+        // Add to view
+        view.addSubview(termsTextView)
+        termsTextView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            termsTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            termsTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            termsTextView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            termsTextView.heightAnchor.constraint(equalToConstant: 150)
+        ])
     }
+
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         UIApplication.shared.open(URL)

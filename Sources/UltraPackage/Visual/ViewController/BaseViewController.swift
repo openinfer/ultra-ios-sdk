@@ -45,22 +45,4 @@ extension BaseViewController {
         
         return glyphIndex
     }
-    
-    func runPrivacyPolicy() {
-        if let url = URL(string: CryptonetManager.privacyURL) {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    func runTermsofUse() {
-        if let url = URL(string: CryptonetManager.termsURL) {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    func runLearn() {
-        if let url = URL(string: CryptonetManager.learnURL) {
-            UIApplication.shared.open(url)
-        }
-    }
 }

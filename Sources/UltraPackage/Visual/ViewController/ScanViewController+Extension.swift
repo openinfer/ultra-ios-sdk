@@ -92,7 +92,7 @@ extension ScanViewController {
                     if result == true {
                         self.showSucccessAnimation()
                         self.activityLoading.stopAnimating()
-                        self.titleLabel.attributedText = NSAttributedString(string: "success.message".localized,
+                        self.titleLabel.attributedText = NSAttributedString(string: "",
                                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
 //                        self.liveIconSucceed(self.successContainer)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

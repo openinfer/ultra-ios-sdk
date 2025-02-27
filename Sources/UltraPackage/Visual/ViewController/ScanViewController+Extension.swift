@@ -94,7 +94,7 @@ extension ScanViewController {
                         self.activityLoading.stopAnimating()
                         self.titleLabel.attributedText = NSAttributedString(string: "success.message".localized,
                                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-                        self.liveIconSucceed(self.successContainer)
+//                        self.liveIconSucceed(self.successContainer)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             let isVerified = FlowManager.shared.current == .enroll ? false : true
                             self.navigateToVerifyingPage(isVerified: isVerified)

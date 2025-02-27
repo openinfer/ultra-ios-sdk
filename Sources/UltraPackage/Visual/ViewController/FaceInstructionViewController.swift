@@ -39,10 +39,10 @@ class FaceInstructionViewController: BaseViewController {
         self.subTitle.text = "verify.identity.selfie.message2".localized
         self.glassesTitle.text = "take.off.glasses".localized
         self.glassesSubtitle.text = "ensure.nothing.covers.face".localized
-        self.backgroundTitle.text = "uncluttered.backgrounds".localized
-        self.backgroundSubtitle.text = "ensure.face.in.frame".localized
-        self.ligthTitle.text = "ensure.good.lighting".localized
-        self.lightSubtitle.text = "your.face.backlit.light.source".localized
+        self.backgroundTitle.text = "ensure.good.lighting".localized
+        self.backgroundSubtitle.text = "your.face.backlit.light.source".localized
+        self.ligthTitle.text = "uncluttered.backgrounds".localized
+        self.lightSubtitle.text = "ensure.face.in.frame".localized
         self.startButton.setTitle("start".localized, for: .normal)
         
         setUpCloseButton()

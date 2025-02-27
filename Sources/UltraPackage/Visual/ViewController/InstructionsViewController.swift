@@ -17,30 +17,8 @@ final class InstructionsViewController: BaseViewController {
         self.navigationItem.setHidesBackButton(true, animated: true)
         footer.delegate = self
         footerContainer.addSubview(footer)
+        setupTermsLabel()
         
-        let titleText = """
-        By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
-        
-        Learn how identity verification works.
-        """
-
-        let attributedTitleString = NSMutableAttributedString(string: titleText)
-
-        for tappable in tappableTexts {
-            let ranges = findRanges(of: tappable, in: titleText)
-            for range in ranges {
-                attributedTitleString.addAttributes([
-                    .foregroundColor: UIColor.black,
-                    .underlineStyle: NSUnderlineStyle.single.rawValue
-                ], range: range)
-            }
-        }
-
-        self.titleLabel.attributedText = attributedTitleString
-
-        let tapTitleGesture = UITapGestureRecognizer(target: self, action: #selector(titleTapped(_:)))
-        titleLabel.addGestureRecognizer(tapTitleGesture)
-
         self.mainTitle.text = "Take a selfie to register." // TODO:
         self.agreeButton.setTitle("privacy.agree.continue.button".localized, for: .normal)
         self.backOptionButton.setTitle("noThanks".localized, for: .normal)
@@ -69,41 +47,67 @@ final class InstructionsViewController: BaseViewController {
                 self.navigationController?.popToRootViewController(animated: true)
             }))
             alert.addAction(UIAlertAction(title: "cancel".localized, style: .cancel, handler:{ (UIAlertAction) in
-
+                
             }))
             
             self.present(alert, animated: true, completion: nil)
         }
     }
     
-    @objc func titleTapped(_ gesture: UITapGestureRecognizer) {
-        guard let attributedText = titleLabel.attributedText else { return }
+    @objc func handleLabelTap(_ gesture: UITapGestureRecognizer) {
+        guard let label = gesture.view as? UILabel, let text = label.attributedText?.string else { return }
         
-        let tapLocation = gesture.location(in: titleLabel)
+        let privacyPolicyRange = (text as NSString).range(of: "Privacy Policy")
+        let termsOfUseRange = (text as NSString).range(of: "Terms of Use")
+        let learnRange = (text as NSString).range(of: "Learn how identity verification works.")
         
-        if let tappedIndex = characterIndexAtPoint(tapLocation, in: titleLabel) {
-           let tappedData = getTappedTextAtIndex(tappedIndex, in: attributedText.string)
-
-            if tappedData == "verify.identity.privacy.policy".localized {
-                runPrivacyPolicy()
-            } else if tappedData == "verify.identity.privacy.terms".localized {
-                runTermsofUse()
-            } else if tappedData == "learn_word".localized {
-                runLearn()
-            }
+        let tapLocation = gesture.location(in: label)
+        let textStorage = NSTextStorage(attributedString: label.attributedText!)
+        let layoutManager = NSLayoutManager()
+        let textContainer = NSTextContainer(size: label.bounds.size)
+        
+        textContainer.lineFragmentPadding = 0.0
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+        
+        let characterIndex = layoutManager.characterIndex(for: tapLocation, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        if NSLocationInRange(characterIndex, privacyPolicyRange) {
+            runPrivacyPolicy()
+        } else if NSLocationInRange(characterIndex, termsOfUseRange) {
+            runTermsofUse()
+        } else if NSLocationInRange(characterIndex, learnRange) {
+            runLearn()
         }
     }
-
-    private func getTappedTextAtIndex(_ index: Int, in text: String) -> String {
-        for tappable in tappableTexts {
-            let ranges = findRanges(of: tappable, in: text)
-            for range in ranges {
-                if NSLocationInRange(index, range) {
-                    return tappable
-                }
-            }
-        }
-        return ""
+    
+    private func setupTermsLabel() {
+        let fullText = """
+        By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
+        
+        Learn how identity verification works.
+        """
+        
+        let attributedString = NSMutableAttributedString(string: fullText)
+        
+        let privacyPolicyRange = (fullText as NSString).range(of: "Privacy Policy")
+        let termsOfUseRange = (fullText as NSString).range(of: "Terms of Use")
+        let learnRange = (fullText as NSString).range(of: "Learn how identity verification works.")
+        
+        // Add underline and color
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: privacyPolicyRange)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.black, range: privacyPolicyRange)
+        
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: termsOfUseRange)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.black, range: termsOfUseRange)
+        
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: learnRange)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.black, range: learnRange)
+        
+        titleLabel.attributedText = attributedString
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleLabelTap(_:)))
+        titleLabel.addGestureRecognizer(tapGesture)
     }
 }
 

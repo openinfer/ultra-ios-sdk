@@ -26,7 +26,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c03-ez-OEF">
-                                <rect key="frame" x="20" y="695" width="171" height="44"/>
+                                <rect key="frame" x="20" y="582.33333333333337" width="171" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="55b-3n-G8w"/>
@@ -64,7 +64,7 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R6c-4D-yLY">
-                                <rect key="frame" x="199" y="695" width="171" height="44"/>
+                                <rect key="frame" x="199" y="582.33333333333337" width="171" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Cni-na-x6V"/>
@@ -97,8 +97,11 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8g4-tJ-ZlA">
-                                <rect key="frame" x="20" y="362.33333333333326" width="350" height="312.66666666666674"/>
+                                <rect key="frame" x="20" y="362.33333333333331" width="350" height="199.99999999999994"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="dfV-P2-68j"/>
+                                </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -110,7 +113,6 @@
                         <constraints>
                             <constraint firstItem="6mf-WW-MFD" firstAttribute="top" secondItem="hFa-Od-iHb" secondAttribute="bottom" constant="20" id="8fZ-AM-1MT"/>
                             <constraint firstItem="hFa-Od-iHb" firstAttribute="leading" secondItem="ARq-gi-TOS" secondAttribute="leading" id="Bcm-pT-lzP"/>
-                            <constraint firstItem="BP4-uk-tXM" firstAttribute="top" secondItem="R6c-4D-yLY" secondAttribute="bottom" constant="25" id="CXG-xg-2C5"/>
                             <constraint firstItem="c03-ez-OEF" firstAttribute="top" secondItem="8g4-tJ-ZlA" secondAttribute="bottom" constant="20" id="DUF-4V-FJl"/>
                             <constraint firstItem="tn1-O1-xAB" firstAttribute="trailing" secondItem="6mf-WW-MFD" secondAttribute="trailing" constant="20" id="H0w-17-qWB"/>
                             <constraint firstAttribute="trailing" secondItem="BP4-uk-tXM" secondAttribute="trailing" id="HSp-tT-VZP"/>

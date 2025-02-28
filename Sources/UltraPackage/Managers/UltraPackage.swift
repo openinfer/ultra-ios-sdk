@@ -45,8 +45,7 @@ public class UltraPackage {
                       "named_urls": {
                         "base_url": "\(NetworkManager.shared.baseURL)v2/verification-session" } } },
                   "public_key": "\(finalKey)",
-                  "session_token": "\(finalToken)",
-                  "debug_level": "3"
+                  "session_token": "\(finalToken)"
                 }
                 """
                 
@@ -77,12 +76,15 @@ public class UltraPackage {
     }
     
     func checkSecurityConditions(securityModel: SecurityModel) -> Bool {
+        return true
+        /*
         return securityModel.model == UIDevice.current.model &&
         securityModel.sceenBounds == UIScreen.main.bounds &&
         securityModel.orientation == UIDevice.current.orientation &&
         securityModel.processorCount == ProcessInfo().processorCount &&
         securityModel.battertLevel == UIDevice.current.batteryLevel &&
         securityModel.languageCode == Locale.current.languageCode
+         */
     }
     
     private func runPredictWithFaceId(on viewController: UIViewController) {

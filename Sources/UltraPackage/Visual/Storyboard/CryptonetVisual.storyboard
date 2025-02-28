@@ -868,7 +868,7 @@
         <!--Instructions View Controller-->
         <scene sceneID="eDH-Cs-rvs">
             <objects>
-                <viewController id="wm4-LQ-LkF" customClass="InstructionsViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InstructionsViewController" id="wm4-LQ-LkF" customClass="InstructionsViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="O9A-NG-RPD">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

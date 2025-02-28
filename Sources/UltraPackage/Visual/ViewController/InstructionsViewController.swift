@@ -89,16 +89,6 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
             .foregroundColor: UIColor.black,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
-
-        // Add to view
-        view.addSubview(termsTextView)
-        termsTextView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            termsTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            termsTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            termsTextView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            termsTextView.heightAnchor.constraint(equalToConstant: 150)
-        ])
     }
 
     

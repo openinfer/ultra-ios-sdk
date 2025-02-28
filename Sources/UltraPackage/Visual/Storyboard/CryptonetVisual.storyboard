@@ -880,20 +880,20 @@
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-image" translatesAutoresizingMaskIntoConstraints="NO" id="hUw-xs-hxg">
-                                                <rect key="frame" x="95" y="60" width="200" height="30"/>
+                                                <rect key="frame" x="95" y="20" width="200" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="200" id="Jvv-6R-nfA"/>
                                                     <constraint firstAttribute="height" constant="30" id="b2c-YS-XyZ"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Take a selfie to register" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Syi-k1-zlT">
-                                                <rect key="frame" x="0.0" y="110" width="390" height="26.666666666666657"/>
+                                                <rect key="frame" x="0.0" y="70" width="390" height="26.666666666666671"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KV" translatesAutoresizingMaskIntoConstraints="NO" id="IX4-3M-evb">
-                                                <rect key="frame" x="20" y="156.66666666666663" width="350" height="250"/>
+                                                <rect key="frame" x="20" y="116.66666666666669" width="350" height="250"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="250" id="e3E-Op-jyL"/>
                                                 </constraints>
@@ -904,7 +904,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lWo-A2-4dD">
-                                                <rect key="frame" x="20" y="426.66666666666669" width="350" height="153.33333333333331"/>
+                                                <rect key="frame" x="20" y="386.66666666666669" width="350" height="193.33333333333331"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" systemColor="labelColor"/>
@@ -962,7 +962,7 @@
                                             <constraint firstAttribute="bottom" secondItem="k9x-lR-Rxy" secondAttribute="bottom" constant="200" id="JGC-qQ-YIf"/>
                                             <constraint firstItem="k9x-lR-Rxy" firstAttribute="leading" secondItem="n65-ER-9gI" secondAttribute="leading" constant="20" id="Paq-Gf-XUf"/>
                                             <constraint firstItem="qDW-Qv-3E5" firstAttribute="width" secondItem="k9x-lR-Rxy" secondAttribute="width" id="PhY-Ov-NsC"/>
-                                            <constraint firstItem="hUw-xs-hxg" firstAttribute="top" secondItem="n65-ER-9gI" secondAttribute="top" constant="60" id="SOZ-jO-K64"/>
+                                            <constraint firstItem="hUw-xs-hxg" firstAttribute="top" secondItem="n65-ER-9gI" secondAttribute="top" constant="20" id="SOZ-jO-K64"/>
                                             <constraint firstItem="lWo-A2-4dD" firstAttribute="top" secondItem="IX4-3M-evb" secondAttribute="bottom" constant="20" id="VwS-Nv-mNV"/>
                                             <constraint firstItem="IX4-3M-evb" firstAttribute="leading" secondItem="n65-ER-9gI" secondAttribute="leading" constant="20" id="XPb-EP-zR8"/>
                                             <constraint firstAttribute="trailing" secondItem="lWo-A2-4dD" secondAttribute="trailing" constant="20" id="dw3-Jh-MdH"/>
@@ -989,10 +989,10 @@
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egz-k9-De3">
-                                <rect key="frame" x="0.0" y="784" width="390" height="60"/>
+                                <rect key="frame" x="0.0" y="764" width="390" height="80"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="muA-m2-Uqo"/>
+                                    <constraint firstAttribute="height" constant="80" id="muA-m2-Uqo"/>
                                 </constraints>
                             </view>
                         </subviews>

@@ -14,9 +14,6 @@ final class ScanViewController: BaseViewController {
     @IBOutlet weak var confettiImageView: UIImageView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
-    @IBOutlet weak var barcodeTestView: UIView!
-    @IBOutlet weak var barcodeDocStatus: UILabel!
-    @IBOutlet weak var barcodeBarcodeStatus: UILabel!
     @IBOutlet weak var footerContainer: UIView!
     @IBOutlet weak var lockImage: UIImageView!
     

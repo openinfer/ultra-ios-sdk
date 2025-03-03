@@ -6,8 +6,6 @@ final class VerifyingViewController: BaseViewController {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var homeButton: UIButton!
-    @IBOutlet weak var copyUUIDButton: UIButton!
     @IBOutlet weak var footerContainer: UIView!
 //    
     private var sessionModel: SessionDetailsModel?
@@ -21,7 +19,6 @@ final class VerifyingViewController: BaseViewController {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: true)
         titleLabel.text = "wait.a.sec".localized
-        homeButton.setTitle("done".localized, for: .normal)
         footer.delegate = self
         footerContainer.addSubview(footer)
         imageView.setGifFromURL(URL(string: "https://i.ibb.co/8Jx4hTm/Face-ID.gif")!, levelOfIntegrity: .lowForManyGifs, customLoader: UIActivityIndicatorView(style: .medium))
@@ -67,19 +64,16 @@ extension VerifyingViewController {
     func showSuccessPage() {
         imageView.image = UIImage.SPMImage(named: "success")
         titleLabel.text = isVerified ? "account.is.verified".localized : "account.is.registered".localized
-        homeButton.isHidden = false
     }
     
     func showFailurePage() {
         imageView.image = UIImage.SPMImage(named: "failure")
         titleLabel.text = "account.is.not.approved".localized
-        homeButton.isHidden = false
     }
     
     func showFailureSession() {
         imageView.image = UIImage.SPMImage(named: "failure")
         titleLabel.text = "session.was.failed".localized
-        homeButton.isHidden = false
     }
 }
 

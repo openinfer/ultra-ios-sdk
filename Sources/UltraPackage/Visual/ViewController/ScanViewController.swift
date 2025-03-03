@@ -71,6 +71,7 @@ final class ScanViewController: BaseViewController {
         if isCameraRunning == false {
             isCameraRunning = true
             setupCamera()
+            updateOrientationSettings()
             setupTimer()
 //            startFaceAnimationTimer()
             startSession()
@@ -109,22 +110,7 @@ final class ScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func orientationChanged() {
-        guard let connection = previewLayer?.connection, connection.isVideoOrientationSupported else { return }
-        
-        switch UIDevice.current.orientation {
-        case .portrait:
-            currentOrientation = .portrait
-        case .portraitUpsideDown:
-            currentOrientation = .portraitUpsideDown
-        case .landscapeLeft:
-            currentOrientation = .landscapeRight // Inverted due to camera mirroring
-        case .landscapeRight:
-            currentOrientation = .landscapeLeft // Inverted due to camera mirroring
-        default:
-            break
-        }
-        
-        connection.videoOrientation = currentOrientation
+        updateOrientationSettings()
     }
     
     @objc func backToRoot() {
@@ -365,6 +351,25 @@ private extension ScanViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func updateOrientationSettings() {
+        guard let connection = previewLayer?.connection, connection.isVideoOrientationSupported else { return }
+        
+        switch UIDevice.current.orientation {
+        case .portrait:
+            currentOrientation = .portrait
+        case .portraitUpsideDown:
+            currentOrientation = .portraitUpsideDown
+        case .landscapeLeft:
+            currentOrientation = .landscapeRight // Inverted due to camera mirroring
+        case .landscapeRight:
+            currentOrientation = .landscapeLeft // Inverted due to camera mirroring
+        default:
+            break
+        }
+        
+        connection.videoOrientation = currentOrientation
     }
 
     func liveIconFailed(_ view: UIView) {

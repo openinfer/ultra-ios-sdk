@@ -62,6 +62,7 @@ final class ScanViewController: BaseViewController {
         
         ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
         ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,7 +84,7 @@ final class ScanViewController: BaseViewController {
         stopSession()
         stopSessionTimer()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         footer.frame = footerContainer.bounds
@@ -105,6 +106,23 @@ final class ScanViewController: BaseViewController {
     }
     
     // MARK:- Actions
+    
+    @objc func orientationChanged() {
+        guard let connection = previewLayer?.connection, connection.isVideoOrientationSupported else { return }
+        
+        switch UIDevice.current.orientation {
+        case .portrait:
+            connection.videoOrientation = .portrait
+        case .portraitUpsideDown:
+            connection.videoOrientation = .portraitUpsideDown
+        case .landscapeLeft:
+            connection.videoOrientation = .landscapeRight // Inverted due to camera mirroring
+        case .landscapeRight:
+            connection.videoOrientation = .landscapeLeft // Inverted due to camera mirroring
+        default:
+            break
+        }
+    }
     
     @objc func backToRoot() {
         self.navigationController?.popToRootViewController(animated: true)

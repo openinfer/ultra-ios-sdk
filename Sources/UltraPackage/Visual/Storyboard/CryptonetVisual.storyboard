@@ -179,6 +179,13 @@
                                                 </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4qq-zm-IkB">
+                                                <rect key="frame" x="282" y="75" width="100" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="100" id="E0Y-v3-hT3"/>
+                                                    <constraint firstAttribute="height" constant="100" id="Wd9-UF-Do9"/>
+                                                </constraints>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -190,6 +197,7 @@
                                             <constraint firstItem="0Ds-LN-Opd" firstAttribute="top" secondItem="ftl-qc-A4g" secondAttribute="bottom" constant="80" id="JK7-sS-MQL"/>
                                             <constraint firstItem="uDa-vP-ZSe" firstAttribute="centerY" secondItem="lfS-Pr-RrL" secondAttribute="centerY" id="JgB-Ay-sN3"/>
                                             <constraint firstAttribute="trailing" secondItem="Bj1-1u-mmR" secondAttribute="trailing" constant="40" id="LRn-WG-cDH"/>
+                                            <constraint firstAttribute="trailing" secondItem="4qq-zm-IkB" secondAttribute="trailing" constant="8" id="Oik-Mj-IeS"/>
                                             <constraint firstItem="oAi-qt-3Bb" firstAttribute="top" secondItem="XC9-15-dsO" secondAttribute="top" constant="20" id="P2O-aR-z1q"/>
                                             <constraint firstAttribute="bottom" secondItem="jw1-dy-nbP" secondAttribute="bottom" constant="100" id="U0R-dp-wVD"/>
                                             <constraint firstItem="uDa-vP-ZSe" firstAttribute="centerX" secondItem="lfS-Pr-RrL" secondAttribute="centerX" id="YLX-av-hzI"/>
@@ -204,6 +212,7 @@
                                             <constraint firstAttribute="trailing" secondItem="JU6-ko-l8t" secondAttribute="trailing" id="nNC-Sk-IwX"/>
                                             <constraint firstItem="jw1-dy-nbP" firstAttribute="leading" secondItem="XC9-15-dsO" secondAttribute="leading" constant="40" id="oCY-E7-19z"/>
                                             <constraint firstItem="JU6-ko-l8t" firstAttribute="leading" secondItem="XC9-15-dsO" secondAttribute="leading" id="qSA-QJ-3b0"/>
+                                            <constraint firstItem="4qq-zm-IkB" firstAttribute="top" secondItem="JU6-ko-l8t" secondAttribute="bottom" constant="20" id="xvb-5C-A6a"/>
                                             <constraint firstItem="ftl-qc-A4g" firstAttribute="leading" secondItem="XC9-15-dsO" secondAttribute="leading" constant="40" id="ym1-U6-c7n"/>
                                         </constraints>
                                     </view>
@@ -247,6 +256,7 @@
                         <outlet property="resultLabel" destination="jw1-dy-nbP" id="IK8-w5-8xb"/>
                         <outlet property="subresultLabel" destination="Bj1-1u-mmR" id="Own-EW-QC2"/>
                         <outlet property="successContainer" destination="TqC-PE-0Pg" id="Tv6-rN-u1G"/>
+                        <outlet property="testImage" destination="4qq-zm-IkB" id="djF-er-NiZ"/>
                         <outlet property="titleLabel" destination="ftl-qc-A4g" id="lNs-9C-joL"/>
                         <outlet property="videoContainer" destination="lfS-Pr-RrL" id="wR2-nu-eB0"/>
                         <outlet property="videoFrame" destination="2eG-WX-gCs" id="XJ3-vM-cfi"/>
@@ -254,7 +264,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iDh-CU-Lby" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3222" y="828"/>
+            <point key="canvasLocation" x="3221.5384615384614" y="827.48815165876772"/>
         </scene>
         <!--Face Instruction View Controller-->
         <scene sceneID="T3z-ja-P5m">

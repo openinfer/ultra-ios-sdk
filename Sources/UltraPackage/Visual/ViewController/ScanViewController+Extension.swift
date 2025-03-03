@@ -21,6 +21,8 @@ extension ScanViewController {
         guard isEnrollRunning == false else { return }
         self.isEnrollRunning = true
         
+        testImage.image = image
+        
         let result = CryptonetManager.shared.cryptonet.predict(image: image, config: PredictConfig(skipAntispoof: false, mfToken: self.mfToken))
         switch result {
         case .success(let json):

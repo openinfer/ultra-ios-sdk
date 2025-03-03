@@ -5,6 +5,8 @@ import Toaster
 
 final class ScanViewController: BaseViewController {
     
+    @IBOutlet weak var testImage: UIImageView!
+    
     @IBOutlet weak var videoFrame: UIView!
     @IBOutlet weak var videoContainer: UIView!
     @IBOutlet weak var successContainer: UIView!

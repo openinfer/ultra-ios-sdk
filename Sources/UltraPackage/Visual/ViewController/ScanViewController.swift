@@ -23,6 +23,7 @@ final class ScanViewController: BaseViewController {
     
     private let session = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer?
+    private var currentOrientation: AVCaptureVideoOrientation = .portrait
     private var timer: Timer?
     private var timeInterval: TimeInterval = 0.3
     private var tempImage: UIImage?
@@ -114,16 +115,18 @@ final class ScanViewController: BaseViewController {
         
         switch UIDevice.current.orientation {
         case .portrait:
-            connection.videoOrientation = .portrait
+            currentOrientation = .portrait
         case .portraitUpsideDown:
-            connection.videoOrientation = .portraitUpsideDown
+            currentOrientation = .portraitUpsideDown
         case .landscapeLeft:
-            connection.videoOrientation = .landscapeRight // Inverted due to camera mirroring
+            currentOrientation = .landscapeRight // Inverted due to camera mirroring
         case .landscapeRight:
-            connection.videoOrientation = .landscapeLeft // Inverted due to camera mirroring
+            currentOrientation = .landscapeLeft // Inverted due to camera mirroring
         default:
             break
         }
+        
+        connection.videoOrientation = currentOrientation
     }
     
     @objc func backToRoot() {
@@ -410,7 +413,7 @@ extension ScanViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         DispatchQueue.global(qos: .userInitiated).async {
-            connection.videoOrientation = AVCaptureVideoOrientation.portrait
+            connection.videoOrientation = self.currentOrientation
             let imageBuffer: CVPixelBuffer = sampleBuffer.imageBuffer!
             let ciimage: CIImage = CIImage(cvPixelBuffer: imageBuffer)
             let image: UIImage = self.convert(cmage: ciimage)

@@ -8,6 +8,7 @@ final class CryptonetManager {
     static let shared = CryptonetManager()
     
     let cryptonet = CryptonetPackage()
+    private let deviceInfoManager = DeviceInfoManager()
     
     var sessionToken: String?
     var publicKey: String?
@@ -51,6 +52,17 @@ final class CryptonetManager {
             }
         } else {
             completion(true, nil)
+        }
+    }
+    
+    func getDeviceInfo() -> String? {
+        let jsonData = deviceInfoManager.collectDeviceInformation()
+
+        if let jsonDataEncoded = try? JSONSerialization.data(withJSONObject: jsonData, options: .prettyPrinted),
+           let jsonString = String(data: jsonDataEncoded, encoding: .utf8) {
+           return jsonString
+        } else {
+            return nil
         }
     }
     

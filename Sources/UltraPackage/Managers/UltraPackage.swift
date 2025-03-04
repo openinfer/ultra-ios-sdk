@@ -45,7 +45,8 @@ public class UltraPackage {
                       "named_urls": {
                         "base_url": "\(NetworkManager.shared.baseURL)v2/verification-session" } } },
                   "public_key": "\(finalKey)",
-                  "session_token": "\(finalToken)"
+                  "session_token": "\(finalToken)",
+                  "debug_level": "3"
                 }
                 """
                 

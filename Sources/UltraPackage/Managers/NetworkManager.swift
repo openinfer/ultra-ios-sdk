@@ -231,18 +231,18 @@ public final class NetworkManager {
             .responseDecodable(of: ResponseModel.self) { response in
                 switch response.result {
                 case .success:
-                    
-                    switch FlowManager.shared.current {
-                    case .signIn, .matchFace:
-                        self.updatePredict(encryptedKey: encryptedKey,
-                                           encryptedMessage: encryptedMessage,
-                                           gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, finished: finished)
-                    case .enroll:
-                        self.updateEnroll(encryptedKey: encryptedKey,
-                                          encryptedMessage: encryptedMessage,
-                                          gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, finished: finished)
-                    }
-                    
+                    finished(true)
+//                    switch FlowManager.shared.current {
+//                    case .signIn, .matchFace:
+//                        self.updatePredict(encryptedKey: encryptedKey,
+//                                           encryptedMessage: encryptedMessage,
+//                                           gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, finished: finished)
+//                    case .enroll:
+//                        self.updateEnroll(encryptedKey: encryptedKey,
+//                                          encryptedMessage: encryptedMessage,
+//                                          gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, finished: finished)
+//                    }
+//                    
                 case .failure:
                     finished(false)
                 }

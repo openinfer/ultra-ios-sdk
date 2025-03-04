@@ -86,6 +86,27 @@ extension ScanViewController {
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             self.subresultLabel.attributedText = NSAttributedString(string: "100%",
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            self.updateCollectWithData(encryptedKey: encryptedKey,
+                                       encryptedMessage: encryptedMessage,
+                                       gcmAad: gcmAad,
+                                       gcmTag: gcmTag,
+                                       iv: iv,
+                                       image: image)
+        }
+    }
+    
+    func updateCollectWithData(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage) {
+        guard let info = CryptonetManager.shared.getDeviceInfo() else {
+            print("Failure during getting getDeviceInfo")
+            return
+        }
+        
+        let result = CryptonetManager.shared.cryptonet.encryptPayload(json: NSString(string: info))
+        switch result {
+        case .success(let json):
+//            let jsonData = Data(json.utf8)
+            print("!!!" + json)
+            
             NetworkManager.shared.updateCollect(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, image: image) { [weak self] result in
                 guard let self = self else { return }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -105,6 +126,31 @@ extension ScanViewController {
                     }
                 }
             }
+            
+//            do {
+//                let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
+//
+//                if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
+//                    let encryptedMessage = model.uberOperationResult?.response?.encryptedMessage,
+//                    let gcmAad = model.uberOperationResult?.response?.gcmAad,
+//                    let gcmTag = model.uberOperationResult?.response?.gcmTag,
+//                    let iv = model.uberOperationResult?.response?.iv {
+////                    DispatchQueue.main.async {
+////                        self.stopScan(encryptedKey: encryptedKey,
+////                                      encryptedMessage: encryptedMessage,
+////                                      gcmAad: gcmAad,
+////                                      gcmTag: gcmTag,
+////                                      iv: iv,
+////                                      image: image)
+////                    }
+//                } else {
+//                    print("failure")
+//                }
+//            } catch {
+//                print("failure")
+//            }
+        case .failure(_):
+            print("failure")
         }
     }
 }

@@ -95,7 +95,7 @@ extension ScanViewController {
         }
     }
     
-    func updateCollectWithData(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage) {
+    private func updateCollectWithData(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage) {
         guard let info = CryptonetManager.shared.getDeviceInfo() else {
             print("Failure during getting getDeviceInfo")
             return
@@ -104,53 +104,82 @@ extension ScanViewController {
         let result = CryptonetManager.shared.cryptonet.encryptPayload(json: NSString(string: info))
         switch result {
         case .success(let json):
-//            let jsonData = Data(json.utf8)
-            print("!!!" + json)
-            
-            NetworkManager.shared.updateCollect(encryptedKey: encryptedKey, encryptedMessage: encryptedMessage, gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, image: image) { [weak self] result in
-                guard let self = self else { return }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    if result == true {
-                        self.showSucccessAnimation()
-                        self.activityLoading.stopAnimating()
-                        self.titleLabel.attributedText = NSAttributedString(string: "",
-                                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-//                        self.liveIconSucceed(self.successContainer)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            let isVerified = FlowManager.shared.current == .enroll ? false : true
-                            self.navigateToVerifyingPage(isVerified: isVerified)
+            let jsonData = Data(json.utf8)
+            do {
+                let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
+
+                if  let collectEncryptedKey = model.uberOperationResult?.response?.encryptedKey,
+                    let collectEncryptedMessage = model.uberOperationResult?.response?.encryptedMessage,
+                    let collectGcmAad = model.uberOperationResult?.response?.gcmAad,
+                    let collectGcmTag = model.uberOperationResult?.response?.gcmTag,
+                    let collectIv = model.uberOperationResult?.response?.iv {
+
+                    NetworkManager.shared.updateCollect(encryptedKey: collectEncryptedKey,
+                                                        encryptedMessage: collectEncryptedMessage,
+                                                        gcmAad: collectGcmAad,
+                                                        gcmTag: collectGcmTag,
+                                                        iv: collectIv,
+                                                        image: image) { [weak self] result in
+                        if result == true {
+                            self?.updateFinalData(encryptedKey: encryptedKey,
+                                                  encryptedMessage: encryptedMessage,
+                                                  gcmAad: gcmAad,
+                                                  gcmTag: gcmTag,
+                                                  iv: iv)
+                        } else {
+                            print("failure")
                         }
-                    } else {
-                        self.activityLoading.stopAnimating()
-                        self.navigateToFinalWithFailure()
                     }
+                } else {
+                    print("failure")
                 }
+            } catch {
+                print("failure")
             }
-            
-//            do {
-//                let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
-//
-//                if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
-//                    let encryptedMessage = model.uberOperationResult?.response?.encryptedMessage,
-//                    let gcmAad = model.uberOperationResult?.response?.gcmAad,
-//                    let gcmTag = model.uberOperationResult?.response?.gcmTag,
-//                    let iv = model.uberOperationResult?.response?.iv {
-////                    DispatchQueue.main.async {
-////                        self.stopScan(encryptedKey: encryptedKey,
-////                                      encryptedMessage: encryptedMessage,
-////                                      gcmAad: gcmAad,
-////                                      gcmTag: gcmTag,
-////                                      iv: iv,
-////                                      image: image)
-////                    }
-//                } else {
-//                    print("failure")
-//                }
-//            } catch {
-//                print("failure")
-//            }
         case .failure(_):
             print("failure")
+        }
+    }
+    
+    private func updateFinalData(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String) {
+        switch FlowManager.shared.current {
+        case .signIn, .matchFace:
+            NetworkManager.shared.updatePredict(encryptedKey: encryptedKey,
+                               encryptedMessage: encryptedMessage,
+                               gcmAad: gcmAad,
+                               gcmTag: gcmTag,
+                               iv: iv, finished: { [weak self] finished in
+                self?.updateFinalUI(isFinished: finished)
+                
+            })
+        case .enroll:
+            NetworkManager.shared.updateEnroll(encryptedKey: encryptedKey,
+                              encryptedMessage: encryptedMessage,
+                              gcmAad: gcmAad,
+                              gcmTag: gcmTag,
+                              iv: iv,
+                              finished: { [weak self] finished in
+                self?.updateFinalUI(isFinished: finished)
+            })
+        }
+    }
+    
+    private func updateFinalUI(isFinished: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if isFinished == true {
+                self.showSucccessAnimation()
+                self.activityLoading.stopAnimating()
+                self.titleLabel.attributedText = NSAttributedString(string: "",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                //                        self.liveIconSucceed(self.successContainer)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    let isVerified = FlowManager.shared.current == .enroll ? false : true
+                    self.navigateToVerifyingPage(isVerified: isVerified)
+                }
+            } else {
+                self.activityLoading.stopAnimating()
+                self.navigateToFinalWithFailure()
+            }
         }
     }
 }

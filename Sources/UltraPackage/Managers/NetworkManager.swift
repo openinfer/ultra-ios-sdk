@@ -128,7 +128,7 @@ public final class NetworkManager {
             responseModel(nil)
             return
         }
-
+        
         let headers: HTTPHeaders = [
             "Content-Type": "application/json"
         ]
@@ -169,7 +169,7 @@ public final class NetworkManager {
                 case .failure:
                     finished(false)
                 }
-        }
+            }
     }
     
     func updateImage(image: UIImage) {
@@ -207,7 +207,7 @@ public final class NetworkManager {
     
     func updateCollect(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage, finished: @escaping (Bool) -> Void) {
         self.updateImage(image: image)
-
+        
         guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/collect") else {
             finished(false)
@@ -232,17 +232,6 @@ public final class NetworkManager {
                 switch response.result {
                 case .success:
                     finished(true)
-//                    switch FlowManager.shared.current {
-//                    case .signIn, .matchFace:
-//                        self.updatePredict(encryptedKey: encryptedKey,
-//                                           encryptedMessage: encryptedMessage,
-//                                           gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, finished: finished)
-//                    case .enroll:
-//                        self.updateEnroll(encryptedKey: encryptedKey,
-//                                          encryptedMessage: encryptedMessage,
-//                                          gcmAad: gcmAad, gcmTag: gcmTag, iv: iv, finished: finished)
-//                    }
-//                    
                 case .failure:
                     finished(false)
                 }

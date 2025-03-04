@@ -106,13 +106,13 @@ extension ScanViewController {
         case .success(let json):
             let jsonData = Data(json.utf8)
             do {
-                let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
+                let model = try JSONDecoder().decode(CollectModel.self, from: jsonData)
 
-                if  let collectEncryptedKey = model.uberOperationResult?.response?.encryptedKey,
-                    let collectEncryptedMessage = model.uberOperationResult?.response?.encryptedMessage,
-                    let collectGcmAad = model.uberOperationResult?.response?.gcmAad,
-                    let collectGcmTag = model.uberOperationResult?.response?.gcmTag,
-                    let collectIv = model.uberOperationResult?.response?.iv {
+                if  let collectEncryptedKey = model.uberOperationResult?.request?.encryptedKey,
+                    let collectEncryptedMessage = model.uberOperationResult?.request?.encryptedMessage,
+                    let collectGcmAad = model.uberOperationResult?.request?.gcmAad,
+                    let collectGcmTag = model.uberOperationResult?.request?.gcmTag,
+                    let collectIv = model.uberOperationResult?.request?.iv {
 
                     NetworkManager.shared.updateCollect(encryptedKey: collectEncryptedKey,
                                                         encryptedMessage: collectEncryptedMessage,

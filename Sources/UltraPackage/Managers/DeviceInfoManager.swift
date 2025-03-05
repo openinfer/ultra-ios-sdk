@@ -143,11 +143,21 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     private func getOrientation() -> String {
         let orientation = UIDevice.current.orientation
         switch orientation {
-        case .portrait, .portraitUpsideDown:
+        case .unknown:
+            return "unknown"
+        case .portrait:
             return "portrait"
-        case .landscapeLeft, .landscapeRight:
-            return "landscape"
-        default:
+        case .portraitUpsideDown:
+            return "portraitUpsideDown"
+        case .landscapeLeft:
+            return "landscapeLeft"
+        case .landscapeRight:
+            return "landscapeRight"
+        case .faceUp:
+            return "faceUp"
+        case .faceDown:
+            return "faceDown"
+        @unknown default:
             return "unknown"
         }
     }

@@ -2,6 +2,7 @@ import UIKit
 import AVFoundation
 import CoreMedia
 import Toaster
+import ProgressHUD
 
 final class ScanViewController: BaseViewController {
 
@@ -16,6 +17,7 @@ final class ScanViewController: BaseViewController {
     
     @IBOutlet weak var footerContainer: UIView!
     @IBOutlet weak var lockImage: UIImageView!
+    @IBOutlet weak var faceIdImage: UIImageView!
     
     private let footer: FooterView = .fromNib()
     
@@ -58,6 +60,7 @@ final class ScanViewController: BaseViewController {
         super.viewDidLoad()
         self.titleLabel.attributedText = NSAttributedString(string: "center.your.head".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+//        self.faceIdImage.isHidden = FlowManager.shared.scanType != .face
         footer.delegate = self
         footerContainer.addSubview(footer)
         
@@ -74,8 +77,28 @@ final class ScanViewController: BaseViewController {
             updateOrientationSettings()
             setupTimer()
 //            startFaceAnimationTimer()
-            startSession()
-            startSessionTimer()
+//            if FlowManager.shared.scanType == .face {
+                UIView.animate(withDuration: 0.15, delay: 0.3, animations: {
+                    self.faceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
+                }) { _ in
+                    UIView.animate(withDuration: 0.15, animations: {
+                        self.faceIdImage.transform = .identity
+                        
+                        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
+                            if isAllowed {
+                                self.startSession()
+                                self.faceIdImage.isHidden = true
+                            } else if let error = error {
+                                ProgressHUD.failed(error.localizedDescription)
+                            } else {
+                                ProgressHUD.failed("Face ID is failed. Please, try again.")
+                            }
+                        }
+                    })
+                }
+//            } else {
+//                self.startSession()
+//            }
         }
     }
     

@@ -89,16 +89,8 @@ public class UltraPackage {
     }
     
     private func runPredictWithFaceId(on viewController: UIViewController) {
-        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
-            if isAllowed {
-                let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
-                let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
-                viewController.navigationController?.pushViewController(vc, animated: true)
-            } else if let error = error {
-                ProgressHUD.failed(error.localizedDescription)
-            } else {
-                ProgressHUD.failed("Face ID is failed. Please, try again.")
-            }
-        }
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
+        viewController.navigationController?.pushViewController(vc, animated: true)
     }
 }

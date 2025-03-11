@@ -74,15 +74,7 @@ class FaceInstructionViewController: BaseViewController {
     }
     
     private func nextIfModelsReady() {
-        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
-            if isAllowed {
-                self.proceed()
-            } else if let error = error {
-                ProgressHUD.failed(error.localizedDescription)
-            } else {
-                ProgressHUD.failed("Face ID is failed. Please, try again.")
-            }
-        }
+        self.proceed()
     }
     
     private func proceed() {

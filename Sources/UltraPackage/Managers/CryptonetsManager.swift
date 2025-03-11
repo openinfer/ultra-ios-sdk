@@ -55,6 +55,10 @@ final class CryptonetManager {
         }
     }
     
+    func startDeviceInfoCollect() {
+        deviceInfoManager.start()
+    }
+    
     func getDeviceInfo() -> String? {
         let jsonData = deviceInfoManager.collectDeviceInformation()
 

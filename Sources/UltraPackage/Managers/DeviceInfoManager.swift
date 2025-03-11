@@ -7,7 +7,7 @@ import CoreNFC
 import ARKit
 
 final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
-    private var locationManager: CLLocationManager
+    private var locationManager: CLLocationManager?
     private var currentLocation: CLLocation?
     
     private let motionManager = CMMotionManager()
@@ -20,17 +20,17 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     private var barometerAltimeterData: [String: Any] = [:]
     private var microphoneData: [String: Any] = [:]
 
-    override init() {
+
+    func start() {
         locationManager = CLLocationManager()
-        super.init()
         fetchAccelerometerData()
         fetchGyroscopeUpdates()
         fetchMagnetometerUpdates()
         fetchDeviceMotionUpdates()
         fetchBarometerAltimeterUpdates()
         getMicrophoneInfo()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        locationManager?.delegate = self
+        locationManager?.requestWhenInUseAuthorization()
     }
     
     func collectDeviceInformation() -> [String: Any] {
@@ -102,7 +102,7 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     }
     
     private func getCurrentLocation() -> [String: Any] {
-        if let location = currentLocation ?? locationManager.location {
+        if let location = currentLocation ?? locationManager?.location {
             return [
                 "latitude": location.coordinate.latitude,
                 "longitude": location.coordinate.longitude
@@ -127,9 +127,9 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         
         switch status {
         case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+            locationManager?.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
-            locationManager.startUpdatingLocation()
+            locationManager?.startUpdatingLocation()
         case .denied, .restricted:
             ProgressHUD.error("Location permission denied. Please enable it in Settings.")
         @unknown default:

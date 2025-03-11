@@ -17,6 +17,7 @@ public class UltraPackage {
         CryptonetManager.shared.initializeLib(path: NSString(string: path))
         CryptonetManager.shared.selectedBrowser = browser ?? "chrome"
         self.startedType = type
+        print("VERSION: - \(CryptonetManager.shared.version())")
         
         NetworkManager.shared.getSessionToken(type: type) { newToken in
             guard let newToken = newToken else {

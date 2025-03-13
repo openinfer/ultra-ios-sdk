@@ -71,6 +71,7 @@ final class ScanViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        CryptonetManager.shared.startDeviceInfoCollect()
         if isCameraRunning == false {
             isCameraRunning = true
             setupCamera()

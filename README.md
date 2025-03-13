@@ -52,7 +52,7 @@ https://github.com/openinfer/ultra-ios-sdk
 
 ## Example
 
-1. Please, add camera description and Face ID usage to the project.
+1. Please, add requst descriptions in .plist file of root app.
 
 **Example:**
 
@@ -96,7 +96,7 @@ https://github.com/openinfer/ultra-ios-sdk
 **Storage URL:**
 
 ```swift
-    https://wasm.privateid.com/Models/
+https://wasm.privateid.com/Models/
 ```
 
 **Model names:**
@@ -118,75 +118,75 @@ https://github.com/openinfer/ultra-ios-sdk
 **Example:**
 
 ```swift
-    func saveModels() {
-        if let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: <groupId>) {
+func saveModels() {
+    if let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: <groupId>) {
+        
+        let path = "https://wasm.privateid.com/Models/"
+        
+        let models =    ["f3ba2da6-22b3-41ae-bf35-b38d4754cdb2",
+                        "a0c985f9-e37d-47a8-908c-efbd8f01cfa6",
+                        "12632390-ef06-4a84-8dc4-86776152d180",
+                        "6b440bf9-02eb-4fe1-ad96-f5e37a7bc2c0",
+                        "8d0091b1-1848-4857-8b27-651a5095853b",
+                        "7ba0db86-7ee0-4a43-bcb6-bd8e64c4917a",
+                        "ef128022-c96c-4911-a243-dcb55fdf5bac",
+                        "237a0839-5dce-4e87-b1eb-e77f9948c87b",
+                        "ec493631-ddab-4f00-885a-dc9a4f1ac208",
+                        "98b1a3b5-be51-424e-a589-cd8552f907a7",
+                        "cde69dd5-8b46-49ac-a4b2-1da490f7fecd"]
             
-            let path = "https://wasm.privateid.com/Models/"
-            
-            let models =    ["f3ba2da6-22b3-41ae-bf35-b38d4754cdb2",
-                            "a0c985f9-e37d-47a8-908c-efbd8f01cfa6",
-                            "12632390-ef06-4a84-8dc4-86776152d180",
-                            "6b440bf9-02eb-4fe1-ad96-f5e37a7bc2c0",
-                            "8d0091b1-1848-4857-8b27-651a5095853b",
-                            "7ba0db86-7ee0-4a43-bcb6-bd8e64c4917a",
-                            "ef128022-c96c-4911-a243-dcb55fdf5bac",
-                            "237a0839-5dce-4e87-b1eb-e77f9948c87b",
-                            "ec493631-ddab-4f00-885a-dc9a4f1ac208",
-                            "98b1a3b5-be51-424e-a589-cd8552f907a7",
-                            "cde69dd5-8b46-49ac-a4b2-1da490f7fecd"]
-                
-            models.enumerated().forEach { index, item in
-                self.download(from: "\(path)\(item).data") { data in
-                    do {
-                        try data.write(to: containerURL.appendingPathComponent("\(item).data"))
-                        if index == models.count - 1 {
-                            // TODO: Save containerURL.absoluteString as storage URL
-                         }
-                    } catch {
-                        print("Error saving data to file: \(error)")
-                    }
+        models.enumerated().forEach { index, item in
+            self.download(from: "\(path)\(item).data") { data in
+                do {
+                    try data.write(to: containerURL.appendingPathComponent("\(item).data"))
+                    if index == models.count - 1 {
+                        // TODO: Save containerURL.absoluteString as storage URL
+                     }
+                } catch {
+                    print("Error saving data to file: \(error)")
                 }
             }
-        } else {
-            // TODO: Add error
         }
+    } else {
+        // TODO: Add error
     }
-    
-    private func download(from url: String, complition: @escaping (Data) -> Void) {
-        guard let url = URL(string: url) else { return }
-        do {
-            let data = try Data(contentsOf: url)
-            complition(data)
-        } catch {
-            print(error.localizedDescription)
-        }
+}
+
+private func download(from url: String, complition: @escaping (Data) -> Void) {
+    guard let url = URL(string: url) else { return }
+    do {
+        let data = try Data(contentsOf: url)
+        complition(data)
+    } catch {
+        print(error.localizedDescription)
     }
+}
 ```
 
 ----------------------
 
-4. Finally, we can lunch SDK UI.
+3. Finally, we can lunch SDK UI.
 
 ```swift
-    private func runCharlie(with storageURL: String) {
-        let cryptonet = UltraPackage()
-        cryptonet.start(path: storageURL,
-                        token: <sesionToken>,
-                        publicKey: <publicKey>,
-                        browser: <browserType>,
-                        type: <type>,
-                        securityModel: SecurityModel()) { [weak self] finished in
-            // TODO:
-        }
+private func runCharlie(with storageURL: String) {
+    let cryptonet = UltraPackage()
+    cryptonet.start(path: storageURL,
+                    token: <sesionToken>,
+                    publicKey: <publicKey>,
+                    browser: <browserType>,
+                    type: <type>,
+                    securityModel: SecurityModel()) { [weak self] finished in
+        // TODO:
     }
+}
 ```
 
     
 WHERE:
 
-- token - session token that may be collected from deep link. If it is nil it will be generated inside SDK.
-- publicKey - public key that may be collected from deep link. If it is nil it will be generated inside SDK.
-- browser - string browser type. By default, it is "chrome". Supported values: "chrome", "opera", "mozilla" or "safari".
-- type - flow type as .enroll or .predict in case we don't need Welcome Page with proposed flows.
+- `token` - session token that may be collected from deep link. If it is nil it will be generated inside SDK.
+- `publicKey` - public key that may be collected from deep link. If it is nil it will be generated inside SDK.
+- `browser` - string browser type. By default, it is "chrome". Supported values: "chrome", "opera", "mozilla" or "safari".
+- `type` - flow type as .enroll or .predict in case we don't need Welcome Page with proposed flows.
 
 ----------------------

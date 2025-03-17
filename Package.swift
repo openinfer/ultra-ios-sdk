@@ -15,7 +15,7 @@ let package = Package(
             targets: ["UltraPackage"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/openinfer/ultra-verify-sdk-ios", branch: "test"),
+        .package(url: "https://github.com/openinfer/ultra-verify-sdk-ios", branch: "main"),
         .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.8.1")),
         .package(url: "https://github.com/relatedcode/ProgressHUD", from: "14.1.1"),
         .package(url: "https://github.com/alexiscreuzot/SwiftyGif", from: "5.4.5"),

@@ -55,8 +55,8 @@ final class CryptonetManager {
         }
     }
     
-    func startDeviceInfoCollect() {
-        deviceInfoManager.start()
+    func startDeviceInfoCollect(with cameraLunchTime: String) {
+        deviceInfoManager.start(with: cameraLunchTime)
     }
     
     func getDeviceInfo() -> String? {

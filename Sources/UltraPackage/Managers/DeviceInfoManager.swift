@@ -16,12 +16,13 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     private var accelerometerData: String = "N|A"
     private var gyroscopeData: String = "N|A"
     private var magnetometerData: String = "N|A"
+    private var cameraLunchTime: String = ""
     private var deviceMotionData: [String: Any] = [:]
     private var barometerAltimeterData: [String: Any] = [:]
     private var microphoneData: [String: Any] = [:]
 
 
-    func start() {
+    func start(with cameraLunchTime: String) {
         locationManager = CLLocationManager()
         fetchAccelerometerData()
         fetchGyroscopeUpdates()
@@ -31,6 +32,7 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         getMicrophoneInfo()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
+        self.cameraLunchTime = cameraLunchTime
     }
     
     func collectDeviceInformation() -> [String: Any] {
@@ -39,7 +41,8 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
             "browserEnvironment": getBrowserEnvironment(),
             "hardwareAndSystemResources": getHardwareAndSystemResources(),
             "environmentContext": getEnvironmentContext(),
-            "indicators": getIndicators()
+            "indicators": getIndicators(),
+            "cameraVerification": getCameraLunchSettings()
         ]
     }
     
@@ -141,6 +144,13 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         return [
             "headless": [],
             "emulator": detectEmulatorIndicators()
+        ]
+    }
+    
+    private func getCameraLunchSettings() -> [String: Any] {
+        return [
+            "initializationTime": 400,
+            "lunchTime": self.cameraLunchTime
         ]
     }
     

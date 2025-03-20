@@ -174,6 +174,7 @@ private func runCharlie(with storageURL: String) {
                     token: <sesionToken>,
                     publicKey: <publicKey>,
                     browser: <browserType>,
+                    universalLink: <universalLink>,
                     type: <type>,
                     securityModel: SecurityModel()) { [weak self] finished in
         // TODO:
@@ -187,6 +188,7 @@ WHERE:
 - `token` - session token that may be collected from deep link. If it is nil it will be generated inside SDK.
 - `publicKey` - public key that may be collected from deep link. If it is nil it will be generated inside SDK.
 - `browser` - string browser type. By default, it is "chrome". Supported values: "chrome", "opera", "mozilla" or "safari".
+- `universalLink` - you can redirect from your App Clip back to your full app by using a custom URL scheme or Universal Links.
 - `type` - flow type as .enroll or .predict in case we don't need Welcome Page with proposed flows.
 
 ----------------------

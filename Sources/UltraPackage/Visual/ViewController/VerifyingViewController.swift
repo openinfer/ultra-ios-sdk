@@ -59,6 +59,11 @@ extension VerifyingViewController {
     func finish() {
         if let universalLink = CryptonetManager.shared.universalLink, let url = URL(string: universalLink) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if UIApplication.shared.applicationState == .active {
+                    self.reset()
+                }
+            }
         } else {
             self.reset()
         }

@@ -3,7 +3,6 @@ import CoreLocation
 import ProgressHUD
 import CoreMotion
 import AVFoundation
-import CoreNFC
 import ARKit
 
 final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
@@ -360,25 +359,6 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
                 self.microphoneData["data"] = "Permission denied to use the microphone."
             }
         }
-    }
-
-
-    private func getNFCData() -> String {
-        // Check if the device supports NFC by checking for NFC capabilities
-        if NFCNDEFReaderSession.readingAvailable {
-            return "NFC is available on this device."
-        }
-        
-        // Optionally, check the model to verify NFC support for older devices (e.g., iPhone 6 and below do not have NFC).
-        let modelName = UIDevice.current.model
-        let deviceIdentifier = UIDevice.current.identifierForVendor?.uuidString ?? ""
-        
-        // Checking that the device is not an older model
-        if modelName.contains("iPhone") && (Int(deviceIdentifier.suffix(4)) ?? 0 > 6) {
-            return "NFC is available on this device."
-        }
-        
-        return "NFC is not available on this device."
     }
     
     private func getLiDARData() -> String {

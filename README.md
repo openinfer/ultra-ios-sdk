@@ -192,3 +192,63 @@ WHERE:
 - `type` - flow type as .enroll or .predict in case we don't need Welcome Page with proposed flows.
 
 ----------------------
+
+## Open App Clip with Deep Link Navigation
+
+### Example:
+```swift
+if let url = URL(string: "https://appclip.apple.com/id?p=com.privateid.ultra.verify.clip&universalLink=mytestapp") {
+    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+}
+```
+**Note:** Replace `mytestapp` with your custom URL scheme from the app.
+
+---
+
+## How to Add a Custom URL Scheme to Your Project
+
+### 1. Open Your Project’s Info.plist:
+- In Xcode, locate and open the Info.plist file of your app.
+
+### 2. Add a URL Types Entry:
+- Right-click and choose **Add Row**.
+- Select **URL Types** (if it doesn’t already exist) and set its type to **Array**.
+
+### 3. Configure the URL Scheme:
+- Expand the **URL Types** array and add a new item (**Item 0**).
+- Under **Item 0**, add a key called **URL Schemes** (type: Array).
+- Expand **URL Schemes** and add an item (**Item 0**) with your custom string value (e.g., **yourapp**).
+
+Your Info.plist entry should look like this:
+```
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>yourapp</string>
+        </array>
+    </dict>
+</array>
+```
+
+---
+
+## 4. Handle the URL in Your App Delegate
+
+Implement the following method in your **AppDelegate.swift** (or **SceneDelegate** if using scenes):
+
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    // Parse the URL and perform actions as needed
+    if url.scheme == "yourapp" {
+        // Handle the URL accordingly
+        print("Opened via URL scheme: \(url)")
+        return true
+    }
+    return false
+}
+```
+
+
+

@@ -4,6 +4,7 @@
 - [Overview](#overview)
 - [Installation](#installation)
 - [Example](#example)
+- [Navigation](#navigation)
 
 ----------------------
 
@@ -193,15 +194,17 @@ WHERE:
 
 ----------------------
 
-## Open App Clip with Deep Link Navigation
+## Navigation
+
+### Open App Clip with Deep Link Navigation
 
 ### Example:
 ```swift
-if let url = URL(string: "https://appclip.apple.com/id?p=com.privateid.ultra.verify.clip&universalLink=mytestapp") {
+if let url = URL(string: "https://appclip.apple.com/id?p=com.privateid.ultra.verify.clip&universalLink=yourapp") {
     UIApplication.shared.open(url, options: [:], completionHandler: nil)
 }
 ```
-**Note:** Replace `mytestapp` with your custom URL scheme from the app.
+**Note:** Replace `yourapp` with your custom URL scheme from the app.
 
 ---
 

@@ -58,7 +58,6 @@ class FaceInstructionViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        CryptonetManager.shared.startDeviceInfoCollect()
     }
     
     override func viewDidLayoutSubviews() {

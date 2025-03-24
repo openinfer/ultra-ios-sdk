@@ -27,12 +27,7 @@ final class VerifyingViewController: BaseViewController {
             if self.isSucced {
                 NetworkManager.shared.fetchSessionDetails { [weak self] model in
                     guard let self = self else { return }
-                    if model != nil {
-    //                    self.sessionModel = model
-                        self.reset()
-                    } else {
-                        self.reset()
-                    }
+                    self.finish()
                 }
             } else {
                 self.reset()
@@ -61,6 +56,20 @@ final class VerifyingViewController: BaseViewController {
 }
 
 extension VerifyingViewController {
+    func finish() {
+        if let universalLink = CryptonetManager.shared.universalLink,
+           let url = URL(string: universalLink + "://") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if UIApplication.shared.applicationState == .active {
+                    self.reset()
+                }
+            }
+        } else {
+            self.reset()
+        }
+    }
+    
     func showSuccessPage() {
         imageView.image = UIImage.SPMImage(named: "success")
         titleLabel.text = isVerified ? "account.is.verified".localized : "account.is.registered".localized

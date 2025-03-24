@@ -3,7 +3,6 @@ import CoreLocation
 import ProgressHUD
 import CoreMotion
 import AVFoundation
-import CoreNFC
 import ARKit
 
 final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
@@ -16,12 +15,13 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     private var accelerometerData: String = "N|A"
     private var gyroscopeData: String = "N|A"
     private var magnetometerData: String = "N|A"
+    private var cameraLunchTime: String = ""
     private var deviceMotionData: [String: Any] = [:]
     private var barometerAltimeterData: [String: Any] = [:]
     private var microphoneData: [String: Any] = [:]
 
 
-    func start() {
+    func start(with cameraLunchTime: String) {
         locationManager = CLLocationManager()
         fetchAccelerometerData()
         fetchGyroscopeUpdates()
@@ -31,6 +31,7 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         getMicrophoneInfo()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
+        self.cameraLunchTime = cameraLunchTime
     }
     
     func collectDeviceInformation() -> [String: Any] {
@@ -39,7 +40,8 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
             "browserEnvironment": getBrowserEnvironment(),
             "hardwareAndSystemResources": getHardwareAndSystemResources(),
             "environmentContext": getEnvironmentContext(),
-            "indicators": getIndicators()
+            "indicators": getIndicators(),
+            "cameraVerification": getCameraLunchSettings()
         ]
     }
     
@@ -141,6 +143,13 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         return [
             "headless": [],
             "emulator": detectEmulatorIndicators()
+        ]
+    }
+    
+    private func getCameraLunchSettings() -> [String: Any] {
+        return [
+            "initializationTime": 400,
+            "lunchTime": self.cameraLunchTime
         ]
     }
     
@@ -350,25 +359,6 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
                 self.microphoneData["data"] = "Permission denied to use the microphone."
             }
         }
-    }
-
-
-    private func getNFCData() -> String {
-        // Check if the device supports NFC by checking for NFC capabilities
-        if NFCNDEFReaderSession.readingAvailable {
-            return "NFC is available on this device."
-        }
-        
-        // Optionally, check the model to verify NFC support for older devices (e.g., iPhone 6 and below do not have NFC).
-        let modelName = UIDevice.current.model
-        let deviceIdentifier = UIDevice.current.identifierForVendor?.uuidString ?? ""
-        
-        // Checking that the device is not an older model
-        if modelName.contains("iPhone") && (Int(deviceIdentifier.suffix(4)) ?? 0 > 6) {
-            return "NFC is available on this device."
-        }
-        
-        return "NFC is not available on this device."
     }
     
     private func getLiDARData() -> String {

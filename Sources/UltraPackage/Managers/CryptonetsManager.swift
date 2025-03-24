@@ -14,6 +14,7 @@ final class CryptonetManager {
     var publicKey: String?
     var selectedBrowser: String?
     var redirectURL: String?
+    var universalLink: String?
     
     static let privacyURL = "https://privateid.uberverify.com/privacy-policy"
     static let termsURL = "https://privateid.uberverify.com/terms"
@@ -55,8 +56,8 @@ final class CryptonetManager {
         }
     }
     
-    func startDeviceInfoCollect() {
-        deviceInfoManager.start()
+    func startDeviceInfoCollect(with cameraLunchTime: String) {
+        deviceInfoManager.start(with: cameraLunchTime)
     }
     
     func getDeviceInfo() -> String? {

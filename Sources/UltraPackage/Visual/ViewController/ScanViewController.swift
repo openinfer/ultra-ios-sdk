@@ -28,6 +28,8 @@ final class ScanViewController: BaseViewController {
     private var timeInterval: TimeInterval = 0.3
     private var tempImage: UIImage?
     private var isCameraRunning = false
+    private var cameraStartTime: Date?
+    private var cameraLunchTime: String = ""
     
     var faceAnimationTimer: Timer?
     var faceAnimationTimeInterval: TimeInterval = 1.5
@@ -71,6 +73,7 @@ final class ScanViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        CryptonetManager.shared.startDeviceInfoCollect(with: self.cameraLunchTime)
         if isCameraRunning == false {
             isCameraRunning = true
             setupCamera()
@@ -248,6 +251,7 @@ final class ScanViewController: BaseViewController {
     
     func startSession() {
         if !session.isRunning {
+            cameraStartTime = Date()
             DispatchQueue.global(qos: .userInitiated).async {
                 self.session.startRunning()
             }
@@ -440,6 +444,12 @@ private extension ScanViewController {
 extension ScanViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        if let startTime = cameraStartTime {
+            let elapsedTime = Date().timeIntervalSince(startTime)
+            print("Camera launch time: \(elapsedTime) seconds")
+            self.cameraLunchTime = "\(elapsedTime) seconds"
+            cameraStartTime = nil // Reset to avoid multiple prints
+        }
         DispatchQueue.global(qos: .userInitiated).async {
             connection.videoOrientation = self.currentOrientation
             let imageBuffer: CVPixelBuffer = sampleBuffer.imageBuffer!

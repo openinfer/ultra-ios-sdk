@@ -288,7 +288,7 @@ extension ScanViewController {
         } else {
             switch faceStatus {
             case -100, -1:
-                self.titleLabel.attributedText = NSAttributedString(string: "",
+                self.titleLabel.attributedText = NSAttributedString(string: "center.your.head".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             case 0:
                 self.focusCamera()

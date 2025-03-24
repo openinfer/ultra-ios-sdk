@@ -91,12 +91,6 @@ final class ScanViewController: BaseViewController {
                             if isAllowed {
                                 self.startSession()
                                 self.faceIdImage.isHidden = true
-                            } else if let error = error {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    ProgressHUD.failed(error.localizedDescription)
-                                }
-                                
-                                self.reset()
                             } else {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     ProgressHUD.failed("Passwrod entrance is not available.")

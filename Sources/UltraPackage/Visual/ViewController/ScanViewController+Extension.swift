@@ -270,9 +270,7 @@ extension ScanViewController {
         }
         
         self.isFaceScanFailed = isFailure
-        
-        guard faceStatus == 0 else { return }
-        
+                
         if isAntispoof {
             switch faceStatus {
             case -100, -5, -4, -2, 1:

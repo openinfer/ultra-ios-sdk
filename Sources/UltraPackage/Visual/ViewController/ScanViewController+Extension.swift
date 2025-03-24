@@ -271,7 +271,7 @@ extension ScanViewController {
         
         self.isFaceScanFailed = isFailure
         
-        guard self.isFocused == true || faceStatus == 0 else { return }
+        guard faceStatus == 0 else { return }
         
         if isAntispoof {
             switch faceStatus {

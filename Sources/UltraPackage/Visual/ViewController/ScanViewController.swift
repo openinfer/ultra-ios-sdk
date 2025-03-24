@@ -90,8 +90,10 @@ final class ScanViewController: BaseViewController {
                                 self.faceIdImage.isHidden = true
                             } else if let error = error {
                                 ProgressHUD.failed(error.localizedDescription)
+                                self.reset()
                             } else {
-                                ProgressHUD.failed("Face ID is failed. Please, try again.")
+                                ProgressHUD.failed("Passwrod entrance is not available.")
+                                self.reset()
                             }
                         }
                     })

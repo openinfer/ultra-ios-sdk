@@ -84,7 +84,7 @@ extension ScanViewController {
             self.activityLoading.startAnimating()
             self.titleLabel.attributedText = NSAttributedString(string: "processing".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-            self.subresultLabel.attributedText = NSAttributedString(string: "100%",
+            self.resultLabel.attributedText = NSAttributedString(string: "100%" + " " + "recognised".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             self.updateCollectWithData(encryptedKey: encryptedKey,
                                        encryptedMessage: encryptedMessage,
@@ -255,7 +255,7 @@ extension ScanViewController {
         if isFailure {
             self.estimateAttempts = 0
             self.circularProgressView?.progress = 0.0
-            self.subresultLabel.attributedText = NSAttributedString(string: "0%",
+            self.resultLabel.attributedText = NSAttributedString(string: "0%" + " " + "recognised".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             
             if faceStatus == 10 && FlowManager.shared.current == .enroll {

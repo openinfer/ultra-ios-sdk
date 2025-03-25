@@ -11,13 +11,16 @@ final class ScanViewController: BaseViewController {
     @IBOutlet weak var successContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var resultLabel: UILabel!
-    @IBOutlet weak var subresultLabel: UILabel!
     @IBOutlet weak var confettiImageView: UIImageView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
     @IBOutlet weak var footerContainer: UIView!
     @IBOutlet weak var lockImage: UIImageView!
     @IBOutlet weak var faceIdImage: UIImageView!
+    
+    @IBOutlet weak var headerHeight: NSLayoutConstraint!
+    @IBOutlet weak var footerHeight: NSLayoutConstraint!
+    @IBOutlet weak var centerHeight: NSLayoutConstraint!
     
     private let footer: FooterView = .fromNib()
     
@@ -48,7 +51,7 @@ final class ScanViewController: BaseViewController {
     var isDocumentScan: Bool = false
     var estimateAttempts: Float = 0.0 {
         willSet {
-            self.subresultLabel.attributedText = NSAttributedString(string: "\(Int(newValue))%",
+            self.resultLabel.attributedText = NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         }
     }
@@ -138,6 +141,27 @@ final class ScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func orientationChanged() {
+        
+        if UIDevice.current.userInterfaceIdiom == .pad  {
+            self.centerHeight.constant = self.view.frame.width / 2
+        } else {
+            switch UIDevice.current.orientation {
+            case .portrait, .portraitUpsideDown:
+                self.headerHeight.constant = 40.0
+                self.footerHeight.constant = 80.0
+                self.centerHeight.constant = self.view.frame.width / 1.3
+            case .landscapeLeft, .landscapeRight:
+                self.headerHeight.constant = 00.0
+                self.footerHeight.constant = 00.0
+                self.centerHeight.constant = self.view.frame.height / 2
+            default: break
+            }
+            
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
+            }
+        }
+        
         updateOrientationSettings()
     }
     
@@ -161,7 +185,7 @@ final class ScanViewController: BaseViewController {
             if self.circularProgressView?.progressColor == UIColor.green {
                 self.updateCounter(currentValue: 0, toValue: 1.0)
             } else {
-                self.subresultLabel.attributedText = NSAttributedString(string: "0%",
+                self.resultLabel.attributedText = NSAttributedString(string: "0%" + " " + "recognised".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             }
            
@@ -201,7 +225,7 @@ final class ScanViewController: BaseViewController {
     
     func updateCounter(currentValue: Int, toValue: Double) {
         if currentValue <= Int(toValue * 100) {
-                self.subresultLabel.attributedText = NSAttributedString(string: "\(currentValue)%",
+                self.resultLabel.attributedText = NSAttributedString(string: "\(currentValue)%" + " " + "recognised".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             let dispatchTime: DispatchTime = DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {

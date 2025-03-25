@@ -8,7 +8,6 @@ final class ScanViewController: BaseViewController {
 
     @IBOutlet weak var videoFrame: UIView!
     @IBOutlet weak var videoContainer: UIView!
-    @IBOutlet weak var successContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var confettiImageView: UIImageView!
@@ -72,12 +71,12 @@ final class ScanViewController: BaseViewController {
         ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
         ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        orientationChanged()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         CryptonetManager.shared.startDeviceInfoCollect(with: self.cameraLunchTime)
-        orientationChanged()
         if isCameraRunning == false {
             isCameraRunning = true
             setupCamera()
@@ -353,17 +352,6 @@ final class ScanViewController: BaseViewController {
 
         layer.add(animation, forKey: "animation")
         view.layer.addSublayer(layer)
-    }
-    
-    func showFailedAnimation() {
-        UIView.animate(
-            withDuration: 0.5,
-            animations: {
-                self.videoContainer.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
-            },
-            completion: { _ in
-                self.liveIconFailed(self.successContainer)
-            })
     }
     
     func navigateToFinalWithFailure() {

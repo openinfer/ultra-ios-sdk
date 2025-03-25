@@ -70,7 +70,8 @@ final class ScanViewController: BaseViewController {
         ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
         ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
-        orientationChanged()
+        adjustVideoLayerFrame(isLanch: true)
+        updateOrientationSettings()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,26 +83,6 @@ final class ScanViewController: BaseViewController {
             setupTimer()
 //            startFaceAnimationTimer()
 //            if FlowManager.shared.scanType == .face {
-                UIView.animate(withDuration: 0.15, delay: 0.3, animations: {
-                    self.faceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
-                }) { _ in
-                    UIView.animate(withDuration: 0.15, animations: {
-                        self.faceIdImage.transform = .identity
-                        
-                        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
-                            if isAllowed {
-                                self.startSession()
-                                self.faceIdImage.isHidden = true
-                            } else {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    ProgressHUD.failed("Passwrod entrance is not available.")
-                                }
-                
-                                self.reset()
-                            }
-                        }
-                    })
-                }
 //            } else {
 //                self.startSession()
 //            }
@@ -139,42 +120,7 @@ final class ScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func orientationChanged() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            if UIDevice.current.userInterfaceIdiom == .pad  {
-                switch UIDevice.current.orientation {
-                case .portrait:
-                    self.centerHeight.constant = self.view.frame.width / 1.25
-                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
-                    self.centerHeight.constant = self.view.frame.height / 2
-                default: break
-                }
-            } else {
-                switch UIDevice.current.orientation {
-                case .portrait:
-                    self.headerHeight.constant = 40.0
-                    self.footerHeight.constant = 80.0
-                    self.centerHeight.constant = self.view.frame.width / 1.25
-                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
-                    self.headerHeight.constant = 00.0
-                    self.footerHeight.constant = 00.0
-                    self.centerHeight.constant = self.view.frame.height / 1.45
-                    self.navigationController?.setNavigationBarHidden(true, animated: true)
-                default: break
-                }
-            }
-            
-            UIView.animate(withDuration: 0.1) {
-                self.view.layoutIfNeeded()
-            } completion: { _ in
-                let lineWidth: Double = 8
-                self.circularProgressView?.frame = CGRect(x: 0 + (lineWidth / 2),
-                                                         y: 0 + (lineWidth / 2),
-                                                              width: self.videoContainer.frame.width - lineWidth * 2,
-                                                              height: self.videoContainer.frame.height - lineWidth * 2)
-            }
-        }
-        
+        adjustVideoLayerFrame(isLanch: false)
         updateOrientationSettings()
     }
     
@@ -338,6 +284,71 @@ final class ScanViewController: BaseViewController {
             vc.isVerified = isVerified
             vc.isSucced = true
             self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func adjustVideoLayerFrame(isLanch: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if UIDevice.current.userInterfaceIdiom == .pad  {
+                switch UIDevice.current.orientation {
+                case .portrait:
+                    self.centerHeight.constant = self.view.frame.width / 1.25
+                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
+                    self.centerHeight.constant = self.view.frame.height / 2
+                default: break
+                }
+            } else {
+                switch UIDevice.current.orientation {
+                case .portrait:
+                    self.headerHeight.constant = 40.0
+                    self.footerHeight.constant = 80.0
+                    self.centerHeight.constant = self.view.frame.width / 1.25
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
+                    self.headerHeight.constant = 00.0
+                    self.footerHeight.constant = 00.0
+                    self.centerHeight.constant = self.view.frame.height / 1.45
+                    self.navigationController?.setNavigationBarHidden(true, animated: true)
+                default: break
+                }
+            }
+            
+            UIView.animate(withDuration: 0.1) {
+                self.view.layoutIfNeeded()
+            } completion: { _ in
+                let lineWidth: Double = 8
+                self.circularProgressView?.frame = CGRect(x: 0 + (lineWidth / 2),
+                                                         y: 0 + (lineWidth / 2),
+                                                              width: self.videoContainer.frame.width - lineWidth * 2,
+                                                              height: self.videoContainer.frame.height - lineWidth * 2)
+                self.circularProgressView?.center = self.videoFrame.center
+                if isLanch {
+                    self.launchFaceId()
+                }
+            }
+        }
+    }
+    
+    func launchFaceId() {
+        UIView.animate(withDuration: 0.15, delay: 0.3, animations: {
+            self.faceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
+        }) { _ in
+            UIView.animate(withDuration: 0.15, animations: {
+                self.faceIdImage.transform = .identity
+                
+                CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
+                    if isAllowed {
+                        self.startSession()
+                        self.faceIdImage.isHidden = true
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            ProgressHUD.failed("Passwrod entrance is not available.")
+                        }
+        
+                        self.reset()
+                    }
+                }
+            })
         }
     }
 }

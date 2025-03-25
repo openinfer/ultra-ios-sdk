@@ -141,27 +141,34 @@ final class ScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func orientationChanged() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             if UIDevice.current.userInterfaceIdiom == .pad  {
-                self.centerHeight.constant = self.view.frame.width / 2
+                switch UIDevice.current.orientation {
+                case .portrait:
+                    self.centerHeight.constant = self.view.frame.width / 1.25
+                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
+                    self.centerHeight.constant = self.view.frame.height / 2
+                default: break
+                }
             } else {
                 switch UIDevice.current.orientation {
                 case .portrait:
                     self.headerHeight.constant = 40.0
                     self.footerHeight.constant = 80.0
-                    self.centerHeight.constant = self.view.frame.width / 1.3
+                    self.centerHeight.constant = self.view.frame.width / 1.25
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                 case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
                     self.headerHeight.constant = 00.0
                     self.footerHeight.constant = 00.0
-                    self.centerHeight.constant = self.view.frame.height / 1.4
+                    self.centerHeight.constant = self.view.frame.height / 1.45
                     self.navigationController?.setNavigationBarHidden(true, animated: true)
                 default: break
                 }
-                
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
+            }
+            
+            
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
             }
         }
         

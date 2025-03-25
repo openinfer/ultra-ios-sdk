@@ -70,8 +70,8 @@ final class ScanViewController: BaseViewController {
         ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
         ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
-        circularProgressView.trackColor = .white
-        
+
+        setupProgress()
         adjustVideoLayerFrame(isLanch: true)
         updateOrientationSettings()
     }
@@ -353,6 +353,13 @@ final class ScanViewController: BaseViewController {
                 }
             })
         }
+    }
+    
+    func setupProgress() {
+        circularProgressView.rounded = false
+        circularProgressView.progressColor = .systemGreen
+        circularProgressView.trackColor = .white
+//        circularProgressView.alpha = 0.0
     }
 }
 

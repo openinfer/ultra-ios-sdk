@@ -5,11 +5,9 @@ final class CircularProgressView: UIView {
     fileprivate var progressLayer = CAShapeLayer()
     fileprivate var trackLayer = CAShapeLayer()
     fileprivate var didConfigureLabel = false
-    fileprivate var rounded: Bool
+    var rounded: Bool
     fileprivate var filled: Bool
-    
-    
-    fileprivate let lineWidth: CGFloat?
+    fileprivate let lineWidth: CGFloat = 8.0
     
     
     var timeToFill = 3.43
@@ -72,7 +70,7 @@ final class CircularProgressView: UIView {
             trackLayer.lineCap = .butt
             trackLayer.lineWidth = frame.width
         } else {
-            trackLayer.lineWidth = lineWidth!
+            trackLayer.lineWidth = lineWidth
         }
         trackLayer.strokeEnd = 1
         layer.addSublayer(trackLayer)
@@ -84,7 +82,7 @@ final class CircularProgressView: UIView {
             progressLayer.lineCap = .butt
             progressLayer.lineWidth = frame.width
         }else{
-            progressLayer.lineWidth = lineWidth!
+            progressLayer.lineWidth = lineWidth
         }
         progressLayer.strokeEnd = 0
         if rounded{
@@ -115,7 +113,7 @@ final class CircularProgressView: UIView {
         progress = 0
         rounded = true
         filled = false
-        lineWidth = 15
+
         super.init(frame: frame)
         filled = false
         createProgressView()
@@ -125,7 +123,7 @@ final class CircularProgressView: UIView {
         progress = 0
         rounded = true
         filled = false
-        lineWidth = 15
+
         super.init(coder: coder)
         createProgressView()
         
@@ -145,8 +143,7 @@ final class CircularProgressView: UIView {
             }
             self.filled = false
         }
-        self.lineWidth = lineWidth
-        
+
         super.init(frame: frame)
         createProgressView(isRectAnimation: isRectAnimation, isDahsed: isDahsed)
         

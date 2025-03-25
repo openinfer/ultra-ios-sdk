@@ -100,8 +100,9 @@ final class ScanViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         footer.frame = footerContainer.bounds
+        let lineWidth: Double = 8
+        
         if circularProgressView == nil {
-            let lineWidth: Double = 8
             circularProgressView = CircularProgressView(frame: CGRect(x: 0 + (lineWidth / 2),
                                                               y: 0 + (lineWidth / 2),
                                                               width: videoContainer.frame.width - lineWidth * 2,
@@ -112,6 +113,11 @@ final class ScanViewController: BaseViewController {
             circularProgressView?.trackColor = .white
             circularProgressView?.alpha = 0.0
             videoContainer.addSubview(circularProgressView!)
+        } else {
+            circularProgressView?.frame = CGRect(x: 0 + (lineWidth / 2),
+                                                 y: 0 + (lineWidth / 2),
+                                                 width: videoContainer.frame.width - lineWidth * 2,
+                                                 height: videoContainer.frame.height - lineWidth * 2)
         }
         
         circularProgressView?.center = videoContainer.center

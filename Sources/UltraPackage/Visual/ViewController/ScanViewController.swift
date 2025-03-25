@@ -10,7 +10,6 @@ final class ScanViewController: BaseViewController {
     @IBOutlet weak var videoContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var resultLabel: UILabel!
-    @IBOutlet weak var confettiImageView: UIImageView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
     @IBOutlet weak var footerContainer: UIView!
@@ -165,9 +164,10 @@ final class ScanViewController: BaseViewController {
                 }
             }
             
-            
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.1) {
                 self.view.layoutIfNeeded()
+            } completion: { _ in
+                self.viewDidLayoutSubviews()
             }
         }
         
@@ -304,54 +304,6 @@ final class ScanViewController: BaseViewController {
         stopTimer()
         stopSession()
         //
-    }
-    
-    func showSucccessAnimation() {
-        UIView.animate(
-            withDuration: 0.5,
-            animations: {
-                self.circularProgressView?.alpha = 0.0
-                self.videoContainer.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
-            }, completion: { _ in
-//                self.activityLoading.startAnimating()
-            })
-    }
-    
-    
-//    func liveIconSucceed(_ view: UIView) {
-//        let url = URL(string: "https://i.ibb.co/3pnnYyR/Confetti.gif")
-//        let loader = UIActivityIndicatorView(style: .medium)
-//        self.confettiImageView.setGifFromURL(url!, customLoader: loader)
-//        self.activityLoading.stopAnimating()
-//    }
-    
-    func liveIconSucceed(_ view: UIView) {
-        let length = view.frame.width
-
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: length * 0.15, y: length * 0.50))
-        path.addLine(to: CGPoint(x: length * 0.5, y: length * 0.80))
-        path.addLine(to: CGPoint(x: length * 1.0, y: length * 0.25))
-
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.duration = 0.25
-        animation.fromValue = 0
-        animation.toValue = 1
-        animation.fillMode = .forwards
-        animation.isRemovedOnCompletion = false
-        animation.beginTime = CACurrentMediaTime()
-
-        let layer = CAShapeLayer()
-        layer.path = path.cgPath
-        layer.fillColor = UIColor.clear.cgColor
-        layer.strokeColor = UIColor.gray.cgColor
-        layer.lineWidth = 9
-        layer.lineCap = .round
-        layer.lineJoin = .round
-        layer.strokeEnd = 0
-
-        layer.add(animation, forKey: "animation")
-        view.layer.addSublayer(layer)
     }
     
     func navigateToFinalWithFailure() {

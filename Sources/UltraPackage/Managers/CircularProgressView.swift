@@ -61,7 +61,7 @@ final class CircularProgressView: UIView {
         
         guard let linePath = linePath else { return }
         
-        self.backgroundColor = .clear
+        self.backgroundColor = UIColor.red
         self.layer.cornerRadius = frame.size.width / 2
         
         trackLayer.fillColor = UIColor.blue.cgColor

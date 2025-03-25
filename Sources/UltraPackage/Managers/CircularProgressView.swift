@@ -43,7 +43,7 @@ final class CircularProgressView: UIView {
         }
     }
     
-    fileprivate func createProgressView(isRectAnimation: Bool = false, isDahsed: Bool = false){
+    fileprivate func createProgressView(isRectAnimation: Bool = false, isDahsed: Bool = true){
         
         let linePath: UIBezierPath?
         

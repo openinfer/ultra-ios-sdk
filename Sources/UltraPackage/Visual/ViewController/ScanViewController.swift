@@ -316,7 +316,7 @@ final class ScanViewController: BaseViewController {
     }
     
     func launchFaceId() {
-        UIView.animate(withDuration: 0.15, delay: 0.3, animations: {
+        UIView.animate(withDuration: 0.15, delay: 0.7, animations: {
             self.faceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
         }) { _ in
             UIView.animate(withDuration: 0.15, animations: {

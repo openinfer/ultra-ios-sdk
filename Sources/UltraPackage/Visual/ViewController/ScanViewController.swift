@@ -308,6 +308,8 @@ final class ScanViewController: BaseViewController {
             UIView.animate(withDuration: 0.1) {
                 self.view.layoutIfNeeded()
             } completion: { _ in
+                self.circularProgressView.redraw()
+                
                 if isLanch {
                     self.launchFaceId()
                 }
@@ -343,7 +345,6 @@ final class ScanViewController: BaseViewController {
         circularProgressView.progressColor = .systemGreen
         circularProgressView.trackColor = .white
         circularProgressView.alpha = 0.0
-        circularProgressView.createProgressView()
     }
 }
 

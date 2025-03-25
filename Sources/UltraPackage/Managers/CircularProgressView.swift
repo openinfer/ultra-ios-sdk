@@ -42,6 +42,12 @@ final class CircularProgressView: UIView {
             setProgress(duration: timeToFill * Double(pathMoved), to: progress)
         }
     }
+    
+    func redraw() {
+        self.progressLayer.removeFromSuperlayer()
+        self.trackLayer.removeFromSuperlayer()
+        self.createProgressView()
+    }
 
     func createProgressView(isRectAnimation: Bool = false, isDahsed: Bool = true){
         

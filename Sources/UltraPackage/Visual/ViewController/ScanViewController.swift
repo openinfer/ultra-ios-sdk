@@ -103,27 +103,6 @@ final class ScanViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         footer.frame = footerContainer.bounds
         previewLayer?.frame = videoFrame.layer.bounds
-//        let lineWidth: Double = 8
-//        
-//        if circularProgressView == nil {
-//            circularProgressView = CircularProgressView(frame: CGRect(x: 0 + (lineWidth / 2),
-//                                                              y: 0 + (lineWidth / 2),
-//                                                              width: videoContainer.frame.width - lineWidth * 2,
-//                                                              height: videoContainer.frame.height - lineWidth * 2),
-//                                                              lineWidth: lineWidth, rounded: false,
-//                                                         isRectAnimation: false, isDahsed: true)
-//            circularProgressView?.progressColor = .systemGreen
-//            circularProgressView?.trackColor = .white
-//            circularProgressView?.alpha = 0.0
-//            videoContainer.addSubview(circularProgressView!)
-//        } else {
-//            circularProgressView?.frame = CGRect(x: 0 + (lineWidth / 2),
-//                                                 y: 0 + (lineWidth / 2),
-//                                                 width: videoContainer.frame.width - lineWidth * 2,
-//                                                 height: videoContainer.frame.height - lineWidth * 2)
-//        }
-//        
-//        circularProgressView?.center = videoContainer.center
     }
     
     // MARK:- Actions
@@ -359,7 +338,7 @@ final class ScanViewController: BaseViewController {
         circularProgressView.rounded = false
         circularProgressView.progressColor = .systemGreen
         circularProgressView.trackColor = .white
-//        circularProgressView.alpha = 0.0
+        circularProgressView.alpha = 0.0
     }
 }
 

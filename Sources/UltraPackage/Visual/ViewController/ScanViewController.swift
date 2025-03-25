@@ -141,19 +141,21 @@ final class ScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func orientationChanged() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             if UIDevice.current.userInterfaceIdiom == .pad  {
                 self.centerHeight.constant = self.view.frame.width / 2
             } else {
                 switch UIDevice.current.orientation {
-                case .portrait, .portraitUpsideDown:
+                case .portrait:
                     self.headerHeight.constant = 40.0
                     self.footerHeight.constant = 80.0
                     self.centerHeight.constant = self.view.frame.width / 1.3
-                case .landscapeLeft, .landscapeRight:
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
                     self.headerHeight.constant = 00.0
                     self.footerHeight.constant = 00.0
-                    self.centerHeight.constant = self.view.frame.height / 2
+                    self.centerHeight.constant = self.view.frame.height / 1.3
+                    self.navigationController?.setNavigationBarHidden(true, animated: true)
                 default: break
                 }
                 

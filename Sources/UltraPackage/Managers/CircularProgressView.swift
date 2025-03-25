@@ -43,6 +43,11 @@ final class CircularProgressView: UIView {
         }
     }
     
+    func redraw() {
+        progressLayer.removeFromSuperlayer()
+        createProgressView()
+    }
+    
     fileprivate func createProgressView(isRectAnimation: Bool = false, isDahsed: Bool = true){
         
         let linePath: UIBezierPath?

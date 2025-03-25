@@ -110,6 +110,7 @@ final class ScanViewController: BaseViewController {
     @objc func orientationChanged() {
         adjustVideoLayerFrame(isLanch: false)
         updateOrientationSettings()
+        circularProgressView.redraw()
     }
     
     @objc func backToRoot() {
@@ -299,6 +300,10 @@ final class ScanViewController: BaseViewController {
                     self.navigationController?.setNavigationBarHidden(true, animated: true)
                 default: break
                 }
+            }
+            
+            if self.isFocused {
+                self.videoFrame.layer.cornerRadius = self.videoFrame.frame.width / 2
             }
             
             UIView.animate(withDuration: 0.1) {

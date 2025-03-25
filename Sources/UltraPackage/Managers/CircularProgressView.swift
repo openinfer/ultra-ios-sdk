@@ -11,7 +11,7 @@ final class CircularProgressView: UIView {
     
     
     var timeToFill = 3.43
-
+    
     
     var progressColor = UIColor.white {
         willSet {
@@ -19,7 +19,7 @@ final class CircularProgressView: UIView {
                 progress = 0.0
             }
         }
-     
+        
         didSet {
             progressLayer.strokeColor = progressColor.cgColor
         }
@@ -43,8 +43,11 @@ final class CircularProgressView: UIView {
         }
     }
     
-    func redraw() {
+    func updateSize() {
+        
         progressLayer.removeFromSuperlayer()
+        trackLayer.removeFromSuperlayer()
+        
         createProgressView()
     }
     
@@ -62,7 +65,7 @@ final class CircularProgressView: UIView {
         
         self.backgroundColor = .clear
         self.layer.cornerRadius = frame.size.width / 2
-
+        
         trackLayer.fillColor = UIColor.blue.cgColor
         trackLayer.path = linePath.cgPath
         trackLayer.fillColor = .none
@@ -118,7 +121,7 @@ final class CircularProgressView: UIView {
         progress = 0
         rounded = true
         filled = false
-
+        
         super.init(frame: frame)
         filled = false
         createProgressView()
@@ -128,7 +131,7 @@ final class CircularProgressView: UIView {
         progress = 0
         rounded = true
         filled = false
-
+        
         super.init(coder: coder)
         createProgressView()
         
@@ -140,17 +143,17 @@ final class CircularProgressView: UIView {
         if lineWidth == nil{
             self.filled = true
             self.rounded = false
-        }else{
-            if rounded{
-                self.rounded = true
-            }else{
-                self.rounded = false
-            }
+        } else {
+            self.rounded = rounded
             self.filled = false
         }
-
+        
         super.init(frame: frame)
         createProgressView(isRectAnimation: isRectAnimation, isDahsed: isDahsed)
-        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateSize()
     }
 }

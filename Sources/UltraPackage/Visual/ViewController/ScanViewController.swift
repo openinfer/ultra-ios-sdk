@@ -110,7 +110,6 @@ final class ScanViewController: BaseViewController {
     @objc func orientationChanged() {
         adjustVideoLayerFrame(isLanch: false)
         updateOrientationSettings()
-        circularProgressView.redraw()
     }
     
     @objc func backToRoot() {
@@ -310,7 +309,6 @@ final class ScanViewController: BaseViewController {
                 self.view.layoutIfNeeded()
             } completion: { _ in
                 if isLanch {
-                    self.circularProgressView.redraw()
                     self.launchFaceId()
                 }
             }

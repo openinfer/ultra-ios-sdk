@@ -141,7 +141,7 @@ final class ScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func orientationChanged() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             if UIDevice.current.userInterfaceIdiom == .pad  {
                 self.centerHeight.constant = self.view.frame.width / 2
             } else {
@@ -154,7 +154,7 @@ final class ScanViewController: BaseViewController {
                 case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
                     self.headerHeight.constant = 00.0
                     self.footerHeight.constant = 00.0
-                    self.centerHeight.constant = self.view.frame.height / 1.3
+                    self.centerHeight.constant = self.view.frame.height / 1.4
                     self.navigationController?.setNavigationBarHidden(true, animated: true)
                 default: break
                 }

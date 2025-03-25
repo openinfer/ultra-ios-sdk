@@ -77,10 +77,10 @@ final class ScanViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         CryptonetManager.shared.startDeviceInfoCollect(with: self.cameraLunchTime)
+        orientationChanged()
         if isCameraRunning == false {
             isCameraRunning = true
             setupCamera()
-            updateOrientationSettings()
             setupTimer()
 //            startFaceAnimationTimer()
 //            if FlowManager.shared.scanType == .face {
@@ -141,24 +141,25 @@ final class ScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func orientationChanged() {
-        
-        if UIDevice.current.userInterfaceIdiom == .pad  {
-            self.centerHeight.constant = self.view.frame.width / 2
-        } else {
-            switch UIDevice.current.orientation {
-            case .portrait, .portraitUpsideDown:
-                self.headerHeight.constant = 40.0
-                self.footerHeight.constant = 80.0
-                self.centerHeight.constant = self.view.frame.width / 1.3
-            case .landscapeLeft, .landscapeRight:
-                self.headerHeight.constant = 00.0
-                self.footerHeight.constant = 00.0
-                self.centerHeight.constant = self.view.frame.height / 2
-            default: break
-            }
-            
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if UIDevice.current.userInterfaceIdiom == .pad  {
+                self.centerHeight.constant = self.view.frame.width / 2
+            } else {
+                switch UIDevice.current.orientation {
+                case .portrait, .portraitUpsideDown:
+                    self.headerHeight.constant = 40.0
+                    self.footerHeight.constant = 80.0
+                    self.centerHeight.constant = self.view.frame.width / 1.3
+                case .landscapeLeft, .landscapeRight:
+                    self.headerHeight.constant = 00.0
+                    self.footerHeight.constant = 00.0
+                    self.centerHeight.constant = self.view.frame.height / 2
+                default: break
+                }
+                
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
             }
         }
         

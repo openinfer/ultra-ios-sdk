@@ -141,7 +141,7 @@ final class ScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func orientationChanged() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             if UIDevice.current.userInterfaceIdiom == .pad  {
                 switch UIDevice.current.orientation {
                 case .portrait:

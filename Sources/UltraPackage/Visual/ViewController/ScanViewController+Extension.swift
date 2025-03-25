@@ -81,6 +81,7 @@ extension ScanViewController {
         self.circularProgressView?.timeToFill = 0.5
         self.circularProgressView?.progress = 1.0
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.showSucccessAnimation()
             self.activityLoading.startAnimating()
             self.titleLabel.attributedText = NSAttributedString(string: "processing".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
@@ -167,6 +168,7 @@ extension ScanViewController {
     private func updateFinalUI(isFinished: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if isFinished == true {
+                self.showSucccessAnimation()
                 self.activityLoading.stopAnimating()
                 self.titleLabel.attributedText = NSAttributedString(string: "",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])

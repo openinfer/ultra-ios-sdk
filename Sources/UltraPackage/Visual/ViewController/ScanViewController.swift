@@ -167,7 +167,11 @@ final class ScanViewController: BaseViewController {
             UIView.animate(withDuration: 0.1) {
                 self.view.layoutIfNeeded()
             } completion: { _ in
-                self.viewDidLayoutSubviews()
+                let lineWidth: Double = 8
+                self.circularProgressView?.frame = CGRect(x: 0 + (lineWidth / 2),
+                                                         y: 0 + (lineWidth / 2),
+                                                              width: self.videoContainer.frame.width - lineWidth * 2,
+                                                              height: self.videoContainer.frame.height - lineWidth * 2)
             }
         }
         
@@ -305,6 +309,19 @@ final class ScanViewController: BaseViewController {
         stopSession()
         //
     }
+    
+    
+    func showSucccessAnimation() {
+        UIView.animate(
+            withDuration: 0.5,
+            animations: {
+                self.circularProgressView?.alpha = 0.0
+                self.videoContainer.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
+            }, completion: { _ in
+//                self.activityLoading.startAnimating()
+            })
+    }
+
     
     func navigateToFinalWithFailure() {
         let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)

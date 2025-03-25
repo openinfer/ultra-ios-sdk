@@ -110,11 +110,11 @@ final class ScanViewController: BaseViewController {
                                                          isRectAnimation: false, isDahsed: true)
             circularProgressView?.progressColor = .systemGreen
             circularProgressView?.trackColor = .white
-            circularProgressView?.center = videoContainer.center
             circularProgressView?.alpha = 0.0
             videoContainer.addSubview(circularProgressView!)
         }
         
+        circularProgressView?.center = videoContainer.center
         previewLayer?.frame = videoFrame.layer.bounds
     }
     
@@ -263,7 +263,7 @@ final class ScanViewController: BaseViewController {
             withDuration: 0.5,
             animations: {
                 self.circularProgressView?.alpha = 0.0
-                self.videoContainer.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
+                self.videoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
             }, completion: { _ in
 //                self.activityLoading.startAnimating()
             })

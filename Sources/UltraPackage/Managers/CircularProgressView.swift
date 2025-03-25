@@ -50,20 +50,21 @@ final class CircularProgressView: UIView {
     }
 
     func createProgressView(isRectAnimation: Bool = false, isDahsed: Bool = true){
-        
         let linePath: UIBezierPath?
-        
+
         if isRectAnimation {
-            linePath = UIBezierPath(roundedRect: frame, cornerRadius: 6)
+            linePath = UIBezierPath(roundedRect: bounds, cornerRadius: 6)
         } else {
-            linePath = UIBezierPath(arcCenter: center, radius: frame.width / 2, startAngle: CGFloat(-0.5 * .pi), endAngle: CGFloat(1.5 * .pi), clockwise: true)
+            let centerPoint = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+            let radius = min(bounds.width, bounds.height) / 2 - lineWidth / 2
+            linePath = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(-0.5 * .pi), endAngle: CGFloat(1.5 * .pi), clockwise: true)
         }
-        
+
         guard let linePath = linePath else { return }
-        
+
         self.backgroundColor = UIColor.red
-        self.layer.cornerRadius = frame.size.width / 2
-        
+        self.layer.cornerRadius = bounds.size.width / 2
+
         trackLayer.fillColor = UIColor.blue.cgColor
         trackLayer.path = linePath.cgPath
         trackLayer.fillColor = .none
@@ -71,32 +72,31 @@ final class CircularProgressView: UIView {
         if isDahsed {
             trackLayer.lineDashPattern = [4, 4]
         }
-        
+
         if filled {
             trackLayer.lineCap = .butt
-            trackLayer.lineWidth = frame.width
+            trackLayer.lineWidth = bounds.width
         } else {
             trackLayer.lineWidth = lineWidth
         }
         trackLayer.strokeEnd = 1
         layer.addSublayer(trackLayer)
-        
+
         progressLayer.path = linePath.cgPath
         progressLayer.fillColor = .none
         progressLayer.strokeColor = progressColor.cgColor
         if filled {
             progressLayer.lineCap = .butt
-            progressLayer.lineWidth = frame.width
-        }else{
+            progressLayer.lineWidth = bounds.width
+        } else {
             progressLayer.lineWidth = lineWidth
         }
         progressLayer.strokeEnd = 0
-        if rounded{
+        if rounded {
             progressLayer.lineCap = .round
         }
-        
+
         layer.addSublayer(progressLayer)
-        
     }
     
     func trackColorToProgressColor() -> Void{

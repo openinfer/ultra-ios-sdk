@@ -36,14 +36,14 @@ extension ScanViewController {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
-                if self.mfToken.isEmpty == false && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
+                if self.mfToken.isEmpty == false && self.circularProgressView.alpha == 1.0 && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 33.33
                 } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
                     self.estimateAttempts = 0
                 }
 
                 if self.isFocused {
-                    self.circularProgressView?.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
+                    self.circularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -77,8 +77,8 @@ extension ScanViewController {
         self.stopSession()
         self.stopFaceAnimationTimer()
         self.stopTimer()
-        self.circularProgressView?.timeToFill = 0.5
-        self.circularProgressView?.progress = 1.0
+        self.circularProgressView.timeToFill = 0.5
+        self.circularProgressView.progress = 1.0
         self.activityLoading.startAnimating()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showSucccessAnimation()
@@ -202,14 +202,14 @@ private extension ScanViewController {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
-                if self.mfToken.isEmpty == false && self.circularProgressView?.alpha == 1.0 && self.estimateAttempts <= 100.0 {
+                if self.mfToken.isEmpty == false && self.circularProgressView.alpha == 1.0 && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 20
                 } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
                     self.estimateAttempts = 0
                 }
                 
                 if self.isFocused {
-                    self.circularProgressView?.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
+                    self.circularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -251,7 +251,7 @@ extension ScanViewController {
         let isFailure = faceStatus != 0
         if isFailure {
             self.estimateAttempts = 0
-            self.circularProgressView?.progress = 0.0
+            self.circularProgressView.progress = 0.0
             self.resultLabel.attributedText = NSAttributedString(string: "0%" + " " + "recognised".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             
@@ -364,7 +364,7 @@ extension ScanViewController {
         self.stopSessionTimer()
         UIView.animate(withDuration: 0.6) {
             self.videoFrame.layer.cornerRadius = self.videoFrame.frame.width / 2
-            self.circularProgressView?.alpha = 1.0
+            self.circularProgressView.alpha = 1.0
         }
     }
 }

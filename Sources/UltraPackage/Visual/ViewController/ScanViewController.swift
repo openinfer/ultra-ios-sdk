@@ -20,6 +20,8 @@ final class ScanViewController: BaseViewController {
     @IBOutlet weak var footerHeight: NSLayoutConstraint!
     @IBOutlet weak var centerHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var circularProgressView: CircularProgressView!
+    
     private let footer: FooterView = .fromNib()
     
     private let session = AVCaptureSession()
@@ -56,9 +58,7 @@ final class ScanViewController: BaseViewController {
     var mfToken: String = ""
     var isFaceScanFailed: Bool = true
     var isFocused: Bool = false
-    
-    var circularProgressView: CircularProgressView?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.titleLabel.attributedText = NSAttributedString(string: "center.your.head".localized,
@@ -70,6 +70,8 @@ final class ScanViewController: BaseViewController {
         ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
         ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        circularProgressView.trackColor = .white
+        
         adjustVideoLayerFrame(isLanch: true)
         updateOrientationSettings()
     }
@@ -100,28 +102,28 @@ final class ScanViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         footer.frame = footerContainer.bounds
-        let lineWidth: Double = 8
-        
-        if circularProgressView == nil {
-            circularProgressView = CircularProgressView(frame: CGRect(x: 0 + (lineWidth / 2),
-                                                              y: 0 + (lineWidth / 2),
-                                                              width: videoContainer.frame.width - lineWidth * 2,
-                                                              height: videoContainer.frame.height - lineWidth * 2),
-                                                              lineWidth: lineWidth, rounded: false,
-                                                         isRectAnimation: false, isDahsed: true)
-            circularProgressView?.progressColor = .systemGreen
-            circularProgressView?.trackColor = .white
-            circularProgressView?.alpha = 0.0
-            videoContainer.addSubview(circularProgressView!)
-        } else {
-            circularProgressView?.frame = CGRect(x: 0 + (lineWidth / 2),
-                                                 y: 0 + (lineWidth / 2),
-                                                 width: videoContainer.frame.width - lineWidth * 2,
-                                                 height: videoContainer.frame.height - lineWidth * 2)
-        }
-        
-        circularProgressView?.center = videoContainer.center
         previewLayer?.frame = videoFrame.layer.bounds
+//        let lineWidth: Double = 8
+//        
+//        if circularProgressView == nil {
+//            circularProgressView = CircularProgressView(frame: CGRect(x: 0 + (lineWidth / 2),
+//                                                              y: 0 + (lineWidth / 2),
+//                                                              width: videoContainer.frame.width - lineWidth * 2,
+//                                                              height: videoContainer.frame.height - lineWidth * 2),
+//                                                              lineWidth: lineWidth, rounded: false,
+//                                                         isRectAnimation: false, isDahsed: true)
+//            circularProgressView?.progressColor = .systemGreen
+//            circularProgressView?.trackColor = .white
+//            circularProgressView?.alpha = 0.0
+//            videoContainer.addSubview(circularProgressView!)
+//        } else {
+//            circularProgressView?.frame = CGRect(x: 0 + (lineWidth / 2),
+//                                                 y: 0 + (lineWidth / 2),
+//                                                 width: videoContainer.frame.width - lineWidth * 2,
+//                                                 height: videoContainer.frame.height - lineWidth * 2)
+//        }
+//        
+//        circularProgressView?.center = videoContainer.center
     }
     
     // MARK:- Actions
@@ -145,19 +147,19 @@ final class ScanViewController: BaseViewController {
     
     @objc func faceAnimationCircule() {
         DispatchQueue.main.async {
-            self.circularProgressView?.progressColor = self.isFaceScanFailed ? UIColor.white : UIColor.green
-            let isFinished = self.circularProgressView?.progressColor == UIColor.green && self.circularProgressView?.progress == 1.0
+            self.circularProgressView.progressColor = self.isFaceScanFailed ? UIColor.white : UIColor.green
+            let isFinished = self.circularProgressView?.progressColor == UIColor.green && self.circularProgressView.progress == 1.0
             guard isFinished == false else { return }
-            if self.circularProgressView?.progressColor == UIColor.green {
+            if self.circularProgressView.progressColor == UIColor.green {
                 self.updateCounter(currentValue: 0, toValue: 1.0)
             } else {
                 self.resultLabel.attributedText = NSAttributedString(string: "0%" + " " + "recognised".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             }
            
-            self.circularProgressView?.progress = 0.0
-            self.circularProgressView?.timeToFill = 1.5
-            self.circularProgressView?.progress = 1.0
+            self.circularProgressView.progress = 0.0
+            self.circularProgressView.timeToFill = 1.5
+            self.circularProgressView.progress = 1.0
         }
     }
     
@@ -268,7 +270,7 @@ final class ScanViewController: BaseViewController {
         UIView.animate(
             withDuration: 0.5,
             animations: {
-                self.circularProgressView?.alpha = 0.0
+                self.circularProgressView.alpha = 0.0
                 self.videoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
             }, completion: { _ in
 //                self.activityLoading.startAnimating()

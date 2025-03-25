@@ -110,6 +110,7 @@ final class ScanViewController: BaseViewController {
                                                          isRectAnimation: false, isDahsed: true)
             circularProgressView?.progressColor = .systemGreen
             circularProgressView?.trackColor = .white
+            circularProgressView?.center = videoContainer.center
             circularProgressView?.alpha = 0.0
             videoContainer.addSubview(circularProgressView!)
         }
@@ -316,12 +317,6 @@ final class ScanViewController: BaseViewController {
             UIView.animate(withDuration: 0.1) {
                 self.view.layoutIfNeeded()
             } completion: { _ in
-                let lineWidth: Double = 8
-                self.circularProgressView?.frame = CGRect(x: 0 + (lineWidth / 2),
-                                                         y: 0 + (lineWidth / 2),
-                                                              width: self.videoContainer.frame.width - lineWidth * 2,
-                                                              height: self.videoContainer.frame.height - lineWidth * 2)
-                self.circularProgressView?.center = self.videoFrame.center
                 if isLanch {
                     self.launchFaceId()
                 }

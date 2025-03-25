@@ -74,15 +74,14 @@ extension ScanViewController {
     }
     
     func stopScan(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage) {
-        self.activityLoading.startAnimating()
         self.stopSession()
         self.stopFaceAnimationTimer()
         self.stopTimer()
         self.circularProgressView?.timeToFill = 0.5
         self.circularProgressView?.progress = 1.0
+        self.activityLoading.startAnimating()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showSucccessAnimation()
-            self.activityLoading.startAnimating()
             self.titleLabel.attributedText = NSAttributedString(string: "processing".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             self.resultLabel.attributedText = NSAttributedString(string: "100%" + " " + "recognised".localized,
@@ -169,7 +168,6 @@ extension ScanViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if isFinished == true {
                 self.showSucccessAnimation()
-                self.activityLoading.stopAnimating()
                 self.titleLabel.attributedText = NSAttributedString(string: "",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -177,7 +175,6 @@ extension ScanViewController {
                     self.navigateToVerifyingPage(isVerified: isVerified)
                 }
             } else {
-                self.activityLoading.stopAnimating()
                 self.navigateToFinalWithFailure()
             }
         }

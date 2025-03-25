@@ -343,6 +343,7 @@ final class ScanViewController: BaseViewController {
         circularProgressView.progressColor = .systemGreen
         circularProgressView.trackColor = .white
         circularProgressView.alpha = 0.0
+        circularProgressView.createProgressView()
     }
 }
 

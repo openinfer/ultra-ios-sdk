@@ -42,16 +42,8 @@ final class CircularProgressView: UIView {
             setProgress(duration: timeToFill * Double(pathMoved), to: progress)
         }
     }
-    
-    func updateSize() {
-        
-        progressLayer.removeFromSuperlayer()
-        trackLayer.removeFromSuperlayer()
-        
-        createProgressView()
-    }
-    
-    fileprivate func createProgressView(isRectAnimation: Bool = false, isDahsed: Bool = true){
+
+    func createProgressView(isRectAnimation: Bool = false, isDahsed: Bool = true){
         
         let linePath: UIBezierPath?
         
@@ -124,7 +116,6 @@ final class CircularProgressView: UIView {
         
         super.init(frame: frame)
         filled = false
-        createProgressView()
     }
     
     required init?(coder: NSCoder) {
@@ -133,27 +124,5 @@ final class CircularProgressView: UIView {
         filled = false
         
         super.init(coder: coder)
-        createProgressView()
-        
-    }
-    
-    init(frame: CGRect, lineWidth: CGFloat?, rounded: Bool, isRectAnimation: Bool, isDahsed: Bool) {
-        progress = 0
-        
-        if lineWidth == nil{
-            self.filled = true
-            self.rounded = false
-        } else {
-            self.rounded = rounded
-            self.filled = false
-        }
-        
-        super.init(frame: frame)
-        createProgressView(isRectAnimation: isRectAnimation, isDahsed: isDahsed)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updateSize()
     }
 }

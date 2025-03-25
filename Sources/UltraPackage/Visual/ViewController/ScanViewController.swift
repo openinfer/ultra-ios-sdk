@@ -73,7 +73,6 @@ final class ScanViewController: BaseViewController {
 
         setupProgress()
         adjustVideoLayerFrame(isLanch: true)
-        updateOrientationSettings()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,6 +82,7 @@ final class ScanViewController: BaseViewController {
             isCameraRunning = true
             setupCamera()
             setupTimer()
+            updateOrientationSettings()
 //            startFaceAnimationTimer()
 //            if FlowManager.shared.scanType == .face {
 //            } else {

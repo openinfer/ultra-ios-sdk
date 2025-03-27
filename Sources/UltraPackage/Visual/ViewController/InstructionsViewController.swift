@@ -124,7 +124,7 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
                 switch UIDevice.current.orientation {
                 case .portrait:
                     self.footerHeight.constant = 80.0
-                    self.centerImageHeight.constant = self.view.frame.width / 2
+                    self.centerImageHeight.constant = self.view.frame.width / 3
                 case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
                     self.footerHeight.constant = 0.0
                     self.centerImageHeight.constant = self.view.frame.height / 4

@@ -19,7 +19,6 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
 //    @IBOutlet weak var landscapeImage: UIImageView!
     
     private let footer: FooterView = .fromNib()
-    private let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
     
     private let tappableTexts = ["verify.identity.privacy.policy".localized, "verify.identity.privacy.terms".localized, "learn_word".localized]
     
@@ -53,7 +52,7 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard let orientation = self.orientation else { return }
+        guard let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
         if orientation.isPortrait {
             footer.frame = portraitFooter.bounds
         } else {
@@ -147,7 +146,8 @@ private extension InstructionsViewController {
     }
     
     @objc func checkOrientationUI() {
-    
+        let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        
         let isPortrait = orientation?.isPortrait == true
         let isLandscape = orientation?.isLandscape == true
 

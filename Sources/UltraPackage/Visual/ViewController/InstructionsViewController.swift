@@ -61,27 +61,7 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
     }
     
     func setupTermsTextView() {
-        let fullText = """
-        By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
-
-        Learn how identity verification works.
-        """
-
-        let attributedString = NSMutableAttributedString(string: fullText)
-
-        let privacyPolicyRange = (fullText as NSString).range(of: "Privacy Policy")
-        let termsOfUseRange = (fullText as NSString).range(of: "Terms of Use")
-        let learnRange = (fullText as NSString).range(of: "Learn")
-
-        // Apply link attributes
-        attributedString.addAttribute(.link, value: CryptonetManager.privacyURL, range: privacyPolicyRange)
-        attributedString.addAttribute(.link, value: CryptonetManager.termsURL, range: termsOfUseRange)
-        attributedString.addAttribute(.link, value: CryptonetManager.learnURL, range: learnRange)
-
-        // Center align text
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, fullText.count))
+        let attributedString = makeTermsAttributedText()
 
         // Set UITextView properties
         termsTextView.attributedText = attributedString
@@ -105,6 +85,29 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
         termsTextView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
 
+    private func makeTermsAttributedText() -> NSAttributedString {
+        let fullText = """
+        By clicking the 'Agree and continue' button below, you acknowledge that you are over eighteen (18) years of age, have read the Private Identity Privacy Policy and Terms of Use and understand how your personal data will be processed in connection with your use of this Identity Verification Service.
+
+        Learn how identity verification works.
+        """
+
+        let attributedString = NSMutableAttributedString(string: fullText)
+
+        let privacyPolicyRange = (fullText as NSString).range(of: "Privacy Policy")
+        let termsOfUseRange = (fullText as NSString).range(of: "Terms of Use")
+        let learnRange = (fullText as NSString).range(of: "Learn")
+
+        attributedString.addAttribute(.link, value: CryptonetManager.privacyURL, range: privacyPolicyRange)
+        attributedString.addAttribute(.link, value: CryptonetManager.termsURL, range: termsOfUseRange)
+        attributedString.addAttribute(.link, value: CryptonetManager.learnURL, range: learnRange)
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, fullText.count))
+
+        return attributedString
+    }
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         UIApplication.shared.open(URL)
@@ -131,6 +134,7 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
 
             UIView.animate(withDuration: 0.1) {
                 self.view.layoutIfNeeded()
+                self.setupTermsTextView()
             }
         }
     }

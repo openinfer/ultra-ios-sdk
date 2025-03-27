@@ -100,7 +100,7 @@ extension VerifyingViewController {
             if UIDevice.current.userInterfaceIdiom == .pad  {
                 switch UIDevice.current.orientation {
                 case .portrait:
-                    self.centerImageHeight.constant = self.view.frame.width / 1.25
+                    self.centerImageHeight.constant = self.view.frame.width / 2
                 case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
                     self.centerImageHeight.constant = self.view.frame.height / 2
                 default: break
@@ -109,11 +109,11 @@ extension VerifyingViewController {
                 switch UIDevice.current.orientation {
                 case .portrait:
                     self.footerHeight.constant = 80.0
-                    self.centerImageHeight.constant = self.view.frame.width / 1.25
+                    self.centerImageHeight.constant = self.view.frame.width / 1.5
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                 case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
                     self.footerHeight.constant = 0.0
-                    self.centerImageHeight.constant = self.view.frame.height / 1.45
+                    self.centerImageHeight.constant = self.view.frame.height / 1.75
                     self.navigationController?.setNavigationBarHidden(true, animated: true)
                 default: break
                 }

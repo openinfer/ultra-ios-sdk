@@ -596,7 +596,7 @@
                                     <constraint firstItem="2qz-Su-qHf" firstAttribute="centerY" secondItem="veq-lm-hP8" secondAttribute="centerY" constant="-20" id="pM7-kq-nxy"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBT-Pg-3Qa">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBT-Pg-3Qa">
                                 <rect key="frame" x="0.0" y="764" width="390" height="80"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                 <constraints>
@@ -774,10 +774,10 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFb-Cd-JRm">
-                                        <rect key="frame" x="20" y="229.66666666666669" width="165" height="35"/>
+                                        <rect key="frame" x="20" y="229.66666666666669" width="165" height="44"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="dta-0K-vCc"/>
+                                            <constraint firstAttribute="height" constant="44" id="dta-0K-vCc"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -794,10 +794,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XOB-OK-9Ut">
-                                        <rect key="frame" x="205" y="229.66666666666669" width="165" height="35"/>
+                                        <rect key="frame" x="205" y="229.66666666666669" width="165" height="44"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="d6N-0V-n5m"/>
+                                            <constraint firstAttribute="height" constant="44" id="d6N-0V-n5m"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -830,7 +830,7 @@
                                     <constraint firstAttribute="trailing" secondItem="XOB-OK-9Ut" secondAttribute="trailing" constant="20" id="v0g-D1-0Sg"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iN0-jl-dZs">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iN0-jl-dZs">
                                 <rect key="frame" x="0.0" y="764" width="390" height="80"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                 <constraints>

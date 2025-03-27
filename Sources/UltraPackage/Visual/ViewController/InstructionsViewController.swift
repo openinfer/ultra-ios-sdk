@@ -8,6 +8,10 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var backOptionButton: UIButton!
     @IBOutlet weak var footerContainer: UIView!
     @IBOutlet weak var mainImage: UIImageView!
+    
+    @IBOutlet weak var footerHeight: NSLayoutConstraint!
+    @IBOutlet weak var centerImageHeight: NSLayoutConstraint!
+    
     private let footer: FooterView = .fromNib()
     
     private let tappableTexts = ["verify.identity.privacy.policy".localized, "verify.identity.privacy.terms".localized, "learn_word".localized]
@@ -22,6 +26,8 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
         self.mainTitle.text = "Take a selfie to register." // TODO:
         self.agreeButton.setTitle("privacy.agree.continue.button".localized, for: .normal)
         self.backOptionButton.setTitle("noThanks".localized, for: .normal)
+        adjustOrientation()
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -95,6 +101,30 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         UIApplication.shared.open(URL)
         return false // Prevent default behavior
+    }
+    
+    @objc func orientationChanged() {
+        adjustOrientation()
+    }
+    
+    func adjustOrientation() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if UIDevice.current.userInterfaceIdiom != .pad  {
+                switch UIDevice.current.orientation {
+                case .portrait:
+                    self.footerHeight.constant = 80.0
+                    self.centerImageHeight.constant = self.view.frame.width / 2
+                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
+                    self.footerHeight.constant = 0.0
+                    self.centerImageHeight.constant = self.view.frame.height / 4
+                default: break
+                }
+            }
+
+            UIView.animate(withDuration: 0.1) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
 }
 

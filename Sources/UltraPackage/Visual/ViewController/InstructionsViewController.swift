@@ -119,24 +119,20 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
     }
     
     func adjustOrientation() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            if UIDevice.current.userInterfaceIdiom != .pad  {
-                switch UIDevice.current.orientation {
-                case .portrait:
-                    self.footerHeight.constant = 80.0
-                    self.centerImageHeight.constant = self.view.frame.width / 3
-                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
-                    self.footerHeight.constant = 0.0
-                    self.centerImageHeight.constant = self.view.frame.height / 4
-                default: break
-                }
-            }
-
-            UIView.animate(withDuration: 0.1) {
-                self.view.layoutIfNeeded()
-                self.setupTermsTextView()
+        if UIDevice.current.userInterfaceIdiom != .pad  {
+            switch UIDevice.current.orientation {
+            case .portrait:
+                self.footerHeight.constant = 80.0
+                self.centerImageHeight.constant = self.view.frame.width / 2
+            case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
+                self.footerHeight.constant = 0.0
+                self.centerImageHeight.constant = self.view.frame.height / 4
+            default: break
             }
         }
+
+        self.view.layoutIfNeeded()
+        self.setupTermsTextView()
     }
 }
 

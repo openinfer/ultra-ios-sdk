@@ -11,12 +11,12 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var portraitImage: UIImageView!
     
     @IBOutlet weak var landscapeContainer: UIView!
-    @IBOutlet weak var landscapeTitle: UILabel!
-    @IBOutlet weak var landscapeTerms: UITextView!
-    @IBOutlet weak var landscapeAgree: UIButton!
-    @IBOutlet weak var landscapeBack: UIButton!
-    @IBOutlet weak var landscapeFooter: UIView!
-    @IBOutlet weak var landscapeImage: UIImageView!
+//    @IBOutlet weak var landscapeTitle: UILabel!
+//    @IBOutlet weak var landscapeTerms: UITextView!
+//    @IBOutlet weak var landscapeAgree: UIButton!
+//    @IBOutlet weak var landscapeBack: UIButton!
+//    @IBOutlet weak var landscapeFooter: UIView!
+//    @IBOutlet weak var landscapeImage: UIImageView!
     
     private let footer: FooterView = .fromNib()
     private let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
@@ -30,20 +30,20 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
         footer.delegate = self
         
         portraitFooter.addSubview(footer)
-        landscapeFooter.addSubview(footer)
+//        landscapeFooter.addSubview(footer)
         
         let title = "Take a selfie to register."  // TODO:
         self.portraitTitle.text = title
-        self.landscapeTitle.text = title
+//        self.landscapeTitle.text = title
         
         let agreeTitle = "privacy.agree.continue.button".localized
         self.portraitAgree.setTitle(agreeTitle, for: .normal)
-        self.landscapeAgree.setTitle(agreeTitle, for: .normal)
+//        self.landscapeAgree.setTitle(agreeTitle, for: .normal)
         
         
         let backTitle = "noThanks".localized
         self.portraitBack.setTitle(backTitle, for: .normal)
-        self.landscapeBack.setTitle(backTitle, for: .normal)
+//        self.landscapeBack.setTitle(backTitle, for: .normal)
         
         setupTermsTextView()
         checkOrientationUI()
@@ -57,7 +57,7 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
         if orientation.isPortrait {
             footer.frame = portraitFooter.bounds
         } else {
-            footer.frame = landscapeFooter.bounds
+//            footer.frame = landscapeFooter.bounds
         }
     }
     
@@ -97,7 +97,7 @@ private extension InstructionsViewController {
     func setupTermsTextView() {
         let attributedString = makeTermsAttributedText()
         adjustTextView(termsTextView: portraitTerms, with: attributedString)
-        adjustTextView(termsTextView: landscapeTerms, with: attributedString)
+//        adjustTextView(termsTextView: landscapeTerms, with: attributedString)
     }
     
     func adjustTextView(termsTextView: UITextView, with attributedString: NSAttributedString) {

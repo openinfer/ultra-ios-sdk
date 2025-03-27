@@ -7,7 +7,10 @@ final class VerifyingViewController: BaseViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var footerContainer: UIView!
-//    
+    
+    @IBOutlet weak var footerHeight: NSLayoutConstraint!
+    @IBOutlet weak var centerImageHeight: NSLayoutConstraint!
+//
     private var sessionModel: SessionDetailsModel?
     
     private let footer: FooterView = .fromNib()
@@ -33,6 +36,9 @@ final class VerifyingViewController: BaseViewController {
                 self.reset()
             }
         }
+        
+        adjustOrientation()
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -52,6 +58,10 @@ final class VerifyingViewController: BaseViewController {
         
         UIPasteboard.general.string = uuid
         ProgressHUD.succeed("UUID is copied")
+    }
+    
+    @objc func orientationChanged() {
+        adjustOrientation()
     }
 }
 
@@ -83,6 +93,36 @@ extension VerifyingViewController {
     func showFailureSession() {
         imageView.image = UIImage.SPMImage(named: "failure")
         titleLabel.text = "session.was.failed".localized
+    }
+    
+    func adjustOrientation() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if UIDevice.current.userInterfaceIdiom == .pad  {
+                switch UIDevice.current.orientation {
+                case .portrait:
+                    self.centerImageHeight.constant = self.view.frame.width / 1.25
+                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
+                    self.centerImageHeight.constant = self.view.frame.height / 2
+                default: break
+                }
+            } else {
+                switch UIDevice.current.orientation {
+                case .portrait:
+                    self.footerHeight.constant = 80.0
+                    self.centerImageHeight.constant = self.view.frame.width / 1.25
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
+                    self.footerHeight.constant = 0.0
+                    self.centerImageHeight.constant = self.view.frame.height / 1.45
+                    self.navigationController?.setNavigationBarHidden(true, animated: true)
+                default: break
+                }
+            }
+
+            UIView.animate(withDuration: 0.1) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
 }
 

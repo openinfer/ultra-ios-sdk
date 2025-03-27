@@ -30,6 +30,8 @@ final class FeedbackViewController: UIViewController {
     @IBOutlet weak var returnHome: UIButton!
     @IBOutlet weak var noThanks: UIButton!
     
+    @IBOutlet weak var footerHeight: NSLayoutConstraint!
+    
     private var feedback: String = ""
     
     override func viewDidLoad() {
@@ -46,6 +48,9 @@ final class FeedbackViewController: UIViewController {
         frustrationLabel.text = "frustration".localized
         returnHome.setTitle("return.to.homepage".localized, for: .normal)
         noThanks.setTitle("noThanks".localized, for: .normal)
+        
+        orientationChanged()
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -118,6 +123,26 @@ final class FeedbackViewController: UIViewController {
         
         homeButton.alpha = 1.0
         homeButton.isUserInteractionEnabled = true
+    }
+    
+    @objc func orientationChanged() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if UIDevice.current.userInterfaceIdiom != .pad  {
+                switch UIDevice.current.orientation {
+                case .portrait:
+                    self.footerHeight.constant = 80.0
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
+                    self.footerHeight.constant = 0.0
+                    self.navigationController?.setNavigationBarHidden(true, animated: true)
+                default: break
+                }
+            }
+
+            UIView.animate(withDuration: 0.1) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
 }
 

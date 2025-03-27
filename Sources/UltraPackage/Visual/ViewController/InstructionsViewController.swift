@@ -87,7 +87,7 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
         termsTextView.attributedText = attributedString
         termsTextView.delegate = self
         termsTextView.isEditable = false
-        termsTextView.isScrollEnabled = false
+        termsTextView.isScrollEnabled = true
         termsTextView.isSelectable = true
         termsTextView.textAlignment = .center
         termsTextView.backgroundColor = .clear
@@ -95,6 +95,14 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
             .foregroundColor: UIColor.black,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
+        termsTextView.adjustsFontForContentSizeCategory = true
+        termsTextView.font = UIFont.preferredFont(forTextStyle: .body)
+        termsTextView.minimumZoomScale = 1.0
+        termsTextView.maximumZoomScale = 1.0
+        termsTextView.sizeToFit()
+        termsTextView.translatesAutoresizingMaskIntoConstraints = false
+        termsTextView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        termsTextView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
 
     

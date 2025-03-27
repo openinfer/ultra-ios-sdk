@@ -44,7 +44,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rE6-RQ-ugc" customClass="CircularProgressView" customModule="UltraPackage">
-                                                        <rect key="frame" x="13.666666666666657" y="13.333333333333314" width="273" height="272.99999999999994"/>
+                                                        <rect key="frame" x="13.666666666666657" y="13.333333333333314" width="273" height="273"/>
                                                         <color key="backgroundColor" red="0.050980392159999999" green="0.070588235289999995" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="rE6-RQ-ugc" secondAttribute="height" multiplier="1:1" id="9Z7-29-YAt"/>
@@ -880,7 +880,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n65-ER-9gI">
-                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="717"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-image" translatesAutoresizingMaskIntoConstraints="NO" id="hUw-xs-hxg">
                                         <rect key="frame" x="119.33333333333333" y="10" width="151.33333333333337" height="20"/>
@@ -908,7 +908,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZLI-R3-Ia8">
-                                        <rect key="frame" x="20" y="394.66666666666674" width="350" height="318.33333333333326"/>
+                                        <rect key="frame" x="20" y="394.66666666666669" width="350" height="238.33333333333331"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor"/>
@@ -916,7 +916,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i8D-4s-flz">
-                                        <rect key="frame" x="205" y="733" width="145" height="44"/>
+                                        <rect key="frame" x="205" y="653" width="145" height="44"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="wnL-RD-YmT"/>
@@ -936,7 +936,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IpB-0T-aXz">
-                                        <rect key="frame" x="40" y="733" width="145" height="44"/>
+                                        <rect key="frame" x="40" y="653" width="145" height="44"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="qIN-oK-few"/>
@@ -977,11 +977,11 @@
                                     <constraint firstAttribute="trailing" secondItem="ZLI-R3-Ia8" secondAttribute="trailing" constant="20" id="ueN-s6-gdn"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egz-k9-De3">
-                                <rect key="frame" x="0.0" y="844" width="390" height="0.0"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egz-k9-De3">
+                                <rect key="frame" x="0.0" y="764" width="390" height="80"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" id="muA-m2-Uqo"/>
+                                    <constraint firstAttribute="height" constant="80" id="muA-m2-Uqo"/>
                                 </constraints>
                             </view>
                         </subviews>

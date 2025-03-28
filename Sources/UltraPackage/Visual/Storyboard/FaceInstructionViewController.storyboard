@@ -23,12 +23,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dqw-MV-rw6">
-                                <rect key="frame" x="0.0" y="-20" width="433" height="1140"/>
+                                <rect key="frame" x="0.0" y="0.0" width="433" height="1160"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zuj-XA-QD7">
                                         <rect key="frame" x="0.0" y="0.0" width="433" height="817.66666666666663"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="first-step" translatesAutoresizingMaskIntoConstraints="NO" id="aG3-7M-gJ7">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jfx-9w-PVF">
+                                                <rect key="frame" x="10" y="-8" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="Ejq-XJ-Dsw"/>
+                                                    <constraint firstAttribute="width" constant="40" id="gwq-d9-5DC"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="arrow-back"/>
+                                                <connections>
+                                                    <action selector="backTapped" destination="QLd-0C-QYF" eventType="touchUpInside" id="rIv-Sd-G07"/>
+                                                </connections>
+                                            </button>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="steps-face-instruction" translatesAutoresizingMaskIntoConstraints="NO" id="aG3-7M-gJ7">
                                                 <rect key="frame" x="164.66666666666666" y="0.0" width="103.99999999999997" height="24"/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b9b-ha-I5o">
@@ -100,7 +112,7 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I4u-T6-g49">
-                                                        <rect key="frame" x="0.0" y="66.666666666666629" width="393" height="66.666666666666686"/>
+                                                        <rect key="frame" x="0.0" y="66.666666666666686" width="393" height="66.666666666666686"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sentence-2-new" translatesAutoresizingMaskIntoConstraints="NO" id="njm-3d-26H">
                                                                 <rect key="frame" x="4" y="9.9999999999999964" width="46.666666666666664" height="46.666666666666657"/>
@@ -109,13 +121,13 @@
                                                                 </constraints>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uncluttered backgrounds" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xBG-3F-GVn">
-                                                                <rect key="frame" x="66.666666666666657" y="14.000000000000057" width="310.33333333333337" height="17"/>
+                                                                <rect key="frame" x="66.666666666666657" y="14" width="310.33333333333337" height="17"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ensure just your face is in the" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygF-LF-vER">
-                                                                <rect key="frame" x="66.666666666666657" y="35.000000000000057" width="310.33333333333337" height="16"/>
+                                                                <rect key="frame" x="66.666666666666657" y="35" width="310.33333333333337" height="16"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                 <color key="textColor" systemColor="systemGray2Color"/>
                                                                 <nil key="highlightedColor"/>
@@ -224,6 +236,7 @@
                                         <constraints>
                                             <constraint firstItem="IEO-60-fYc" firstAttribute="top" secondItem="7na-eR-jkG" secondAttribute="bottom" constant="40" id="2Zy-CM-Pkn"/>
                                             <constraint firstItem="aG3-7M-gJ7" firstAttribute="centerX" secondItem="Zuj-XA-QD7" secondAttribute="centerX" id="3Y7-w5-Xmy"/>
+                                            <constraint firstItem="Jfx-9w-PVF" firstAttribute="leading" secondItem="Zuj-XA-QD7" secondAttribute="leading" constant="10" id="3bC-TN-GIQ"/>
                                             <constraint firstAttribute="trailing" secondItem="b9b-ha-I5o" secondAttribute="trailing" constant="20" id="4KL-AW-37a"/>
                                             <constraint firstItem="939-iH-r0a" firstAttribute="top" secondItem="9t1-ho-J5K" secondAttribute="bottom" constant="50" id="4t2-im-VM7"/>
                                             <constraint firstAttribute="trailing" secondItem="7na-eR-jkG" secondAttribute="trailing" id="56x-Tu-rQg"/>
@@ -233,6 +246,7 @@
                                             <constraint firstItem="9t1-ho-J5K" firstAttribute="top" secondItem="IEO-60-fYc" secondAttribute="bottom" constant="4" id="CEg-6X-yn0"/>
                                             <constraint firstItem="aG3-7M-gJ7" firstAttribute="top" secondItem="Zuj-XA-QD7" secondAttribute="top" id="GGf-fr-wJx"/>
                                             <constraint firstItem="b9b-ha-I5o" firstAttribute="leading" secondItem="Zuj-XA-QD7" secondAttribute="leading" constant="20" id="J0y-sm-zN2"/>
+                                            <constraint firstItem="Jfx-9w-PVF" firstAttribute="centerY" secondItem="aG3-7M-gJ7" secondAttribute="centerY" id="Suy-jG-4KH"/>
                                             <constraint firstAttribute="trailing" secondItem="srR-cZ-Vze" secondAttribute="trailing" id="U88-qM-7qm"/>
                                             <constraint firstAttribute="trailing" secondItem="IEO-60-fYc" secondAttribute="trailing" constant="20" id="WH6-dZ-Sle"/>
                                             <constraint firstItem="7na-eR-jkG" firstAttribute="top" secondItem="aG3-7M-gJ7" secondAttribute="bottom" constant="20" id="YO5-4o-Djx"/>
@@ -262,10 +276,10 @@
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="irW-BJ-IdK">
-                                <rect key="frame" x="0.0" y="1120" width="433" height="80"/>
+                                <rect key="frame" x="0.0" y="1160" width="433" height="40"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="uCO-U5-k4k"/>
+                                    <constraint firstAttribute="height" constant="40" id="uCO-U5-k4k"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -277,7 +291,7 @@
                             <constraint firstItem="td9-F5-aDI" firstAttribute="trailing" secondItem="dqw-MV-rw6" secondAttribute="trailing" id="GOG-gD-4Ai"/>
                             <constraint firstItem="dqw-MV-rw6" firstAttribute="leading" secondItem="td9-F5-aDI" secondAttribute="leading" id="U6r-A1-aT7"/>
                             <constraint firstAttribute="trailing" secondItem="irW-BJ-IdK" secondAttribute="trailing" id="Vbi-TU-8MY"/>
-                            <constraint firstItem="dqw-MV-rw6" firstAttribute="top" secondItem="nFF-sE-xGM" secondAttribute="top" constant="-20" id="XBm-RK-FMu"/>
+                            <constraint firstItem="dqw-MV-rw6" firstAttribute="top" secondItem="nFF-sE-xGM" secondAttribute="top" id="XBm-RK-FMu"/>
                             <constraint firstAttribute="bottom" secondItem="irW-BJ-IdK" secondAttribute="bottom" id="bsa-Jm-het"/>
                         </constraints>
                     </view>
@@ -354,7 +368,7 @@
             <objects>
                 <viewController storyboardIdentifier="LandscapeFaceInstructionViewController" id="BDQ-dm-aDv" customClass="LandscapeFaceInstructionViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NTm-cA-qVk">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
+                        <rect key="frame" x="0.0" y="0.0" width="734" height="372"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="ZFd-8K-6Uw"/>
                         <color key="backgroundColor" systemColor="systemBlueColor"/>
@@ -366,11 +380,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first-step" width="104" height="24"/>
+        <image name="arrow-back" width="20" height="17"/>
         <image name="sentence-1" width="48" height="48"/>
         <image name="sentence-2-new" width="48" height="48"/>
         <image name="sentence-3" width="48" height="48"/>
         <image name="step-1" width="654" height="432"/>
+        <image name="steps-face-instruction" width="104" height="24"/>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

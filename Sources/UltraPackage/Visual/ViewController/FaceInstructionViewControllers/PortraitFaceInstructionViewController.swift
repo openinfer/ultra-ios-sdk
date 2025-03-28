@@ -65,6 +65,10 @@ class PortraitFaceInstructionViewController: BaseViewController {
         footer.frame = footerContainer.bounds
     }
     
+    @IBAction func backTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+
     @IBAction func nextTapped(sender: UIButton) {
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
             if response {

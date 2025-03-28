@@ -51,14 +51,16 @@ extension ScanViewController {
                     let gcmAad = model.uberOperationResult?.response?.gcmAad,
                     let gcmTag = model.uberOperationResult?.response?.gcmTag,
                     let iv = model.uberOperationResult?.response?.iv {
-                    DispatchQueue.main.async {
-                        self.stopScan(encryptedKey: encryptedKey,
-                                      encryptedMessage: encryptedMessage,
-                                      gcmAad: gcmAad,
-                                      gcmTag: gcmTag,
-                                      iv: iv,
-                                      image: image)
-                    }
+//                    DispatchQueue.main.async {
+//                        self.stopScan(encryptedKey: encryptedKey,
+//                                      encryptedMessage: encryptedMessage,
+//                                      gcmAad: gcmAad,
+//                                      gcmTag: gcmTag,
+//                                      iv: iv,
+//                                      image: image)
+//                    }
+                    
+                    self.isEnrollRunning = false
                 } else {
                     self.isEnrollRunning = false
                 }

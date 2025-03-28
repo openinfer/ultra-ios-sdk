@@ -49,8 +49,12 @@ final class PortraitScanViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -197,6 +201,7 @@ private extension PortraitScanViewController {
     
     func stopSession() {
         if session.isRunning {
+            isCameraRunning = false
             self.stopTimer()
             DispatchQueue.global(qos: .userInitiated).async {
                 self.session.stopRunning()

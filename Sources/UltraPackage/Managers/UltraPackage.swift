@@ -100,7 +100,7 @@ public class UltraPackage {
     }
     
     private func runPredictWithFaceId(on viewController: UIViewController) {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "ScanViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
         viewController.navigationController?.pushViewController(vc, animated: true)
     }

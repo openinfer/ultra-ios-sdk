@@ -82,7 +82,7 @@ class FaceInstructionViewController: BaseViewController {
     }
     
     private func proceed() {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "ScanViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
         self.navigationController?.pushViewController(vc, animated: true)
     }

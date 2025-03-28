@@ -65,6 +65,8 @@ final class LandscapeScanViewController: BaseViewController {
             setupCamera()
             setupTimer()
 //            showFaceID()
+            self.startSession()
+            self.faceIdImage.isHidden = true
             circularProgressView.redraw()
         }
     }

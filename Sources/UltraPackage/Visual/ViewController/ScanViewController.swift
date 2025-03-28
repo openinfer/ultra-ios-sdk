@@ -72,6 +72,12 @@ final class ScanViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(checkOrientationUI), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         CryptonetManager.shared.startDeviceInfoCollect(with: self.cameraLunchTime)
@@ -81,11 +87,6 @@ final class ScanViewController: BaseViewController {
             setupTimer()
             launchFaceId()
             updateOrientationSettings()
-//            startFaceAnimationTimer()
-//            if FlowManager.shared.scanType == .face {
-//            } else {
-//                self.startSession()
-//            }
         }
     }
     
@@ -121,29 +122,15 @@ final class ScanViewController: BaseViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
+    @IBAction func backTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @objc func captureVideoFrame() {
         DispatchQueue.main.async {
             if let image = self.tempImage {
                 self.scan(with: image)
             }
-        }
-    }
-    
-    @objc func faceAnimationCircule() {
-        DispatchQueue.main.async {
-            self.portraitCircularProgressView.progressColor = self.isFaceScanFailed ? UIColor.white : UIColor.green
-            let isFinished = self.portraitCircularProgressView?.progressColor == UIColor.green && self.portraitCircularProgressView.progress == 1.0
-            guard isFinished == false else { return }
-            if self.portraitCircularProgressView.progressColor == UIColor.green {
-                self.updateCounter(currentValue: 0, toValue: 1.0)
-            } else {
-                self.portraitResultLabel.attributedText = NSAttributedString(string: "0%" + " " + "recognised".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-            }
-           
-            self.portraitCircularProgressView.progress = 0.0
-            self.portraitCircularProgressView.timeToFill = 1.5
-            self.portraitCircularProgressView.progress = 1.0
         }
     }
     
@@ -194,10 +181,6 @@ final class ScanViewController: BaseViewController {
     
     func setupTimer() {
         timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(captureVideoFrame), userInfo: nil, repeats: true)
-    }
-    
-    func startFaceAnimationTimer() {
-        faceAnimationTimer = Timer.scheduledTimer(timeInterval: faceAnimationTimeInterval, target: self, selector: #selector(faceAnimationCircule), userInfo: nil, repeats: true)
     }
     
     func stopFaceAnimationTimer() {

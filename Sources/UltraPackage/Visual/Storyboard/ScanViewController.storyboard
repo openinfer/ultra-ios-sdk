@@ -12,7 +12,6 @@
         <!--Main Scan View Controller-->
         <scene sceneID="BzB-uK-5vl">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="t5y-jR-rKG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="MainScanViewController" id="LB4-QZ-s8x" customClass="MainScanViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Nap-eT-2yz">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -263,6 +262,7 @@
                         <outlet property="portraitContainer" destination="ezV-sM-cex" id="IPD-J3-xyc"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t5y-jR-rKG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3421" y="1504"/>
         </scene>
@@ -281,10 +281,10 @@
             </objects>
             <point key="canvasLocation" x="4417" y="1919"/>
         </scene>
-        <!--Scan View Controller-->
+        <!--Portrait Scan View Controller-->
         <scene sceneID="0ni-iT-4ya">
             <objects>
-                <viewController storyboardIdentifier="ScanViewController" id="1V2-Xb-0tU" customClass="ScanViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PortraitScanViewController" id="1V2-Xb-0tU" customClass="PortraitScanViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="u60-c2-d5H">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -358,6 +358,9 @@
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" image="arrow-back"/>
+                                                <connections>
+                                                    <action selector="backTapped" destination="1V2-Xb-0tU" eventType="touchUpInside" id="2iy-Gh-Gas"/>
+                                                </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ML-Rw-Q9P">
                                                 <rect key="frame" x="0.0" y="40" width="393" height="586"/>
@@ -544,13 +547,13 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="portraitActivityLoading" destination="pzT-Cx-u3P" id="YhU-em-SXi"/>
-                        <outlet property="portraitCircularProgressView" destination="idl-rA-hVw" id="yAh-k1-bTW"/>
-                        <outlet property="portraitFaceIdImage" destination="oZV-LN-eXB" id="iJn-bt-gUz"/>
-                        <outlet property="portraitFooterContainer" destination="fGV-S7-w5j" id="fne-rY-2yJ"/>
-                        <outlet property="portraitResultLabel" destination="KLl-fZ-KXc" id="Wf7-1T-1Nh"/>
-                        <outlet property="portraitTitleLabel" destination="ccS-IH-aii" id="LWH-9Z-CHP"/>
-                        <outlet property="portraitVideoFrame" destination="xiJ-sM-GOE" id="kAT-Ow-NL8"/>
+                        <outlet property="activityLoading" destination="pzT-Cx-u3P" id="4Ce-cA-8yn"/>
+                        <outlet property="circularProgressView" destination="idl-rA-hVw" id="Zy9-RL-HcO"/>
+                        <outlet property="faceIdImage" destination="oZV-LN-eXB" id="wbJ-HS-lPz"/>
+                        <outlet property="footerContainer" destination="fGV-S7-w5j" id="gKD-by-zXA"/>
+                        <outlet property="resultLabel" destination="KLl-fZ-KXc" id="mNq-Ps-BHe"/>
+                        <outlet property="titleLabel" destination="ccS-IH-aii" id="hHG-Kx-YfH"/>
+                        <outlet property="videoFrame" destination="xiJ-sM-GOE" id="EGi-Xq-p6Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PFu-fr-QVZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

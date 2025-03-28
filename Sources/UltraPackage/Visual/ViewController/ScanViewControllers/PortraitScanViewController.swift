@@ -1,8 +1,337 @@
 import UIKit
+import AVFoundation
+import CoreMedia
+import Toaster
+import ProgressHUD
 import CryptonetPackage
 import Alamofire
 
-extension ScanViewController {
+final class PortraitScanViewController: BaseViewController {
+    
+    @IBOutlet weak var videoFrame: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
+    @IBOutlet weak var footerContainer: UIView!
+    @IBOutlet weak var faceIdImage: UIImageView!
+    @IBOutlet weak var circularProgressView: CircularProgressView!
+    
+    private let footer: FooterView = .fromNib()
+    
+    private let session = AVCaptureSession()
+    private var previewLayer: AVCaptureVideoPreviewLayer?
+    
+    private var timer: Timer?
+    private var timeInterval: TimeInterval = 0.3
+    
+    var sessionTimer: Timer?
+    var sessionTimeInterval: TimeInterval = 1.0
+    var sessionCountdown: Int = 45
+    
+    private var tempImage: UIImage?
+    private var isCameraRunning = false
+    
+    private var cameraStartTime: Date?
+    private var cameraLunchTime: String = ""
+    
+    var mfToken: String = ""
+    var isImageTaking: Bool = false
+    var isFocused: Bool = false
+    
+    var estimateAttempts: Float = 0.0 {
+        willSet {
+            self.changeResultLabel(attributedText: NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+        }
+    }
+    
+    // MARK: Life circule
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.setupUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        CryptonetManager.shared.startDeviceInfoCollect(with: self.cameraLunchTime)
+        if isCameraRunning == false {
+            isCameraRunning = true
+            setupCamera()
+            setupTimer()
+            showFaceID()
+            circularProgressView.redraw()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopTimer()
+        stopSession()
+        stopSessionTimer()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        footer.frame = footerContainer.bounds
+        previewLayer?.frame = videoFrame.layer.bounds
+    }
+    
+    // MARK:- Actions
+    @IBAction func backTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func backToRoot() {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @objc func captureVideoFrame() {
+        DispatchQueue.main.async {
+            if let image = self.tempImage {
+                self.scan(with: image)
+            }
+        }
+    }
+    
+    @objc func sessionTimerAction() {
+        sessionCountdown -= 1
+        ToastCenter.default.currentToast?.cancel()
+        
+        if sessionCountdown <= 20 && sessionCountdown > 10 {
+            Toast(text: String(format: "session_timer_title".localized, "\(sessionCountdown)"), duration: Delay.short).show()
+        } else if sessionCountdown <= 10 && sessionCountdown > 5 {
+            ToastView.appearance().backgroundColor = .yellow
+            ToastView.appearance().textColor = .black
+            Toast(text: String.init(format: "session_timer_title".localized, "\(sessionCountdown)"), duration: Delay.short).show()
+        } else if sessionCountdown <= 5 && sessionCountdown > 0 {
+            ToastView.appearance().backgroundColor = .red
+            ToastView.appearance().textColor = .white
+            Toast(text: String.init(format: "session_timer_title".localized, "\(sessionCountdown)"), duration: Delay.short).show()
+        } else if sessionCountdown <= 0 {
+            ToastView.appearance().backgroundColor = .red
+            ToastView.appearance().textColor = .white
+            Toast(text: String("session_timer_error".localized), duration: Delay.short).show()
+            stopSessionTimer()
+            reset()
+        }
+    }
+    
+    func updateCounter(currentValue: Int, toValue: Double) {
+        if currentValue <= Int(toValue * 100) {
+            self.changeResultLabel(attributedText: NSAttributedString(string: "\(currentValue)%" + " " + "recognised".localized,
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+            let dispatchTime: DispatchTime = DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
+                self.updateCounter(currentValue: currentValue + 1, toValue: toValue)
+            })
+        }
+    }
+}
+
+// MARK:- Private
+private extension PortraitScanViewController {
+    
+    func setupUI() {
+        changeTitle(attributedText: NSAttributedString(string: "center.your.head".localized,
+                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+        footer.delegate = self
+        footerContainer.addSubview(footer)
+        
+        ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
+        ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
+        
+        setupProgress()
+    }
+    
+    func setupProgress() {
+        circularProgressView.rounded = false
+        circularProgressView.progressColor = .systemGreen
+        circularProgressView.trackColor = .white
+        circularProgressView.alpha = 0.0
+        circularProgressView.redraw()
+    }
+    
+    func focusCamera() {
+        self.isFocused = true
+        self.stopSessionTimer()
+        UIView.animate(withDuration: 0.6) {
+            self.videoFrame.layer.cornerRadius = self.videoFrame.frame.width / 2
+            self.circularProgressView.alpha = 1.0
+        }
+    }
+    
+    func setupTimer() {
+        timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(captureVideoFrame), userInfo: nil, repeats: true)
+    }
+    
+    func startSessionTimer() {
+        stopSessionTimer()
+        sessionTimer = Timer.scheduledTimer(timeInterval: sessionTimeInterval,
+                                            target: self,
+                                            selector: #selector(sessionTimerAction),
+                                            userInfo: nil, repeats: true)
+    }
+    
+    func stopSessionTimer() {
+        sessionTimer?.invalidate()
+        sessionTimer = nil
+    }
+    
+    func stopTimer() {
+        if timer?.isValid == true {
+            timer?.invalidate()
+            timer = nil
+        }
+    }
+    
+    func startSession() {
+        if !session.isRunning {
+            cameraStartTime = Date()
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.session.startRunning()
+            }
+        }
+    }
+    
+    func stopSession() {
+        if session.isRunning {
+            self.stopTimer()
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.session.stopRunning()
+            }
+        }
+    }
+    
+    func finishFlow(isSuccess: Bool) {
+        stopTimer()
+        stopSession()
+        //
+    }
+    
+    func showSucccessAnimation() {
+        UIView.animate(
+            withDuration: 0.5,
+            animations: {
+                self.circularProgressView.alpha = 0.0
+                self.videoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
+            })
+    }
+    
+    func changeTitle(attributedText: NSAttributedString) {
+        titleLabel.attributedText = attributedText
+    }
+    
+    func changeResultLabel(attributedText: NSAttributedString) {
+        resultLabel.attributedText = attributedText
+    }
+    
+    func showFaceID() {
+        UIView.animate(withDuration: 0.15, delay: 0.7, animations: {
+            self.faceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
+        }) { _ in
+            UIView.animate(withDuration: 0.15, animations: {
+                self.faceIdImage.transform = .identity
+                
+                CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
+                    if isAllowed {
+                        self.startSession()
+                        self.faceIdImage.isHidden = true
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            ProgressHUD.failed("Passwrod entrance is not available.")
+                        }
+                        
+                        self.reset()
+                    }
+                }
+            })
+        }
+    }
+    
+    func setupCamera() {
+        session.sessionPreset = .photo
+        
+        
+        let possition: AVCaptureDevice.Position = .front
+        
+        let cameraType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera
+        guard let captureDevice = AVCaptureDevice.default(cameraType, for: .video, position: possition) else { return }
+        
+        do {
+            let input = try AVCaptureDeviceInput(device: captureDevice)
+            session.addInput(input)
+            
+            previewLayer = AVCaptureVideoPreviewLayer(session: session)
+            previewLayer?.videoGravity = .resizeAspectFill
+            previewLayer?.contentsGravity = .resizeAspectFill
+            
+            previewLayer?.frame = videoFrame.layer.bounds
+            videoFrame.layer.addSublayer(previewLayer!)
+            
+            let output = AVCaptureVideoDataOutput()
+            output.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+            session.addOutput(output)
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+
+// MARK:- AVCaptureVideoDataOutputSampleBufferDelegate
+extension PortraitScanViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        if let startTime = cameraStartTime {
+            let elapsedTime = Date().timeIntervalSince(startTime)
+            print("Camera launch time: \(elapsedTime) seconds")
+            self.cameraLunchTime = "\(elapsedTime) seconds"
+            cameraStartTime = nil // Reset to avoid multiple prints
+        }
+        DispatchQueue.global(qos: .userInitiated).async {
+            connection.videoOrientation = .portrait
+            let imageBuffer: CVPixelBuffer = sampleBuffer.imageBuffer!
+            let ciimage: CIImage = CIImage(cvPixelBuffer: imageBuffer)
+            let image: UIImage = UIImage.convert(cmage: ciimage)
+            print("Image: \(image.size)")
+            self.tempImage = UIImage.cropImageToSquare(image: image)
+        }
+    }
+}
+
+// MARK: - Navigation
+
+extension PortraitScanViewController: FooterViewDelegate {
+    func feedbackTapped() {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func navigateToFinalWithFailure() {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        if let vc = storyboard.instantiateViewController(withIdentifier: "VerifyingViewController") as? VerifyingViewController {
+            vc.isVerified = false
+            vc.isSucced = false
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func navigateToVerifyingPage(isVerified: Bool) {
+        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        if let vc = storyboard.instantiateViewController(withIdentifier: "VerifyingViewController") as? VerifyingViewController {
+            vc.isVerified = isVerified
+            vc.isSucced = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+// MARK: Scan Work
+
+extension PortraitScanViewController {
     func scan(with image: UIImage) {
         switch FlowManager.shared.current {
         case .signIn:
@@ -16,16 +345,16 @@ extension ScanViewController {
 }
 
 // MARK: - Predict
-extension ScanViewController {
+extension PortraitScanViewController {
     func predict(image: UIImage) {
-        guard isEnrollRunning == false else { return }
-        self.isEnrollRunning = true
+        guard isImageTaking == false else { return }
+        self.isImageTaking = true
         
         let result = CryptonetManager.shared.cryptonet.predict(image: image, config: PredictConfig(skipAntispoof: false, mfToken: self.mfToken))
         switch result {
         case .success(let json):
             print(json)
-            self.isEnrollRunning = false
+            self.isImageTaking = false
             let jsonData = Data(json.utf8)
             
             do {
@@ -41,9 +370,9 @@ extension ScanViewController {
                 } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
                     self.estimateAttempts = 0
                 }
-
+                
                 if self.isFocused {
-                    self.portraitCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
+                    self.circularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -60,32 +389,31 @@ extension ScanViewController {
                                       image: image)
                     }
                 } else {
-                    self.isEnrollRunning = false
+                    self.isImageTaking = false
                 }
             } catch {
-                self.isEnrollRunning = false
+                self.isImageTaking = false
                 self.enrollFailed()
                 print("failure")
             }
         case .failure(_):
             print("failure")
-            self.isEnrollRunning = false
+            self.isImageTaking = false
         }
     }
     
     func stopScan(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage) {
         self.stopSession()
-        self.stopFaceAnimationTimer()
         self.stopTimer()
-        self.portraitCircularProgressView.timeToFill = 0.5
-        self.portraitCircularProgressView.progress = 1.0
-        self.portraitActivityLoading.startAnimating()
+        self.circularProgressView.timeToFill = 0.5
+        self.circularProgressView.progress = 1.0
+        self.activityLoading.startAnimating()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showSucccessAnimation()
             self.changeTitle(attributedText: NSAttributedString(string: "processing".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             self.changeResultLabel(attributedText: NSAttributedString(string: "100%" + " " + "recognised".localized,
-                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             self.updateCollectWithData(encryptedKey: encryptedKey,
                                        encryptedMessage: encryptedMessage,
                                        gcmAad: gcmAad,
@@ -107,13 +435,13 @@ extension ScanViewController {
             let jsonData = Data(json.utf8)
             do {
                 let model = try JSONDecoder().decode(CollectModel.self, from: jsonData)
-
+                
                 if  let collectEncryptedKey = model.uberOperationResult?.request?.encryptedKey,
                     let collectEncryptedMessage = model.uberOperationResult?.request?.encryptedMessage,
                     let collectGcmAad = model.uberOperationResult?.request?.gcmAad,
                     let collectGcmTag = model.uberOperationResult?.request?.gcmTag,
                     let collectIv = model.uberOperationResult?.request?.iv {
-
+                    
                     NetworkManager.shared.updateCollect(encryptedKey: collectEncryptedKey,
                                                         encryptedMessage: collectEncryptedMessage,
                                                         gcmAad: collectGcmAad,
@@ -145,20 +473,20 @@ extension ScanViewController {
         switch FlowManager.shared.current {
         case .signIn, .matchFace:
             NetworkManager.shared.updatePredict(encryptedKey: encryptedKey,
-                               encryptedMessage: encryptedMessage,
-                               gcmAad: gcmAad,
-                               gcmTag: gcmTag,
-                               iv: iv, finished: { [weak self] finished in
+                                                encryptedMessage: encryptedMessage,
+                                                gcmAad: gcmAad,
+                                                gcmTag: gcmTag,
+                                                iv: iv, finished: { [weak self] finished in
                 self?.updateFinalUI(isFinished: finished)
                 
             })
         case .enroll:
             NetworkManager.shared.updateEnroll(encryptedKey: encryptedKey,
-                              encryptedMessage: encryptedMessage,
-                              gcmAad: gcmAad,
-                              gcmTag: gcmTag,
-                              iv: iv,
-                              finished: { [weak self] finished in
+                                               encryptedMessage: encryptedMessage,
+                                               gcmAad: gcmAad,
+                                               gcmTag: gcmTag,
+                                               iv: iv,
+                                               finished: { [weak self] finished in
                 self?.updateFinalUI(isFinished: finished)
             })
         }
@@ -182,16 +510,16 @@ extension ScanViewController {
 }
 
 // MARK:- Enroll
-private extension ScanViewController {
+private extension PortraitScanViewController {
     func enroll(image: UIImage) {
-        guard self.isEnrollRunning == false else { return }
-        self.isEnrollRunning = true
+        guard self.isImageTaking == false else { return }
+        self.isImageTaking = true
         
         let result = CryptonetManager.shared.cryptonet.enroll(image: image, config: EnrollConfig(mfToken: self.mfToken, skipAntispoof: false))
         switch result {
         case .success(let json):
             print(json)
-            self.isEnrollRunning = false
+            self.isImageTaking = false
             let jsonData = Data(json.utf8)
             
             do {
@@ -209,7 +537,7 @@ private extension ScanViewController {
                 }
                 
                 if self.isFocused {
-                    self.portraitCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
+                    self.circularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -224,15 +552,15 @@ private extension ScanViewController {
                                   iv: iv,
                                   image: image)
                 } else {
-                    self.isEnrollRunning = false
+                    self.isImageTaking = false
                 }
             } catch {
-                self.isEnrollRunning = false
+                self.isImageTaking = false
                 self.enrollFailed()
                 print("failure")
             }
         case .failure(_):
-            self.isEnrollRunning = false
+            self.isImageTaking = false
             self.enrollFailed()
             print("failure")
         }
@@ -241,19 +569,22 @@ private extension ScanViewController {
     private func enrollFailed() {
         self.estimateAttempts = 0
         self.mfToken = ""
-        self.isEnrollRunning = false
+        self.isImageTaking = false
     }
 }
 
-extension ScanViewController {
-    
+
+
+
+// Error Handlers
+extension PortraitScanViewController {
     func handleFaceStatus(faceStatus: Int, isAntispoof: Bool = false, isHoldStill: Bool = true) {
         let isFailure = faceStatus != 0
         if isFailure {
             self.estimateAttempts = 0
-            self.portraitCircularProgressView.progress = 0.0
+            self.circularProgressView.progress = 0.0
             self.changeResultLabel(attributedText: NSAttributedString(string: "0%" + " " + "recognised".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             
             if faceStatus == 10 && FlowManager.shared.current == .enroll {
                 self.changeTitle(attributedText: NSAttributedString(string: "remove.glasses".localized,
@@ -266,8 +597,6 @@ extension ScanViewController {
             self.focusCamera()
         }
         
-        self.isFaceScanFailed = isFailure
-                
         if isAntispoof {
             switch faceStatus {
             case -100, -5, -4, -2, 1:
@@ -356,15 +685,6 @@ extension ScanViewController {
                 self.changeTitle(attributedText: NSAttributedString(string: "",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             }
-        }
-    }
-    
-    func focusCamera() {
-        self.isFocused = true
-        self.stopSessionTimer()
-        UIView.animate(withDuration: 0.6) {
-            self.portraitVideoFrame.layer.cornerRadius = self.portraitVideoFrame.frame.width / 2
-            self.portraitCircularProgressView.alpha = 1.0
         }
     }
 }

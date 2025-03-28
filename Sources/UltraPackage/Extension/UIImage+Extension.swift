@@ -50,4 +50,39 @@ extension UIImage {
     static func SPMImage(named name: String) -> UIImage? {
       UIImage(named: name, in: Bundle.module, compatibleWith: nil)
     }
+    
+    
+    static func cropImageToSquare(image: UIImage) -> UIImage? {
+        var imageHeight = image.size.height
+        var imageWidth = image.size.width
+        
+        if imageHeight > imageWidth {
+            imageHeight = imageWidth
+        }
+        else {
+            imageWidth = imageHeight
+        }
+        
+        let size = CGSize(width: imageWidth, height: imageHeight)
+        
+        let refWidth : CGFloat = CGFloat(image.cgImage!.width)
+        let refHeight : CGFloat = CGFloat(image.cgImage!.height)
+        
+        let x = (refWidth - size.width) / 2
+        let y = (refHeight - size.height) / 2
+        
+        let cropRect = CGRect(x: x, y: y, width: size.height, height: size.width)
+        if let imageRef = image.cgImage!.cropping(to: cropRect) {
+            return UIImage(cgImage: imageRef, scale: 0, orientation: image.imageOrientation)
+        }
+        
+        return nil
+    }
+    
+    static func convert(cmage:CIImage) -> UIImage {
+        let context: CIContext = CIContext()
+        let cgImage: CGImage = context.createCGImage(cmage, from: cmage.extent)!
+        let image:UIImage = UIImage.init(cgImage: cgImage)
+        return image
+    }
 }

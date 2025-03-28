@@ -291,6 +291,7 @@ final class ScanViewController: BaseViewController {
         portraitCircularProgressView.progressColor = .systemGreen
         portraitCircularProgressView.trackColor = .white
         portraitCircularProgressView.alpha = 0.0
+        portraitCircularProgressView.redraw()
     }
 }
 

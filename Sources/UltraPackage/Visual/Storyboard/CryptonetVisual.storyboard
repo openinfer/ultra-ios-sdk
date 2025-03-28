@@ -911,7 +911,7 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                                         <subviews>
                                                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NqS-al-phA">
-                                                                                <rect key="frame" x="20" y="20" width="280" height="280"/>
+                                                                                <rect key="frame" x="10" y="10" width="300" height="300"/>
                                                                                 <color key="backgroundColor" red="0.050980392159999999" green="0.070588235289999995" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" secondItem="NqS-al-phA" secondAttribute="height" multiplier="1:1" id="qVw-rE-HBE"/>
@@ -923,7 +923,7 @@
                                                                                 </userDefinedRuntimeAttributes>
                                                                             </view>
                                                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZ5-uD-P08" customClass="CircularProgressView" customModule="UltraPackage">
-                                                                                <rect key="frame" x="13" y="13" width="294" height="294"/>
+                                                                                <rect key="frame" x="2.6666666666666572" y="2.6666666666666856" width="315" height="315"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" secondItem="JZ5-uD-P08" secondAttribute="height" multiplier="1:1" id="oSO-jm-ZSo"/>
@@ -947,14 +947,14 @@
                                                                         <constraints>
                                                                             <constraint firstItem="mIF-j5-c3l" firstAttribute="centerY" secondItem="UQE-3h-uZF" secondAttribute="centerY" id="Go1-qJ-vje"/>
                                                                             <constraint firstItem="mIF-j5-c3l" firstAttribute="centerX" secondItem="UQE-3h-uZF" secondAttribute="centerX" id="P8a-lY-U8g"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="NqS-al-phA" secondAttribute="trailing" constant="20" id="Phu-En-D6R"/>
-                                                                            <constraint firstItem="NqS-al-phA" firstAttribute="top" secondItem="UQE-3h-uZF" secondAttribute="top" constant="20" id="VfF-HI-iRf"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="NqS-al-phA" secondAttribute="trailing" constant="10" id="Phu-En-D6R"/>
+                                                                            <constraint firstItem="NqS-al-phA" firstAttribute="top" secondItem="UQE-3h-uZF" secondAttribute="top" constant="10" id="VfF-HI-iRf"/>
                                                                             <constraint firstItem="JZ5-uD-P08" firstAttribute="width" secondItem="NqS-al-phA" secondAttribute="width" multiplier="1.05" id="YCH-bN-ew1"/>
                                                                             <constraint firstItem="JZ5-uD-P08" firstAttribute="height" secondItem="NqS-al-phA" secondAttribute="height" multiplier="1.05" id="c6H-TL-xRF"/>
-                                                                            <constraint firstItem="NqS-al-phA" firstAttribute="leading" secondItem="UQE-3h-uZF" secondAttribute="leading" constant="20" id="eaT-JW-EwW"/>
+                                                                            <constraint firstItem="NqS-al-phA" firstAttribute="leading" secondItem="UQE-3h-uZF" secondAttribute="leading" constant="10" id="eaT-JW-EwW"/>
                                                                             <constraint firstAttribute="width" secondItem="UQE-3h-uZF" secondAttribute="height" multiplier="1:1" id="fxd-Ha-Qnw"/>
                                                                             <constraint firstItem="JZ5-uD-P08" firstAttribute="centerY" secondItem="NqS-al-phA" secondAttribute="centerY" id="nAo-Tt-Lb1"/>
-                                                                            <constraint firstAttribute="bottom" secondItem="NqS-al-phA" secondAttribute="bottom" constant="20" id="pTv-LR-ZWm"/>
+                                                                            <constraint firstAttribute="bottom" secondItem="NqS-al-phA" secondAttribute="bottom" constant="10" id="pTv-LR-ZWm"/>
                                                                             <constraint firstItem="JZ5-uD-P08" firstAttribute="centerX" secondItem="NqS-al-phA" secondAttribute="centerX" id="xrZ-Mb-HET"/>
                                                                         </constraints>
                                                                         <userDefinedRuntimeAttributes>

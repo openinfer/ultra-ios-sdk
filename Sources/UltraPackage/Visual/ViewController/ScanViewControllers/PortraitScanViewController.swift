@@ -49,6 +49,7 @@ final class PortraitScanViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(checkOrientationUI), name: UIDevice.orientationDidChangeNotification, object: nil)
         self.setupUI()
     }
     
@@ -85,6 +86,18 @@ final class PortraitScanViewController: BaseViewController {
     }
     
     // MARK:- Actions
+    
+    @objc func checkOrientationUI() {
+        let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        let isPortrait = orientation?.isPortrait == true
+
+        if isPortrait && self.session.isRunning == false {
+            self.session.startRunning()
+        } else {
+            self.session.stopRunning()
+        }
+    }
+    
     @IBAction func backTapped() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -196,7 +209,11 @@ private extension PortraitScanViewController {
         if !session.isRunning {
             cameraStartTime = Date()
             DispatchQueue.global(qos: .userInitiated).async {
-                self.session.startRunning()
+                let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+                let isPortrait = orientation?.isPortrait == true
+                if isPortrait && self.session.isRunning == false {
+                    self.session.startRunning()
+                }
             }
         }
     }

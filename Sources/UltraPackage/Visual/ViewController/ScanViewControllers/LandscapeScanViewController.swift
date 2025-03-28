@@ -38,7 +38,7 @@ final class LandscapeScanViewController: BaseViewController {
     private var isImageTaking: Bool = false
     private var isFocused: Bool = false
     private var currentOrientation: AVCaptureVideoOrientation = .portrait
-
+    private var lastOrientation: UIDeviceOrientation?
     
     var estimateAttempts: Float = 0.0 {
         willSet {
@@ -90,11 +90,10 @@ final class LandscapeScanViewController: BaseViewController {
     // MARK:- Actions
     @objc func checkOrientationUI() {
         DispatchQueue.main.async {
-            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-            let isLandscape = orientation?.isLandscape == true
-            
-            if isLandscape && self.session.isRunning == false {
-                self.session.startRunning()
+            if self.isValidOrientation() {
+                if self.session.isRunning == false {
+                    self.session.startRunning()
+                }
             } else {
                 self.session.stopRunning()
             }
@@ -121,8 +120,30 @@ final class LandscapeScanViewController: BaseViewController {
         
         connection.videoOrientation = currentOrientation
     }
-
     
+    func isValidOrientation() -> Bool {
+        var result = false
+        switch UIDevice.current.orientation {
+        case .portrait, .unknown:
+            result = false
+        case .portraitUpsideDown, .landscapeRight, .landscapeLeft:
+            result = true
+        case .faceUp, .faceDown:
+            if self.lastOrientation == .portraitUpsideDown ||
+                self.lastOrientation == .landscapeRight ||
+                self.lastOrientation == .landscapeLeft {
+                return true
+            } else {
+                return false
+            }
+        @unknown default:
+            result = false
+        }
+        
+        self.lastOrientation = UIDevice.current.orientation
+        return result
+    }
+
     @IBAction func backTapped() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -233,11 +254,10 @@ private extension LandscapeScanViewController {
     func startSession() {
         if !session.isRunning {
             cameraStartTime = Date()
-            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-            let isLandscape = orientation?.isLandscape == true
+            let isValidOrientation = isValidOrientation()
 
             DispatchQueue.global(qos: .userInitiated).async {
-                if isLandscape && self.session.isRunning == false {
+                if isValidOrientation && self.session.isRunning == false {
                     self.session.startRunning()
                 }
             }

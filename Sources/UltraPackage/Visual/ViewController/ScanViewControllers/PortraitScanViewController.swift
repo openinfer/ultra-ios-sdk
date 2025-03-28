@@ -34,9 +34,10 @@ final class PortraitScanViewController: BaseViewController {
     private var cameraStartTime: Date?
     private var cameraLunchTime: String = ""
     
-    var mfToken: String = ""
-    var isImageTaking: Bool = false
-    var isFocused: Bool = false
+    private var mfToken: String = ""
+    private var isImageTaking: Bool = false
+    private var isFocused: Bool = false
+    private var lastOrientation: UIDeviceOrientation?
     
     var estimateAttempts: Float = 0.0 {
         willSet {
@@ -89,11 +90,10 @@ final class PortraitScanViewController: BaseViewController {
     
     @objc func checkOrientationUI() {
         DispatchQueue.main.async {
-            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-            let isPortrait = orientation?.isPortrait == true
-            
-            if isPortrait && self.session.isRunning == false {
-                self.session.startRunning()
+            if self.isValidOrientation() {
+                if self.session.isRunning == false {
+                    self.session.startRunning()
+                }
             } else {
                 self.session.stopRunning()
             }
@@ -210,10 +210,9 @@ private extension PortraitScanViewController {
     func startSession() {
         if !session.isRunning {
             cameraStartTime = Date()
-            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-            let isPortrait = orientation?.isPortrait == true
+            let isValidOrientation = self.isValidOrientation()
             DispatchQueue.global(qos: .userInitiated).async {
-                if isPortrait && self.session.isRunning == false {
+                if isValidOrientation && self.session.isRunning == false {
                     self.session.startRunning()
                 }
             }
@@ -303,6 +302,27 @@ private extension PortraitScanViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func isValidOrientation() -> Bool {
+        var result = false
+        switch UIDevice.current.orientation {
+        case .portrait:
+            result = true
+        case .portraitUpsideDown, .landscapeRight, .landscapeLeft, .unknown:
+            result = false
+        case .faceUp, .faceDown:
+            if self.lastOrientation == .portrait {
+                return true
+            } else {
+                return false
+            }
+        @unknown default:
+            result = false
+        }
+        
+        self.lastOrientation = UIDevice.current.orientation
+        return result
     }
 }
 

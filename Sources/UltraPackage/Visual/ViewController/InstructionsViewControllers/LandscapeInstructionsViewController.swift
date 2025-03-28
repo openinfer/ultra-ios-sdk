@@ -34,9 +34,8 @@ final class LandscapeInstructionsViewController: BaseViewController, UITextViewD
     // MARK: - Actions
   
     @IBAction func confirmTapped() {
-        let identifier = "FaceInstructionViewController"
         let storyboard = UIStoryboard(name: "FaceInstructionViewController", bundle: Bundle.module)
-        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+        let vc = storyboard.instantiateViewController(withIdentifier: "MainFaceInstructionViewController")
         self.navigationController?.pushViewController(vc, animated: true)
     }
    

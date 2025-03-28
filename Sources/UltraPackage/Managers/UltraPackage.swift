@@ -77,7 +77,7 @@ public class UltraPackage {
         case .enroll:
             NetworkManager.shared.checkFlowStatus { _ in
                 let storyboard = UIStoryboard(name: "InstructionsViewController", bundle: Bundle.module)
-                let vc = storyboard.instantiateViewController(withIdentifier: "InstructionsViewController")
+                let vc = storyboard.instantiateViewController(withIdentifier: "MainInstructionsViewController")
                 viewController.navigationController?.pushViewController(vc, animated: true)
             }
         case .predict:

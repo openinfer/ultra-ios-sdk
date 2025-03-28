@@ -1,23 +1,14 @@
 import UIKit
 
-final class InstructionsViewController: BaseViewController, UITextViewDelegate {
+final class PortraitInstructionsViewController: BaseViewController, UITextViewDelegate {
     
-    @IBOutlet weak var portraitContainer: UIView!
-    @IBOutlet weak var portraitTitle: UILabel!
-    @IBOutlet weak var portraitTerms: UITextView!
-    @IBOutlet weak var portraitAgree: UIButton!
-    @IBOutlet weak var portraitBack: UIButton!
-    @IBOutlet weak var portraitFooter: UIView!
-    @IBOutlet weak var portraitImage: UIImageView!
-    
-    @IBOutlet weak var landscapeContainer: UIView!
-//    @IBOutlet weak var landscapeTitle: UILabel!
-//    @IBOutlet weak var landscapeTerms: UITextView!
-//    @IBOutlet weak var landscapeAgree: UIButton!
-//    @IBOutlet weak var landscapeBack: UIButton!
-//    @IBOutlet weak var landscapeFooter: UIView!
-//    @IBOutlet weak var landscapeImage: UIImageView!
-    
+    @IBOutlet weak var mainTitle: UILabel!
+    @IBOutlet weak var terms: UITextView!
+    @IBOutlet weak var agree: UIButton!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var footerContainer: UIView!
+    @IBOutlet weak var mainImage: UIImageView!
+
     private let footer: FooterView = .fromNib()
     
     private let tappableTexts = ["verify.identity.privacy.policy".localized, "verify.identity.privacy.terms".localized, "learn_word".localized]
@@ -27,37 +18,17 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
         self.navigationItem.setHidesBackButton(true, animated: true)
         
         footer.delegate = self
+        footerContainer.addSubview(footer)
         
-        portraitFooter.addSubview(footer)
-//        landscapeFooter.addSubview(footer)
-        
-        let title = "Take a selfie to register."  // TODO:
-        self.portraitTitle.text = title
-//        self.landscapeTitle.text = title
-        
-        let agreeTitle = "privacy.agree.continue.button".localized
-        self.portraitAgree.setTitle(agreeTitle, for: .normal)
-//        self.landscapeAgree.setTitle(agreeTitle, for: .normal)
-        
-        
-        let backTitle = "noThanks".localized
-        self.portraitBack.setTitle(backTitle, for: .normal)
-//        self.landscapeBack.setTitle(backTitle, for: .normal)
-        
+        mainTitle.text = "Take a selfie to register."  // TODO:
+        agree.setTitle("privacy.agree.continue.button".localized, for: .normal)
+        backButton.setTitle("noThanks".localized, for: .normal)
         setupTermsTextView()
-        checkOrientationUI()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(checkOrientationUI), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
-        if orientation.isPortrait {
-            footer.frame = portraitFooter.bounds
-        } else {
-//            footer.frame = landscapeFooter.bounds
-        }
+        footer.frame = footerContainer.bounds
     }
     
     // MARK: - Actions
@@ -91,12 +62,11 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
     }
 }
 
-private extension InstructionsViewController {
+private extension PortraitInstructionsViewController {
 
     func setupTermsTextView() {
         let attributedString = makeTermsAttributedText()
-        adjustTextView(termsTextView: portraitTerms, with: attributedString)
-//        adjustTextView(termsTextView: landscapeTerms, with: attributedString)
+        adjustTextView(termsTextView: terms, with: attributedString)
     }
     
     func adjustTextView(termsTextView: UITextView, with attributedString: NSAttributedString) {
@@ -144,19 +114,9 @@ private extension InstructionsViewController {
 
         return attributedString
     }
-    
-    @objc func checkOrientationUI() {
-        let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-        
-        let isPortrait = orientation?.isPortrait == true
-        let isLandscape = orientation?.isLandscape == true
-
-        portraitContainer.isHidden = !isPortrait
-        landscapeContainer.isHidden = !isLandscape
-    }
 }
 
-extension InstructionsViewController: FooterViewDelegate {
+extension PortraitInstructionsViewController: FooterViewDelegate {
     func feedbackTapped() {
         let storyboard = UIStoryboard(name: "FeedbackViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")

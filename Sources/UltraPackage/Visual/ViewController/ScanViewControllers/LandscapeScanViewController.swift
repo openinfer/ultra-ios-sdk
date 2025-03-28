@@ -91,8 +91,10 @@ final class LandscapeScanViewController: BaseViewController {
         DispatchQueue.main.async {
             if self.isValidOrientation() {
                 if self.session.isRunning == false {
-                    self.session.startRunning()
-                    self.setupTimer()
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        self.session.startRunning()
+                        self.setupTimer()
+                    }
                 }
             } else {
                 self.session.stopRunning()

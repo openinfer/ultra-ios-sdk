@@ -14,21 +14,21 @@
             <objects>
                 <viewController storyboardIdentifier="PortraitInstructionsViewController" id="flb-Zr-yHl" customClass="PortraitInstructionsViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zcy-fc-p0P">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="814"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ph2-Ud-Uvy">
-                                <rect key="frame" x="0.0" y="774" width="393" height="40"/>
+                                <rect key="frame" x="0.0" y="719" width="393" height="40"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="02q-6n-oMl"/>
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oQz-gy-ytf">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="719"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0p2-79-jXN">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="774"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="719"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-image" translatesAutoresizingMaskIntoConstraints="NO" id="Tew-mp-lrl">
                                                 <rect key="frame" x="120.66666666666667" y="20" width="151.66666666666663" height="20"/>
@@ -55,7 +55,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cPJ-HP-S03">
-                                                <rect key="frame" x="20" y="322.66666666666674" width="353" height="367.33333333333326"/>
+                                                <rect key="frame" x="20" y="322.66666666666674" width="353" height="312.33333333333326"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" systemColor="labelColor"/>
@@ -63,7 +63,7 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PR8-UM-fSv">
-                                                <rect key="frame" x="206.66666666666663" y="710" width="166.33333333333337" height="44"/>
+                                                <rect key="frame" x="206.66666666666663" y="655" width="166.33333333333337" height="44"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="aBW-b5-ovJ"/>
@@ -83,7 +83,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZuB-J8-tf7">
-                                                <rect key="frame" x="20" y="710" width="166.66666666666666" height="44"/>
+                                                <rect key="frame" x="20" y="655" width="166.66666666666666" height="44"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="bmB-gM-O5q"/>
@@ -103,6 +103,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="ZuB-J8-tf7" secondAttribute="bottom" constant="20" id="E3y-z2-23r"/>
                                             <constraint firstItem="cPJ-HP-S03" firstAttribute="top" secondItem="PFJ-CC-dsQ" secondAttribute="bottom" constant="20" id="ENJ-Id-l5g"/>
@@ -166,14 +167,15 @@
             <objects>
                 <viewController storyboardIdentifier="LandscapeInstructionsViewController" id="Tnw-Vc-YuY" customClass="LandscapeInstructionsViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fda-XU-GcT">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="814"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8oa-WX-uJI">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="814"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v12-xE-Bn5">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="814"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

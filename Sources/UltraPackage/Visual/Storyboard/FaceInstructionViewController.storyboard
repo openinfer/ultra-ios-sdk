@@ -443,9 +443,6 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bDF-91-fZ8">
                                                 <rect key="frame" x="367" y="0.0" width="367" height="332"/>
                                                 <subviews>
-                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="oiz-7G-cPF">
-                                                        <rect key="frame" x="73.666666666666686" y="278" width="20" height="20"/>
-                                                    </activityIndicatorView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Con-B2-WxU">
                                                         <rect key="frame" x="20" y="46" width="327" height="200"/>
                                                         <subviews>
@@ -574,6 +571,9 @@
                                                             <constraint firstItem="Mw3-nW-VBo" firstAttribute="width" secondItem="ady-eh-xbn" secondAttribute="width" id="sZw-6F-z88"/>
                                                         </constraints>
                                                     </view>
+                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="oiz-7G-cPF">
+                                                        <rect key="frame" x="173.66666666666663" y="278" width="20" height="20"/>
+                                                    </activityIndicatorView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hvz-fp-Z0f">
                                                         <rect key="frame" x="40" y="266" width="287" height="44"/>
                                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -605,7 +605,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="Hvz-fp-Z0f" secondAttribute="trailing" constant="40" id="FBD-0M-JeX"/>
                                                     <constraint firstAttribute="trailing" secondItem="Con-B2-WxU" secondAttribute="trailing" constant="20" id="FxK-Ap-z83"/>
                                                     <constraint firstItem="Con-B2-WxU" firstAttribute="leading" secondItem="bDF-91-fZ8" secondAttribute="leading" constant="20" id="cWQ-0R-yWm"/>
-                                                    <constraint firstItem="Hvz-fp-Z0f" firstAttribute="centerX" secondItem="oiz-7G-cPF" secondAttribute="centerX" constant="100" id="qQW-eR-c6R"/>
+                                                    <constraint firstItem="Hvz-fp-Z0f" firstAttribute="centerX" secondItem="oiz-7G-cPF" secondAttribute="centerX" id="qQW-eR-c6R"/>
                                                 </constraints>
                                             </view>
                                         </subviews>

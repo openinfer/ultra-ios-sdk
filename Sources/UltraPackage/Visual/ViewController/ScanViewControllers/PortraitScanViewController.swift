@@ -64,7 +64,7 @@ final class PortraitScanViewController: BaseViewController {
             isCameraRunning = true
             setupCamera()
             setupTimer()
-            showFaceID()
+//            showFaceID()
             circularProgressView.redraw()
         }
     }

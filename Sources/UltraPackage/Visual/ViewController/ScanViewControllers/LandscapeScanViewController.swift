@@ -64,7 +64,7 @@ final class LandscapeScanViewController: BaseViewController {
             isCameraRunning = true
             setupCamera()
             setupTimer()
-            showFaceID()
+//            showFaceID()
             circularProgressView.redraw()
         }
     }

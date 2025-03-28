@@ -64,7 +64,7 @@ final class InstructionsViewController: BaseViewController, UITextViewDelegate {
   
     @IBAction func confirmTapped() {
         let identifier = "FaceInstructionViewController"
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "FaceInstructionViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -158,7 +158,7 @@ private extension InstructionsViewController {
 
 extension InstructionsViewController: FooterViewDelegate {
     func feedbackTapped() {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "FeedbackViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
         self.navigationController?.pushViewController(vc, animated: true)
     }

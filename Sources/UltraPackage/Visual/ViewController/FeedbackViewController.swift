@@ -148,7 +148,7 @@ final class FeedbackViewController: UIViewController {
 
 extension FeedbackViewController: FooterViewDelegate {
     func feedbackTapped() {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "FeedbackViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
         self.navigationController?.pushViewController(vc, animated: true)
     }

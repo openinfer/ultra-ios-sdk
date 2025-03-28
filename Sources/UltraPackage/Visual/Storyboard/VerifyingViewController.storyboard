@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_3" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Verifying View Controller-->
+        <scene sceneID="wdZ-EX-RTv">
+            <objects>
+                <viewController storyboardIdentifier="VerifyingViewController" id="4L6-zm-yCK" customClass="VerifyingViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3Tq-Y6-cpg">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="veq-lm-hP8">
+                                <rect key="frame" x="0.0" y="62" width="402" height="732"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2qz-Su-qHf">
+                                        <rect key="frame" x="51" y="258.66666666666669" width="300" height="175"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="175" id="F1P-0i-FWJ"/>
+                                            <constraint firstAttribute="width" secondItem="2qz-Su-qHf" secondAttribute="height" multiplier="12:7" id="FPr-Tp-UfP"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusV">
+                                                <real key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3n-sO-g2K">
+                                        <rect key="frame" x="40" y="473.66666666666663" width="322" height="51.333333333333371"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Please wait a sec, we’re verifying your identity...">
+                                                <attributes>
+                                                    <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <font key="NSFont" size="22" name="GoogleSans-Medium"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="G3n-sO-g2K" firstAttribute="top" secondItem="2qz-Su-qHf" secondAttribute="bottom" constant="40" id="02r-66-l0e"/>
+                                    <constraint firstItem="G3n-sO-g2K" firstAttribute="leading" secondItem="veq-lm-hP8" secondAttribute="leading" constant="40" id="3NW-64-PmV"/>
+                                    <constraint firstAttribute="trailing" secondItem="G3n-sO-g2K" secondAttribute="trailing" constant="40" id="SIy-5q-LRI"/>
+                                    <constraint firstItem="2qz-Su-qHf" firstAttribute="centerX" secondItem="veq-lm-hP8" secondAttribute="centerX" id="WtI-xe-0c8"/>
+                                    <constraint firstItem="2qz-Su-qHf" firstAttribute="centerY" secondItem="veq-lm-hP8" secondAttribute="centerY" constant="-20" id="pM7-kq-nxy"/>
+                                </constraints>
+                            </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBT-Pg-3Qa">
+                                <rect key="frame" x="0.0" y="794" width="402" height="80"/>
+                                <color key="backgroundColor" systemColor="systemPurpleColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="BKA-WL-76y"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hdZ-pR-euq"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="EBT-Pg-3Qa" secondAttribute="bottom" id="4Ij-VS-AVe"/>
+                            <constraint firstAttribute="trailing" secondItem="EBT-Pg-3Qa" secondAttribute="trailing" id="AbG-FG-c19"/>
+                            <constraint firstItem="veq-lm-hP8" firstAttribute="leading" secondItem="hdZ-pR-euq" secondAttribute="leading" id="Kfn-rt-N66"/>
+                            <constraint firstItem="EBT-Pg-3Qa" firstAttribute="leading" secondItem="3Tq-Y6-cpg" secondAttribute="leading" id="RU8-l7-QTD"/>
+                            <constraint firstItem="EBT-Pg-3Qa" firstAttribute="top" secondItem="veq-lm-hP8" secondAttribute="bottom" id="mBa-C3-s3Y"/>
+                            <constraint firstItem="veq-lm-hP8" firstAttribute="trailing" secondItem="hdZ-pR-euq" secondAttribute="trailing" id="xqU-J4-vpG"/>
+                            <constraint firstItem="veq-lm-hP8" firstAttribute="top" secondItem="hdZ-pR-euq" secondAttribute="top" id="zPe-is-QRV"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="centerImageHeight" destination="F1P-0i-FWJ" id="hoe-jl-7zW"/>
+                        <outlet property="footerContainer" destination="EBT-Pg-3Qa" id="cDU-u1-Apr"/>
+                        <outlet property="footerHeight" destination="BKA-WL-76y" id="zpu-JO-7vo"/>
+                        <outlet property="imageView" destination="2qz-Su-qHf" id="cqY-bD-71W"/>
+                        <outlet property="titleLabel" destination="G3n-sO-g2K" id="zUh-AQ-u6a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ds6-z9-5oW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4006.6901408450703" y="828.75"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemPurpleColor">
+            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

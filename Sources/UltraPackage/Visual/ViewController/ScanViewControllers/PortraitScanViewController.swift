@@ -329,13 +329,13 @@ extension PortraitScanViewController: AVCaptureVideoDataOutputSampleBufferDelega
 
 extension PortraitScanViewController: FooterViewDelegate {
     func feedbackTapped() {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "FeedbackViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func navigateToFinalWithFailure() {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "VerifyingViewController", bundle: Bundle.module)
         if let vc = storyboard.instantiateViewController(withIdentifier: "VerifyingViewController") as? VerifyingViewController {
             vc.isVerified = false
             vc.isSucced = false
@@ -344,7 +344,7 @@ extension PortraitScanViewController: FooterViewDelegate {
     }
     
     func navigateToVerifyingPage(isVerified: Bool) {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "VerifyingViewController", bundle: Bundle.module)
         if let vc = storyboard.instantiateViewController(withIdentifier: "VerifyingViewController") as? VerifyingViewController {
             vc.isVerified = isVerified
             vc.isSucced = true

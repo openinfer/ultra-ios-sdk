@@ -76,7 +76,7 @@ public class UltraPackage {
         switch startedType {
         case .enroll:
             NetworkManager.shared.checkFlowStatus { _ in
-                let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+                let storyboard = UIStoryboard(name: "InstructionsViewController", bundle: Bundle.module)
                 let vc = storyboard.instantiateViewController(withIdentifier: "InstructionsViewController")
                 viewController.navigationController?.pushViewController(vc, animated: true)
             }

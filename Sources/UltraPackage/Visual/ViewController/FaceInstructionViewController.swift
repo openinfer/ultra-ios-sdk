@@ -112,7 +112,7 @@ class FaceInstructionViewController: BaseViewController {
 
 extension FaceInstructionViewController: FooterViewDelegate {
     func feedbackTapped() {
-        let storyboard = UIStoryboard(name: "CryptonetVisual", bundle: Bundle.module)
+        let storyboard = UIStoryboard(name: "FeedbackViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
         self.navigationController?.pushViewController(vc, animated: true)
     }

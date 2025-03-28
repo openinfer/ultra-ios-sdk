@@ -67,12 +67,9 @@ final class LandscapeScanViewController: BaseViewController {
             isCameraRunning = true
             setupCamera()
             setupTimer()
-//            showFaceID()
-            self.startSession()
-            self.faceIdImage.isHidden = true
-            
-            self.updateOrientationSettings()
-            self.circularProgressView.redraw()
+            startSession()
+            updateOrientationSettings()
+            circularProgressView.redraw()
         }
     }
     
@@ -301,30 +298,7 @@ private extension LandscapeScanViewController {
     func changeResultLabel(attributedText: NSAttributedString) {
         resultLabel.attributedText = attributedText
     }
-    
-    func showFaceID() {
-        UIView.animate(withDuration: 0.15, delay: 0.7, animations: {
-            self.faceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
-        }) { _ in
-            UIView.animate(withDuration: 0.15, animations: {
-                self.faceIdImage.transform = .identity
-                
-                CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
-                    if isAllowed {
-                        self.startSession()
-                        self.faceIdImage.isHidden = true
-                    } else {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            ProgressHUD.failed("Passwrod entrance is not available.")
-                        }
-                        
-                        self.reset()
-                    }
-                }
-            })
-        }
-    }
-    
+   
     func setupCamera() {
         session.sessionPreset = .photo
         

@@ -84,7 +84,7 @@ extension ScanViewController {
             self.showSucccessAnimation()
             self.changeTitle(attributedText: NSAttributedString(string: "processing".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
-            self.changeTitle(attributedText: NSAttributedString(string: "100%" + " " + "recognised".localized,
+            self.changeResultLabel(attributedText: NSAttributedString(string: "100%" + " " + "recognised".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             self.updateCollectWithData(encryptedKey: encryptedKey,
                                        encryptedMessage: encryptedMessage,

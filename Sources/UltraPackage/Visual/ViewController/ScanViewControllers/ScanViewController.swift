@@ -98,6 +98,7 @@ final class ScanViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         footer.frame = portraitFooterContainer.bounds
         previewLayer?.frame = portraitVideoFrame.layer.bounds
+        portraitCircularProgressView.redraw()
     }
     
     // MARK:- Actions

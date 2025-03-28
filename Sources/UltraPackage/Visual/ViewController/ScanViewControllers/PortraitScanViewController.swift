@@ -69,6 +69,7 @@ final class PortraitScanViewController: BaseViewController {
 //            showFaceID()
             self.startSession()
             self.faceIdImage.isHidden = true
+            self.circularProgressView.redraw()
         }
     }
     
@@ -91,9 +92,9 @@ final class PortraitScanViewController: BaseViewController {
         DispatchQueue.main.async {
             if self.isValidOrientation() {
                 if self.session.isRunning == false {
+                    self.circularProgressView.redraw()
                     DispatchQueue.global(qos: .userInitiated).async {
                         self.session.startRunning()
-                        self.circularProgressView.redraw()
                     }
                 }
             } else {
@@ -216,7 +217,6 @@ private extension PortraitScanViewController {
             DispatchQueue.global(qos: .userInitiated).async {
                 if isValidOrientation && self.session.isRunning == false {
                     self.session.startRunning()
-                    self.circularProgressView.redraw()
                 }
             }
         }

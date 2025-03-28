@@ -70,7 +70,7 @@ final class LandscapeScanViewController: BaseViewController {
 //            showFaceID()
             self.startSession()
             self.faceIdImage.isHidden = true
-            circularProgressView.redraw()
+            updateOrientationSettings()
         }
     }
     
@@ -94,6 +94,7 @@ final class LandscapeScanViewController: BaseViewController {
                 if self.session.isRunning == false {
                     DispatchQueue.global(qos: .userInitiated).async {
                         self.session.startRunning()
+                        self.circularProgressView.redraw()
                     }
                 }
             } else {
@@ -261,6 +262,7 @@ private extension LandscapeScanViewController {
             DispatchQueue.global(qos: .userInitiated).async {
                 if isValidOrientation && self.session.isRunning == false {
                     self.session.startRunning()
+                    self.circularProgressView.redraw()
                 }
             }
         }

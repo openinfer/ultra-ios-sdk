@@ -445,10 +445,10 @@
                                                 <rect key="frame" x="367" y="0.0" width="367" height="332"/>
                                                 <subviews>
                                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="oiz-7G-cPF">
-                                                        <rect key="frame" x="73.666666666666686" y="252" width="20" height="20"/>
+                                                        <rect key="frame" x="73.666666666666686" y="278" width="20" height="20"/>
                                                     </activityIndicatorView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Con-B2-WxU">
-                                                        <rect key="frame" x="20" y="20" width="327" height="200"/>
+                                                        <rect key="frame" x="20" y="46" width="327" height="200"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ady-eh-xbn">
                                                                 <rect key="frame" x="0.0" y="0.0" width="327" height="66.666666666666671"/>
@@ -501,7 +501,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ensure just your face is in the" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fD-M0-vjg">
-                                                                        <rect key="frame" x="66.6666666666667" y="35" width="244.33333333333337" height="16"/>
+                                                                        <rect key="frame" x="66.6666666666667" y="34.999999999999986" width="244.33333333333337" height="16"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                         <color key="textColor" systemColor="systemGray2Color"/>
                                                                         <nil key="highlightedColor"/>
@@ -576,7 +576,7 @@
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hvz-fp-Z0f">
-                                                        <rect key="frame" x="40" y="240" width="287" height="44"/>
+                                                        <rect key="frame" x="40" y="266" width="287" height="44"/>
                                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="sHW-Jq-I4E"/>
@@ -600,11 +600,11 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="Hvz-fp-Z0f" firstAttribute="top" secondItem="Con-B2-WxU" secondAttribute="bottom" constant="20" id="28T-aa-oAe"/>
+                                                    <constraint firstItem="Con-B2-WxU" firstAttribute="centerY" secondItem="bDF-91-fZ8" secondAttribute="centerY" constant="-20" id="4wT-CH-NcR"/>
                                                     <constraint firstItem="Hvz-fp-Z0f" firstAttribute="leading" secondItem="bDF-91-fZ8" secondAttribute="leading" constant="40" id="5wk-4J-ZVM"/>
                                                     <constraint firstItem="oiz-7G-cPF" firstAttribute="centerY" secondItem="Hvz-fp-Z0f" secondAttribute="centerY" id="8i1-82-sjC"/>
                                                     <constraint firstAttribute="trailing" secondItem="Hvz-fp-Z0f" secondAttribute="trailing" constant="40" id="FBD-0M-JeX"/>
                                                     <constraint firstAttribute="trailing" secondItem="Con-B2-WxU" secondAttribute="trailing" constant="20" id="FxK-Ap-z83"/>
-                                                    <constraint firstItem="Con-B2-WxU" firstAttribute="top" secondItem="bDF-91-fZ8" secondAttribute="top" constant="20" id="KGC-tn-wKg"/>
                                                     <constraint firstItem="Con-B2-WxU" firstAttribute="leading" secondItem="bDF-91-fZ8" secondAttribute="leading" constant="20" id="cWQ-0R-yWm"/>
                                                     <constraint firstItem="Hvz-fp-Z0f" firstAttribute="centerX" secondItem="oiz-7G-cPF" secondAttribute="centerX" constant="100" id="qQW-eR-c6R"/>
                                                 </constraints>

@@ -6,7 +6,6 @@ import ProgressHUD
 
 final class ScanViewController: BaseViewController {
     
-    @IBOutlet weak var portraitContainer: UIView!
     @IBOutlet weak var portraitVideoFrame: UIView!
     @IBOutlet weak var portraitTitleLabel: UILabel!
     @IBOutlet weak var portraitResultLabel: UILabel!
@@ -14,15 +13,6 @@ final class ScanViewController: BaseViewController {
     @IBOutlet weak var portraitFooterContainer: UIView!
     @IBOutlet weak var portraitFaceIdImage: UIImageView!
     @IBOutlet weak var portraitCircularProgressView: CircularProgressView!
-    
-    @IBOutlet weak var landscapeContainer: UIView!
-    @IBOutlet weak var landscapeVideoFrame: UIView!
-    @IBOutlet weak var landscapeTitleLabel: UILabel!
-    @IBOutlet weak var landscapeResultLabel: UILabel!
-    @IBOutlet weak var landscapeActivityLoading: UIActivityIndicatorView!
-    @IBOutlet weak var landscapeFooterContainer: UIView!
-    @IBOutlet weak var landscapeFaceIdImage: UIImageView!
-    @IBOutlet weak var landscapeCircularProgressView: CircularProgressView!
         
     private let footer: FooterView = .fromNib()
     
@@ -69,7 +59,6 @@ final class ScanViewController: BaseViewController {
         footer.delegate = self
         
         portraitFooterContainer.addSubview(footer)
-        landscapeFooterContainer.addSubview(footer)
         
         ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
         ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
@@ -107,15 +96,8 @@ final class ScanViewController: BaseViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        guard let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
-        if orientation.isPortrait {
-            footer.frame = portraitFooterContainer.bounds
-            previewLayer?.frame = portraitVideoFrame.layer.bounds
-        } else {
-            footer.frame = landscapeFooterContainer.bounds
-            previewLayer?.frame = landscapeVideoFrame.layer.bounds
-        }
+        footer.frame = portraitFooterContainer.bounds
+        previewLayer?.frame = portraitVideoFrame.layer.bounds
     }
     
     // MARK:- Actions
@@ -126,8 +108,7 @@ final class ScanViewController: BaseViewController {
         let isPortrait = orientation?.isPortrait == true
         let isLandscape = orientation?.isLandscape == true
 
-        portraitContainer.isHidden = !isPortrait
-        landscapeContainer.isHidden = !isLandscape
+//        portraitContainer.isHidden = !isPortrait
         
         updateOrientationSettings()
     }
@@ -248,9 +229,7 @@ final class ScanViewController: BaseViewController {
             withDuration: 0.5,
             animations: {
                 self.portraitCircularProgressView.alpha = 0.0
-                self.landscapeCircularProgressView.alpha = 0.0
                 self.portraitVideoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
-                self.landscapeVideoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
             })
     }
 
@@ -276,17 +255,14 @@ final class ScanViewController: BaseViewController {
     func launchFaceId() {
         UIView.animate(withDuration: 0.15, delay: 0.7, animations: {
             self.portraitFaceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
-            self.landscapeFaceIdImage.transform = CGAffineTransform(translationX: 0, y: -10)
         }) { _ in
             UIView.animate(withDuration: 0.15, animations: {
                 self.portraitFaceIdImage.transform = .identity
-                self.landscapeFaceIdImage.transform = .identity
                 
                 CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
                     if isAllowed {
                         self.startSession()
                         self.portraitFaceIdImage.isHidden = true
-                        self.landscapeFaceIdImage.isHidden = true
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             ProgressHUD.failed("Passwrod entrance is not available.")
@@ -305,22 +281,14 @@ final class ScanViewController: BaseViewController {
         portraitCircularProgressView.trackColor = .white
         portraitCircularProgressView.alpha = 0.0
         portraitCircularProgressView.redraw()
-        
-        landscapeCircularProgressView.rounded = false
-        landscapeCircularProgressView.progressColor = .systemGreen
-        landscapeCircularProgressView.trackColor = .white
-        landscapeCircularProgressView.alpha = 0.0
-        landscapeCircularProgressView.redraw()
     }
     
     func changeTitle(attributedText: NSAttributedString) {
         portraitTitleLabel.attributedText = attributedText
-        landscapeTitleLabel.attributedText = attributedText
     }
     
     func changeResultLabel(attributedText: NSAttributedString) {
         portraitResultLabel.attributedText = attributedText
-        landscapeResultLabel.attributedText = attributedText
     }
 }
 
@@ -346,7 +314,6 @@ private extension ScanViewController {
             
             previewLayer?.frame = portraitVideoFrame.layer.bounds
             portraitVideoFrame.layer.addSublayer(previewLayer!)
-            landscapeVideoFrame.layer.addSublayer(previewLayer!)
             
             let output = AVCaptureVideoDataOutput()
             output.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))

@@ -83,7 +83,7 @@ class FaceInstructionViewController: BaseViewController {
     
     private func proceed() {
         let storyboard = UIStoryboard(name: "ScanViewController", bundle: Bundle.module)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
+        let vc = storyboard.instantiateViewController(withIdentifier: "MainScanViewController")
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -101,7 +101,7 @@ public class UltraPackage {
     
     private func runPredictWithFaceId(on viewController: UIViewController) {
         let storyboard = UIStoryboard(name: "ScanViewController", bundle: Bundle.module)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ScanViewController")
+        let vc = storyboard.instantiateViewController(withIdentifier: "MainScanViewController")
         viewController.navigationController?.pushViewController(vc, animated: true)
     }
 }

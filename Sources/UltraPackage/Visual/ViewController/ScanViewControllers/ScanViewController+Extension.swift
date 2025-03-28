@@ -44,7 +44,6 @@ extension ScanViewController {
 
                 if self.isFocused {
                     self.portraitCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
-                    self.landscapeCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -80,10 +79,7 @@ extension ScanViewController {
         self.stopTimer()
         self.portraitCircularProgressView.timeToFill = 0.5
         self.portraitCircularProgressView.progress = 1.0
-        self.landscapeCircularProgressView.timeToFill = 0.5
-        self.landscapeCircularProgressView.progress = 1.0
         self.portraitActivityLoading.startAnimating()
-        self.landscapeActivityLoading.startAnimating()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showSucccessAnimation()
             self.changeTitle(attributedText: NSAttributedString(string: "processing".localized,
@@ -214,7 +210,6 @@ private extension ScanViewController {
                 
                 if self.isFocused {
                     self.portraitCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
-                    self.landscapeCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -257,7 +252,6 @@ extension ScanViewController {
         if isFailure {
             self.estimateAttempts = 0
             self.portraitCircularProgressView.progress = 0.0
-            self.landscapeCircularProgressView.progress = 0.0
             self.changeResultLabel(attributedText: NSAttributedString(string: "0%" + " " + "recognised".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             
@@ -370,9 +364,7 @@ extension ScanViewController {
         self.stopSessionTimer()
         UIView.animate(withDuration: 0.6) {
             self.portraitVideoFrame.layer.cornerRadius = self.portraitVideoFrame.frame.width / 2
-            self.landscapeVideoFrame.layer.cornerRadius = self.landscapeVideoFrame.frame.width / 2
             self.portraitCircularProgressView.alpha = 1.0
-            self.landscapeCircularProgressView.progress = 0.0
         }
     }
 }

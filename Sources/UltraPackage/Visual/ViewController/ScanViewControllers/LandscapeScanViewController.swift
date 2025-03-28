@@ -66,7 +66,6 @@ final class LandscapeScanViewController: BaseViewController {
         if isCameraRunning == false {
             isCameraRunning = true
             setupCamera()
-            setupTimer()
 //            showFaceID()
             self.startSession()
             self.faceIdImage.isHidden = true
@@ -93,9 +92,11 @@ final class LandscapeScanViewController: BaseViewController {
             if self.isValidOrientation() {
                 if self.session.isRunning == false {
                     self.session.startRunning()
+                    self.setupTimer()
                 }
             } else {
                 self.session.stopRunning()
+                self.stopTimer()
             }
             
             self.updateOrientationSettings()
@@ -259,6 +260,7 @@ private extension LandscapeScanViewController {
             DispatchQueue.global(qos: .userInitiated).async {
                 if isValidOrientation && self.session.isRunning == false {
                     self.session.startRunning()
+                    self.setupTimer()
                 }
             }
         }

@@ -5,23 +5,20 @@ import Toaster
 import ProgressHUD
 
 final class ScanViewController: BaseViewController {
-
-    @IBOutlet weak var videoFrame: UIView!
-    @IBOutlet weak var videoContainer: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var resultLabel: UILabel!
-    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
-    @IBOutlet weak var footerContainer: UIView!
-    @IBOutlet weak var lockImage: UIImageView!
-    @IBOutlet weak var faceIdImage: UIImageView!
+    @IBOutlet weak var portraitContainer: UIView!
+    @IBOutlet weak var portraitVideoFrame: UIView!
+    @IBOutlet weak var portraitVideoContainer: UIView!
+    @IBOutlet weak var portraitTitleLabel: UILabel!
+    @IBOutlet weak var portraitResultLabel: UILabel!
+    @IBOutlet weak var portraitActivityLoading: UIActivityIndicatorView!
+    @IBOutlet weak var portraitFooterContainer: UIView!
+    @IBOutlet weak var portraitLockImage: UIImageView!
+    @IBOutlet weak var portraitFaceIdImage: UIImageView!
+    @IBOutlet weak var portraitCircularProgressView: CircularProgressView!
     
-    @IBOutlet weak var headerHeight: NSLayoutConstraint!
-    @IBOutlet weak var footerHeight: NSLayoutConstraint!
-    @IBOutlet weak var centerHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var circularProgressView: CircularProgressView!
-    
+    @IBOutlet weak var landscapeContainer: UIView!
+        
     private let footer: FooterView = .fromNib()
     
     private let session = AVCaptureSession()
@@ -51,7 +48,7 @@ final class ScanViewController: BaseViewController {
     var isDocumentScan: Bool = false
     var estimateAttempts: Float = 0.0 {
         willSet {
-            self.resultLabel.attributedText = NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
+            self.portraitResultLabel.attributedText = NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         }
     }
@@ -61,18 +58,18 @@ final class ScanViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.titleLabel.attributedText = NSAttributedString(string: "center.your.head".localized,
+        self.portraitTitleLabel.attributedText = NSAttributedString(string: "center.your.head".localized,
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
 //        self.faceIdImage.isHidden = FlowManager.shared.scanType != .face
         footer.delegate = self
-        footerContainer.addSubview(footer)
+        portraitFooterContainer.addSubview(footer)
         
         ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
         ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
 
         setupProgress()
-        adjustVideoLayerFrame(isLanch: true)
+        checkOrientationUI()
+        NotificationCenter.default.addObserver(self, selector: #selector(checkOrientationUI), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,6 +79,7 @@ final class ScanViewController: BaseViewController {
             isCameraRunning = true
             setupCamera()
             setupTimer()
+            launchFaceId()
             updateOrientationSettings()
 //            startFaceAnimationTimer()
 //            if FlowManager.shared.scanType == .face {
@@ -101,14 +99,21 @@ final class ScanViewController: BaseViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        footer.frame = footerContainer.bounds
-        previewLayer?.frame = videoFrame.layer.bounds
+        footer.frame = portraitFooterContainer.bounds
+        previewLayer?.frame = portraitVideoFrame.layer.bounds
     }
     
     // MARK:- Actions
     
-    @objc func orientationChanged() {
-        adjustVideoLayerFrame(isLanch: false)
+    @objc func checkOrientationUI() {
+        let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        
+        let isPortrait = orientation?.isPortrait == true
+        let isLandscape = orientation?.isLandscape == true
+
+        portraitContainer.isHidden = !isPortrait
+        landscapeContainer.isHidden = !isLandscape
+        
         updateOrientationSettings()
     }
     
@@ -126,19 +131,19 @@ final class ScanViewController: BaseViewController {
     
     @objc func faceAnimationCircule() {
         DispatchQueue.main.async {
-            self.circularProgressView.progressColor = self.isFaceScanFailed ? UIColor.white : UIColor.green
-            let isFinished = self.circularProgressView?.progressColor == UIColor.green && self.circularProgressView.progress == 1.0
+            self.portraitCircularProgressView.progressColor = self.isFaceScanFailed ? UIColor.white : UIColor.green
+            let isFinished = self.portraitCircularProgressView?.progressColor == UIColor.green && self.portraitCircularProgressView.progress == 1.0
             guard isFinished == false else { return }
-            if self.circularProgressView.progressColor == UIColor.green {
+            if self.portraitCircularProgressView.progressColor == UIColor.green {
                 self.updateCounter(currentValue: 0, toValue: 1.0)
             } else {
-                self.resultLabel.attributedText = NSAttributedString(string: "0%" + " " + "recognised".localized,
+                self.portraitResultLabel.attributedText = NSAttributedString(string: "0%" + " " + "recognised".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             }
            
-            self.circularProgressView.progress = 0.0
-            self.circularProgressView.timeToFill = 1.5
-            self.circularProgressView.progress = 1.0
+            self.portraitCircularProgressView.progress = 0.0
+            self.portraitCircularProgressView.timeToFill = 1.5
+            self.portraitCircularProgressView.progress = 1.0
         }
     }
     
@@ -172,7 +177,7 @@ final class ScanViewController: BaseViewController {
     
     func updateCounter(currentValue: Int, toValue: Double) {
         if currentValue <= Int(toValue * 100) {
-                self.resultLabel.attributedText = NSAttributedString(string: "\(currentValue)%" + " " + "recognised".localized,
+                self.portraitResultLabel.attributedText = NSAttributedString(string: "\(currentValue)%" + " " + "recognised".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
             let dispatchTime: DispatchTime = DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
@@ -249,8 +254,8 @@ final class ScanViewController: BaseViewController {
         UIView.animate(
             withDuration: 0.5,
             animations: {
-                self.circularProgressView.alpha = 0.0
-                self.videoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
+                self.portraitCircularProgressView.alpha = 0.0
+                self.portraitVideoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
             }, completion: { _ in
 //                self.activityLoading.startAnimating()
             })
@@ -275,59 +280,17 @@ final class ScanViewController: BaseViewController {
         }
     }
     
-    func adjustVideoLayerFrame(isLanch: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            if UIDevice.current.userInterfaceIdiom == .pad  {
-                switch UIDevice.current.orientation {
-                case .portrait:
-                    self.centerHeight.constant = self.view.frame.width / 1.25
-                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
-                    self.centerHeight.constant = self.view.frame.height / 2
-                default: break
-                }
-            } else {
-                switch UIDevice.current.orientation {
-                case .portrait:
-                    self.headerHeight.constant = 40.0
-                    self.footerHeight.constant = 80.0
-                    self.centerHeight.constant = self.view.frame.width / 1.25
-                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-                case .landscapeLeft, .landscapeRight, .portraitUpsideDown:
-                    self.headerHeight.constant = 00.0
-                    self.footerHeight.constant = 00.0
-                    self.centerHeight.constant = self.view.frame.height / 1.45
-                    self.navigationController?.setNavigationBarHidden(true, animated: true)
-                default: break
-                }
-            }
-            
-            if self.isFocused {
-                self.videoFrame.layer.cornerRadius = self.videoFrame.frame.width / 2
-            }
-            
-            UIView.animate(withDuration: 0.1) {
-                self.view.layoutIfNeeded()
-            } completion: { _ in
-                self.circularProgressView.redraw()
-                
-                if isLanch {
-                    self.launchFaceId()
-                }
-            }
-        }
-    }
-    
     func launchFaceId() {
         UIView.animate(withDuration: 0.15, delay: 0.7, animations: {
-            self.faceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
+            self.portraitFaceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
         }) { _ in
             UIView.animate(withDuration: 0.15, animations: {
-                self.faceIdImage.transform = .identity
+                self.portraitFaceIdImage.transform = .identity
                 
                 CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
                     if isAllowed {
                         self.startSession()
-                        self.faceIdImage.isHidden = true
+                        self.portraitFaceIdImage.isHidden = true
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             ProgressHUD.failed("Passwrod entrance is not available.")
@@ -341,10 +304,10 @@ final class ScanViewController: BaseViewController {
     }
     
     func setupProgress() {
-        circularProgressView.rounded = false
-        circularProgressView.progressColor = .systemGreen
-        circularProgressView.trackColor = .white
-        circularProgressView.alpha = 0.0
+        portraitCircularProgressView.rounded = false
+        portraitCircularProgressView.progressColor = .systemGreen
+        portraitCircularProgressView.trackColor = .white
+        portraitCircularProgressView.alpha = 0.0
     }
 }
 
@@ -367,8 +330,8 @@ private extension ScanViewController {
             previewLayer = AVCaptureVideoPreviewLayer(session: session)
             previewLayer?.videoGravity = .resizeAspectFill
             previewLayer?.contentsGravity = .resizeAspectFill
-            previewLayer?.frame = videoFrame.layer.bounds
-            videoFrame.layer.addSublayer(previewLayer!)
+            previewLayer?.frame = portraitVideoFrame.layer.bounds
+            portraitVideoFrame.layer.addSublayer(previewLayer!)
             
             let output = AVCaptureVideoDataOutput()
             output.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))

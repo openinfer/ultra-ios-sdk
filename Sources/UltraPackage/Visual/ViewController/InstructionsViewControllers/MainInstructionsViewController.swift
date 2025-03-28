@@ -10,6 +10,11 @@ final class MainInstructionsViewController: BaseViewController {
         checkOrientationUI()
         NotificationCenter.default.addObserver(self, selector: #selector(checkOrientationUI), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
 
     @objc func checkOrientationUI() {
         DispatchQueue.main.async {

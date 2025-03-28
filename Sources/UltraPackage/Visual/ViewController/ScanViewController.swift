@@ -8,16 +8,21 @@ final class ScanViewController: BaseViewController {
     
     @IBOutlet weak var portraitContainer: UIView!
     @IBOutlet weak var portraitVideoFrame: UIView!
-    @IBOutlet weak var portraitVideoContainer: UIView!
     @IBOutlet weak var portraitTitleLabel: UILabel!
     @IBOutlet weak var portraitResultLabel: UILabel!
     @IBOutlet weak var portraitActivityLoading: UIActivityIndicatorView!
     @IBOutlet weak var portraitFooterContainer: UIView!
-    @IBOutlet weak var portraitLockImage: UIImageView!
     @IBOutlet weak var portraitFaceIdImage: UIImageView!
     @IBOutlet weak var portraitCircularProgressView: CircularProgressView!
     
     @IBOutlet weak var landscapeContainer: UIView!
+    @IBOutlet weak var landscapeVideoFrame: UIView!
+    @IBOutlet weak var landscapeTitleLabel: UILabel!
+    @IBOutlet weak var landscapeResultLabel: UILabel!
+    @IBOutlet weak var landscapeActivityLoading: UIActivityIndicatorView!
+    @IBOutlet weak var landscapeFooterContainer: UIView!
+    @IBOutlet weak var landscapeFaceIdImage: UIImageView!
+    @IBOutlet weak var landscapeCircularProgressView: CircularProgressView!
         
     private let footer: FooterView = .fromNib()
     
@@ -46,10 +51,11 @@ final class ScanViewController: BaseViewController {
     var isPredictRunning: Bool = false
     var isEnrollRunning: Bool = false
     var isDocumentScan: Bool = false
+    
     var estimateAttempts: Float = 0.0 {
         willSet {
-            self.portraitResultLabel.attributedText = NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
-                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            self.changeResultLabel(attributedText: NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
+                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
         }
     }
     var mfToken: String = ""
@@ -58,11 +64,12 @@ final class ScanViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.portraitTitleLabel.attributedText = NSAttributedString(string: "center.your.head".localized,
-                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-//        self.faceIdImage.isHidden = FlowManager.shared.scanType != .face
+        changeTitle(attributedText: NSAttributedString(string: "center.your.head".localized,
+                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
         footer.delegate = self
+        
         portraitFooterContainer.addSubview(footer)
+        landscapeFooterContainer.addSubview(footer)
         
         ToastView.appearance().bottomOffsetPortrait = self.view.frame.height - 150.0
         ToastView.appearance().font = UIFont.systemFont(ofSize: 16)
@@ -100,8 +107,15 @@ final class ScanViewController: BaseViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        footer.frame = portraitFooterContainer.bounds
-        previewLayer?.frame = portraitVideoFrame.layer.bounds
+        
+        guard let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
+        if orientation.isPortrait {
+            footer.frame = portraitFooterContainer.bounds
+            previewLayer?.frame = portraitVideoFrame.layer.bounds
+        } else {
+            footer.frame = landscapeFooterContainer.bounds
+            previewLayer?.frame = landscapeVideoFrame.layer.bounds
+        }
     }
     
     // MARK:- Actions
@@ -164,19 +178,15 @@ final class ScanViewController: BaseViewController {
     
     func updateCounter(currentValue: Int, toValue: Double) {
         if currentValue <= Int(toValue * 100) {
-                self.portraitResultLabel.attributedText = NSAttributedString(string: "\(currentValue)%" + " " + "recognised".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            self.changeResultLabel(attributedText: NSAttributedString(string: "\(currentValue)%" + " " + "recognised".localized,
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             let dispatchTime: DispatchTime = DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
                 self.updateCounter(currentValue: currentValue + 1, toValue: toValue)
             })
         }
     }
-    
-    @IBAction func doneTapped(sender: UIButton) {
-        // TODO:
-    }
-    
+
     // MARK:- Setup state
     
     func setupTimer() {
@@ -238,9 +248,9 @@ final class ScanViewController: BaseViewController {
             withDuration: 0.5,
             animations: {
                 self.portraitCircularProgressView.alpha = 0.0
+                self.landscapeCircularProgressView.alpha = 0.0
                 self.portraitVideoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
-            }, completion: { _ in
-//                self.activityLoading.startAnimating()
+                self.landscapeVideoFrame.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
             })
     }
 
@@ -266,14 +276,17 @@ final class ScanViewController: BaseViewController {
     func launchFaceId() {
         UIView.animate(withDuration: 0.15, delay: 0.7, animations: {
             self.portraitFaceIdImage.transform = CGAffineTransform(translationX: 0, y: -10) // Move up
+            self.landscapeFaceIdImage.transform = CGAffineTransform(translationX: 0, y: -10)
         }) { _ in
             UIView.animate(withDuration: 0.15, animations: {
                 self.portraitFaceIdImage.transform = .identity
+                self.landscapeFaceIdImage.transform = .identity
                 
                 CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
                     if isAllowed {
                         self.startSession()
                         self.portraitFaceIdImage.isHidden = true
+                        self.landscapeFaceIdImage.isHidden = true
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             ProgressHUD.failed("Passwrod entrance is not available.")
@@ -292,6 +305,22 @@ final class ScanViewController: BaseViewController {
         portraitCircularProgressView.trackColor = .white
         portraitCircularProgressView.alpha = 0.0
         portraitCircularProgressView.redraw()
+        
+        landscapeCircularProgressView.rounded = false
+        landscapeCircularProgressView.progressColor = .systemGreen
+        landscapeCircularProgressView.trackColor = .white
+        landscapeCircularProgressView.alpha = 0.0
+        landscapeCircularProgressView.redraw()
+    }
+    
+    func changeTitle(attributedText: NSAttributedString) {
+        portraitTitleLabel.attributedText = attributedText
+        landscapeTitleLabel.attributedText = attributedText
+    }
+    
+    func changeResultLabel(attributedText: NSAttributedString) {
+        portraitResultLabel.attributedText = attributedText
+        landscapeResultLabel.attributedText = attributedText
     }
 }
 
@@ -314,8 +343,10 @@ private extension ScanViewController {
             previewLayer = AVCaptureVideoPreviewLayer(session: session)
             previewLayer?.videoGravity = .resizeAspectFill
             previewLayer?.contentsGravity = .resizeAspectFill
+            
             previewLayer?.frame = portraitVideoFrame.layer.bounds
             portraitVideoFrame.layer.addSublayer(previewLayer!)
+            landscapeVideoFrame.layer.addSublayer(previewLayer!)
             
             let output = AVCaptureVideoDataOutput()
             output.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))

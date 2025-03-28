@@ -36,7 +36,7 @@ extension ScanViewController {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
-                if self.mfToken.isEmpty == false && self.portraitCircularProgressView.alpha == 1.0 && self.estimateAttempts <= 100.0 {
+                if self.mfToken.isEmpty == false && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 33.33
                 } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
                     self.estimateAttempts = 0
@@ -44,6 +44,7 @@ extension ScanViewController {
 
                 if self.isFocused {
                     self.portraitCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
+                    self.landscapeCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -79,13 +80,16 @@ extension ScanViewController {
         self.stopTimer()
         self.portraitCircularProgressView.timeToFill = 0.5
         self.portraitCircularProgressView.progress = 1.0
+        self.landscapeCircularProgressView.timeToFill = 0.5
+        self.landscapeCircularProgressView.progress = 1.0
         self.portraitActivityLoading.startAnimating()
+        self.landscapeActivityLoading.startAnimating()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showSucccessAnimation()
-            self.portraitTitleLabel.attributedText = NSAttributedString(string: "processing".localized,
-                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-            self.portraitResultLabel.attributedText = NSAttributedString(string: "100%" + " " + "recognised".localized,
-                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            self.changeTitle(attributedText: NSAttributedString(string: "processing".localized,
+                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+            self.changeTitle(attributedText: NSAttributedString(string: "100%" + " " + "recognised".localized,
+                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             self.updateCollectWithData(encryptedKey: encryptedKey,
                                        encryptedMessage: encryptedMessage,
                                        gcmAad: gcmAad,
@@ -168,8 +172,8 @@ extension ScanViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if isFinished == true {
                 self.showSucccessAnimation()
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     let isVerified = FlowManager.shared.current == .enroll ? false : true
                     self.navigateToVerifyingPage(isVerified: isVerified)
@@ -202,7 +206,7 @@ private extension ScanViewController {
                     self.handleFaceStatus(faceStatus: status)
                 }
                 
-                if self.mfToken.isEmpty == false && self.portraitCircularProgressView.alpha == 1.0 && self.estimateAttempts <= 100.0 {
+                if self.mfToken.isEmpty == false && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 20
                 } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
                     self.estimateAttempts = 0
@@ -210,6 +214,7 @@ private extension ScanViewController {
                 
                 if self.isFocused {
                     self.portraitCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
+                    self.landscapeCircularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
                 if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
@@ -252,12 +257,13 @@ extension ScanViewController {
         if isFailure {
             self.estimateAttempts = 0
             self.portraitCircularProgressView.progress = 0.0
-            self.portraitResultLabel.attributedText = NSAttributedString(string: "0%" + " " + "recognised".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            self.landscapeCircularProgressView.progress = 0.0
+            self.changeResultLabel(attributedText: NSAttributedString(string: "0%" + " " + "recognised".localized,
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             
             if faceStatus == 10 && FlowManager.shared.current == .enroll {
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "remove.glasses".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "remove.glasses".localized,
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             }
         }
         
@@ -271,90 +277,90 @@ extension ScanViewController {
         if isAntispoof {
             switch faceStatus {
             case -100, -5, -4, -2, 1:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "increase.lighting".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "increase.lighting".localized,
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case -3:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "face.into.circle".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "face.into.circle".localized,
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case -1:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "looking.for.face".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "looking.for.face".localized,
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             default: break
             }
             
         } else {
             switch faceStatus {
             case -100, -1:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "center.your.head".localized,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "center.your.head".localized,
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 0:
                 self.focusCamera()
                 if isHoldStill {
-                    self.portraitTitleLabel.attributedText = NSAttributedString(string: "Processing hold still",
-                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                    self.changeTitle(attributedText: NSAttributedString(string: "Processing hold still",
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
                 }
             case 1, 2, 3:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Please move back",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Please move back",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 4:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Please move closer",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Please move closer",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 5:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Move slightly left",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Move slightly left",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 6:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Move slightly right",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Move slightly right",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 7:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Move your head down",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Move your head down",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 8:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Move your head up",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Move your head up",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 9:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Please hold still",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Please hold still",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 10:
                 guard FlowManager.shared.current != .signIn,
                       FlowManager.shared.current != .matchFace else { return }
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Remove glasses",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Remove glasses",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 11:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Remove mask",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Remove mask",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 12, 13:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Please look at camera",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Please look at camera",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 14:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Raise phone level to face",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Raise phone level to face",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 15:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Lower phone level to face",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Lower phone level to face",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 16:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Too dim - increase lighting",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Too dim - increase lighting",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 17:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Too bright - lower lighting",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Too bright - lower lighting",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 18:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Please hold still",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Please hold still",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 19:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 20:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Please hold still",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Please hold still",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 21:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Please close mouth",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Please close mouth",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 22, 23:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "Please straighten head",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "Please straighten head",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             default:
-                self.portraitTitleLabel.attributedText = NSAttributedString(string: "",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+                self.changeTitle(attributedText: NSAttributedString(string: "",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             }
         }
     }
@@ -364,7 +370,9 @@ extension ScanViewController {
         self.stopSessionTimer()
         UIView.animate(withDuration: 0.6) {
             self.portraitVideoFrame.layer.cornerRadius = self.portraitVideoFrame.frame.width / 2
+            self.landscapeVideoFrame.layer.cornerRadius = self.landscapeVideoFrame.frame.width / 2
             self.portraitCircularProgressView.alpha = 1.0
+            self.landscapeCircularProgressView.progress = 0.0
         }
     }
 }

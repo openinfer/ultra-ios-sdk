@@ -34,9 +34,11 @@ final class LandscapeScanViewController: BaseViewController {
     private var cameraStartTime: Date?
     private var cameraLunchTime: String = ""
     
-    var mfToken: String = ""
-    var isImageTaking: Bool = false
-    var isFocused: Bool = false
+    private var mfToken: String = ""
+    private var isImageTaking: Bool = false
+    private var isFocused: Bool = false
+    private var currentOrientation: AVCaptureVideoOrientation = .portrait
+
     
     var estimateAttempts: Float = 0.0 {
         willSet {
@@ -87,15 +89,39 @@ final class LandscapeScanViewController: BaseViewController {
     
     // MARK:- Actions
     @objc func checkOrientationUI() {
-        let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-        let isLandscape = orientation?.isLandscape == true
-
-        if isLandscape && self.session.isRunning == false {
-            self.session.startRunning()
-        } else {
-            self.session.stopRunning()
+        DispatchQueue.main.async {
+            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+            let isLandscape = orientation?.isLandscape == true
+            
+            if isLandscape && self.session.isRunning == false {
+                self.session.startRunning()
+            } else {
+                self.session.stopRunning()
+            }
+            
+            self.updateOrientationSettings()
         }
     }
+    
+    func updateOrientationSettings() {
+        guard let connection = previewLayer?.connection, connection.isVideoOrientationSupported else { return }
+        
+        switch UIDevice.current.orientation {
+        case .portrait:
+            currentOrientation = .portrait
+        case .portraitUpsideDown:
+            currentOrientation = .portraitUpsideDown
+        case .landscapeLeft:
+            currentOrientation = .landscapeRight // Inverted due to camera mirroring
+        case .landscapeRight:
+            currentOrientation = .landscapeLeft // Inverted due to camera mirroring
+        default:
+            break
+        }
+        
+        connection.videoOrientation = currentOrientation
+    }
+
     
     @IBAction func backTapped() {
         self.navigationController?.popViewController(animated: true)
@@ -207,10 +233,10 @@ private extension LandscapeScanViewController {
     func startSession() {
         if !session.isRunning {
             cameraStartTime = Date()
-            DispatchQueue.global(qos: .userInitiated).async {
-                let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-                let isLandscape = orientation?.isLandscape == true
+            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+            let isLandscape = orientation?.isLandscape == true
 
+            DispatchQueue.global(qos: .userInitiated).async {
                 if isLandscape && self.session.isRunning == false {
                     self.session.startRunning()
                 }
@@ -315,7 +341,7 @@ extension LandscapeScanViewController: AVCaptureVideoDataOutputSampleBufferDeleg
             cameraStartTime = nil // Reset to avoid multiple prints
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            connection.videoOrientation = .landscapeLeft    // TODO:
+            connection.videoOrientation = self.currentOrientation
             let imageBuffer: CVPixelBuffer = sampleBuffer.imageBuffer!
             let ciimage: CIImage = CIImage(cvPixelBuffer: imageBuffer)
             let image: UIImage = UIImage.convert(cmage: ciimage)

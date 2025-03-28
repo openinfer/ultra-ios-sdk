@@ -88,13 +88,15 @@ final class PortraitScanViewController: BaseViewController {
     // MARK:- Actions
     
     @objc func checkOrientationUI() {
-        let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-        let isPortrait = orientation?.isPortrait == true
-
-        if isPortrait && self.session.isRunning == false {
-            self.session.startRunning()
-        } else {
-            self.session.stopRunning()
+        DispatchQueue.main.async {
+            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+            let isPortrait = orientation?.isPortrait == true
+            
+            if isPortrait && self.session.isRunning == false {
+                self.session.startRunning()
+            } else {
+                self.session.stopRunning()
+            }
         }
     }
     
@@ -208,9 +210,9 @@ private extension PortraitScanViewController {
     func startSession() {
         if !session.isRunning {
             cameraStartTime = Date()
+            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+            let isPortrait = orientation?.isPortrait == true
             DispatchQueue.global(qos: .userInitiated).async {
-                let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-                let isPortrait = orientation?.isPortrait == true
                 if isPortrait && self.session.isRunning == false {
                     self.session.startRunning()
                 }

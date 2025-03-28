@@ -12,12 +12,14 @@ final class MainScanViewController: UIViewController {
     }
     
     @objc func checkOrientationUI() {
-        let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-        
-        let isPortrait = orientation?.isPortrait == true
-        let isLandscape = orientation?.isLandscape == true
-
-        portraitContainer.isHidden = !isPortrait
-        landscapeContainer.isHidden = !isLandscape
+        DispatchQueue.main.async {
+            let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+            
+            let isPortrait = orientation?.isPortrait == true
+            let isLandscape = orientation?.isLandscape == true
+            
+            self.portraitContainer.isHidden = !isPortrait
+            self.landscapeContainer.isHidden = !isLandscape
+        }
     }
 }

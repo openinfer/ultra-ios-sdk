@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="landscape" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -424,7 +423,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </imageView>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="aby-yJ-0uL" secondAttribute="trailing" constant="50" id="0kd-wF-hmd"/>
                                                     <constraint firstItem="ymM-ra-hXq" firstAttribute="top" secondItem="bbD-Bz-zBK" secondAttribute="bottom" constant="10" id="AGe-00-f6f"/>
@@ -597,7 +596,7 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstItem="Hvz-fp-Z0f" firstAttribute="top" secondItem="Con-B2-WxU" secondAttribute="bottom" constant="20" id="28T-aa-oAe"/>
                                                     <constraint firstItem="Con-B2-WxU" firstAttribute="centerY" secondItem="bDF-91-fZ8" secondAttribute="centerY" constant="-20" id="4wT-CH-NcR"/>
@@ -610,6 +609,7 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="bDF-91-fZ8" secondAttribute="trailing" id="37l-z0-UgZ"/>
                                             <constraint firstItem="Ep5-6K-25e" firstAttribute="leading" secondItem="qre-iL-nax" secondAttribute="leading" id="4o0-aP-xbW"/>
@@ -683,9 +683,6 @@
         <image name="sentence-3" width="48" height="48"/>
         <image name="step-1" width="654" height="432"/>
         <image name="steps-face-instruction" width="104" height="24"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

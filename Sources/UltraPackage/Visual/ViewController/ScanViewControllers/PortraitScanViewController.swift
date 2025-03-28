@@ -65,6 +65,7 @@ final class PortraitScanViewController: BaseViewController {
         if isCameraRunning == false {
             isCameraRunning = true
             setupCamera()
+            setupTimer()
 //            showFaceID()
             self.startSession()
             self.faceIdImage.isHidden = true
@@ -94,12 +95,10 @@ final class PortraitScanViewController: BaseViewController {
                 if self.session.isRunning == false {
                     DispatchQueue.global(qos: .userInitiated).async {
                         self.session.startRunning()
-                        self.setupTimer()
                     }
                 }
             } else {
                 self.session.stopRunning()
-                self.stopTimer()
             }
         }
     }
@@ -114,7 +113,7 @@ final class PortraitScanViewController: BaseViewController {
     
     @objc func captureVideoFrame() {
         DispatchQueue.main.async {
-            if let image = self.tempImage {
+            if let image = self.tempImage, self.session.isRunning == true  {
                 self.scan(with: image)
             }
         }
@@ -218,7 +217,6 @@ private extension PortraitScanViewController {
             DispatchQueue.global(qos: .userInitiated).async {
                 if isValidOrientation && self.session.isRunning == false {
                     self.session.startRunning()
-                    self.setupTimer()
                 }
             }
         }

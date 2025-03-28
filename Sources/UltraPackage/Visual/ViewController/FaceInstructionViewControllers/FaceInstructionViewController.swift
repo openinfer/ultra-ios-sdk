@@ -4,7 +4,7 @@ import AVFoundation
 import SwiftyGif
 import LocalAuthentication
 
-class FaceInstructionViewController: BaseViewController {
+class PortraitFaceInstructionViewController: BaseViewController {
     
     @IBOutlet weak var instructionImageView: UIImageView!
     @IBOutlet weak var footerContainer: UIView!
@@ -110,7 +110,7 @@ class FaceInstructionViewController: BaseViewController {
     }
 }
 
-extension FaceInstructionViewController: FooterViewDelegate {
+extension PortraitFaceInstructionViewController: FooterViewDelegate {
     func feedbackTapped() {
         let storyboard = UIStoryboard(name: "FeedbackViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")

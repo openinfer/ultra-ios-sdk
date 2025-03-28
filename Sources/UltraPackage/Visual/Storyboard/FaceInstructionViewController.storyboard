@@ -14,10 +14,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Face Instruction View Controller-->
+        <!--Portrait Face Instruction View Controller-->
         <scene sceneID="u73-2K-vRt">
             <objects>
-                <viewController storyboardIdentifier="FaceInstructionViewController" id="QLd-0C-QYF" customClass="FaceInstructionViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PortraitFaceInstructionViewController" id="QLd-0C-QYF" customClass="PortraitFaceInstructionViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nFF-sE-xGM">
                         <rect key="frame" x="0.0" y="0.0" width="433" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -304,7 +304,65 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sni-rh-ycD" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2430.5970149253731" y="950.11441647597246"/>
+            <point key="canvasLocation" x="1706" y="670"/>
+        </scene>
+        <!--Main Face Instruction View Controller-->
+        <scene sceneID="QKC-Bm-3U2">
+            <objects>
+                <viewController storyboardIdentifier="MainFaceInstructionViewController" id="y5g-EW-4GD" customClass="MainFaceInstructionViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OC6-kQ-APf">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQT-qD-uIz">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <connections>
+                                    <segue destination="BDQ-dm-aDv" kind="embed" id="SNt-y9-vQZ"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQv-xa-UZy">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <connections>
+                                    <segue destination="QLd-0C-QYF" kind="embed" id="HtH-co-upB"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="TGx-mz-lCM"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TGx-mz-lCM" firstAttribute="bottom" secondItem="xQT-qD-uIz" secondAttribute="bottom" id="4Mj-QR-6gY"/>
+                            <constraint firstItem="NQv-xa-UZy" firstAttribute="leading" secondItem="TGx-mz-lCM" secondAttribute="leading" id="9u1-zY-QTb"/>
+                            <constraint firstItem="xQT-qD-uIz" firstAttribute="leading" secondItem="TGx-mz-lCM" secondAttribute="leading" id="CB2-U8-wgs"/>
+                            <constraint firstItem="TGx-mz-lCM" firstAttribute="bottom" secondItem="NQv-xa-UZy" secondAttribute="bottom" id="h2S-Yv-DcM"/>
+                            <constraint firstItem="TGx-mz-lCM" firstAttribute="trailing" secondItem="NQv-xa-UZy" secondAttribute="trailing" id="kH1-D6-gaG"/>
+                            <constraint firstItem="NQv-xa-UZy" firstAttribute="top" secondItem="TGx-mz-lCM" secondAttribute="top" id="ltv-WV-cxr"/>
+                            <constraint firstItem="xQT-qD-uIz" firstAttribute="top" secondItem="TGx-mz-lCM" secondAttribute="top" id="mfJ-W7-mp5"/>
+                            <constraint firstItem="TGx-mz-lCM" firstAttribute="trailing" secondItem="xQT-qD-uIz" secondAttribute="trailing" id="ncE-82-H22"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="landscapeContainer" destination="xQT-qD-uIz" id="2FG-H5-u09"/>
+                        <outlet property="portraitContainer" destination="NQv-xa-UZy" id="uxF-Nh-9Rb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fH0-18-q7B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="506" y="844"/>
+        </scene>
+        <!--Landscape Face Instruction View Controller-->
+        <scene sceneID="2od-LX-hxG">
+            <objects>
+                <viewController storyboardIdentifier="LandscapeFaceInstructionViewController" id="BDQ-dm-aDv" customClass="LandscapeFaceInstructionViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NTm-cA-qVk">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ZFd-8K-6Uw"/>
+                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8gJ-c6-fhS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1734" y="1648"/>
         </scene>
     </scenes>
     <resources>
@@ -313,6 +371,9 @@
         <image name="sentence-2-new" width="48" height="48"/>
         <image name="sentence-3" width="48" height="48"/>
         <image name="step-1" width="654" height="432"/>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -9,21 +9,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Verifying View Controller-->
+        <!--Portrait Verifying View Controller-->
         <scene sceneID="wdZ-EX-RTv">
             <objects>
-                <viewController storyboardIdentifier="VerifyingViewController" id="4L6-zm-yCK" customClass="VerifyingViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ds6-z9-5oW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="PortraitVerifyingViewController" id="4L6-zm-yCK" customClass="PortraitVerifyingViewController" customModule="UltraPackage" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Tq-Y6-cpg">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="778"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="veq-lm-hP8">
-                                <rect key="frame" x="0.0" y="62" width="402" height="732"/>
+                                <rect key="frame" x="0.0" y="62" width="402" height="676"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2qz-Su-qHf">
-                                        <rect key="frame" x="51" y="258.66666666666669" width="300" height="175"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2qz-Su-qHf">
+                                        <rect key="frame" x="50" y="210" width="302" height="176"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="175" id="F1P-0i-FWJ"/>
                                             <constraint firstAttribute="width" secondItem="2qz-Su-qHf" secondAttribute="height" multiplier="12:7" id="FPr-Tp-UfP"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -33,7 +33,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3n-sO-g2K">
-                                        <rect key="frame" x="40" y="473.66666666666663" width="322" height="51.333333333333371"/>
+                                        <rect key="frame" x="40" y="426" width="322" height="51.333333333333314"/>
                                         <attributedString key="attributedText">
                                             <fragment content="Please wait a sec, we’re verifying your identity...">
                                                 <attributes>
@@ -51,15 +51,16 @@
                                     <constraint firstItem="G3n-sO-g2K" firstAttribute="top" secondItem="2qz-Su-qHf" secondAttribute="bottom" constant="40" id="02r-66-l0e"/>
                                     <constraint firstItem="G3n-sO-g2K" firstAttribute="leading" secondItem="veq-lm-hP8" secondAttribute="leading" constant="40" id="3NW-64-PmV"/>
                                     <constraint firstAttribute="trailing" secondItem="G3n-sO-g2K" secondAttribute="trailing" constant="40" id="SIy-5q-LRI"/>
-                                    <constraint firstItem="2qz-Su-qHf" firstAttribute="centerX" secondItem="veq-lm-hP8" secondAttribute="centerX" id="WtI-xe-0c8"/>
-                                    <constraint firstItem="2qz-Su-qHf" firstAttribute="centerY" secondItem="veq-lm-hP8" secondAttribute="centerY" constant="-20" id="pM7-kq-nxy"/>
+                                    <constraint firstItem="2qz-Su-qHf" firstAttribute="leading" secondItem="veq-lm-hP8" secondAttribute="leading" constant="50" id="fWQ-sg-GOp"/>
+                                    <constraint firstItem="2qz-Su-qHf" firstAttribute="centerY" secondItem="veq-lm-hP8" secondAttribute="centerY" constant="-40" id="pM7-kq-nxy"/>
+                                    <constraint firstAttribute="trailing" secondItem="2qz-Su-qHf" secondAttribute="trailing" constant="50" id="vyJ-aV-96v"/>
                                 </constraints>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBT-Pg-3Qa">
-                                <rect key="frame" x="0.0" y="794" width="402" height="80"/>
+                                <rect key="frame" x="0.0" y="738" width="402" height="40"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="BKA-WL-76y"/>
+                                    <constraint firstAttribute="height" constant="40" id="BKA-WL-76y"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -75,22 +76,71 @@
                             <constraint firstItem="veq-lm-hP8" firstAttribute="top" secondItem="hdZ-pR-euq" secondAttribute="top" id="zPe-is-QRV"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="centerImageHeight" destination="F1P-0i-FWJ" id="hoe-jl-7zW"/>
-                        <outlet property="footerContainer" destination="EBT-Pg-3Qa" id="cDU-u1-Apr"/>
-                        <outlet property="footerHeight" destination="BKA-WL-76y" id="zpu-JO-7vo"/>
-                        <outlet property="imageView" destination="2qz-Su-qHf" id="cqY-bD-71W"/>
-                        <outlet property="titleLabel" destination="G3n-sO-g2K" id="zUh-AQ-u6a"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ds6-z9-5oW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4006.6901408450703" y="828.75"/>
         </scene>
+        <!--Landscape Verifying View Controller-->
+        <scene sceneID="EnZ-bF-S0h">
+            <objects>
+                <viewController storyboardIdentifier="LandscapeVerifyingViewController" id="KPf-D9-qQm" customClass="LandscapeVerifyingViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YoU-AB-vFf">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="778"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="mVI-0n-xm3"/>
+                        <color key="backgroundColor" systemColor="systemCyanColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HUu-xe-zbW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4006" y="1527"/>
+        </scene>
+        <!--Main Verifying View Controller-->
+        <scene sceneID="mtg-ey-PR6">
+            <objects>
+                <viewController storyboardIdentifier="MainVerifyingViewController" id="0SS-B6-VMg" customClass="MainVerifyingViewController" customModule="UltraPackage" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VmD-LB-q8t">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Da-Ih-fsr">
+                                <rect key="frame" x="0.0" y="62" width="402" height="778"/>
+                                <connections>
+                                    <segue destination="KPf-D9-qQm" kind="embed" id="Pfv-Rc-QRo"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hWZ-5O-Q2t">
+                                <rect key="frame" x="0.0" y="62" width="402" height="778"/>
+                                <connections>
+                                    <segue destination="4L6-zm-yCK" kind="embed" id="0gs-ka-AQE"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="l7V-PI-9Fm"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="l7V-PI-9Fm" firstAttribute="bottom" secondItem="hWZ-5O-Q2t" secondAttribute="bottom" id="7gY-SM-Tmv"/>
+                            <constraint firstItem="hWZ-5O-Q2t" firstAttribute="leading" secondItem="l7V-PI-9Fm" secondAttribute="leading" id="8Ah-pn-f2U"/>
+                            <constraint firstItem="l7V-PI-9Fm" firstAttribute="trailing" secondItem="hWZ-5O-Q2t" secondAttribute="trailing" id="Fla-d7-ell"/>
+                            <constraint firstItem="5Da-Ih-fsr" firstAttribute="top" secondItem="l7V-PI-9Fm" secondAttribute="top" id="JV6-TR-BGu"/>
+                            <constraint firstItem="l7V-PI-9Fm" firstAttribute="trailing" secondItem="5Da-Ih-fsr" secondAttribute="trailing" id="RWc-Ae-t2a"/>
+                            <constraint firstItem="l7V-PI-9Fm" firstAttribute="bottom" secondItem="5Da-Ih-fsr" secondAttribute="bottom" id="WvT-i8-HTE"/>
+                            <constraint firstItem="5Da-Ih-fsr" firstAttribute="leading" secondItem="l7V-PI-9Fm" secondAttribute="leading" id="gFP-jd-HOX"/>
+                            <constraint firstItem="hWZ-5O-Q2t" firstAttribute="top" secondItem="l7V-PI-9Fm" secondAttribute="top" id="mso-yZ-Ekh"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4mK-Up-ptt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2799" y="829"/>
+        </scene>
     </scenes>
     <resources>
+        <systemColor name="systemCyanColor">
+            <color red="0.19607843137254902" green="0.67843137254901964" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemPurpleColor">
-            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

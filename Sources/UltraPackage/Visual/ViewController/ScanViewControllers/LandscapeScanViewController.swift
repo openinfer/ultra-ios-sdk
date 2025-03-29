@@ -361,20 +361,14 @@ extension LandscapeScanViewController: FooterViewDelegate {
     
     func navigateToFinalWithFailure() {
         let storyboard = UIStoryboard(name: "VerifyingViewController", bundle: Bundle.module)
-        if let vc = storyboard.instantiateViewController(withIdentifier: "VerifyingViewController") as? VerifyingViewController {
-            vc.isVerified = false
-            vc.isSucced = false
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        let vc = storyboard.instantiateViewController(withIdentifier: "MainVerifyingViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func navigateToVerifyingPage(isVerified: Bool) {
         let storyboard = UIStoryboard(name: "VerifyingViewController", bundle: Bundle.module)
-        if let vc = storyboard.instantiateViewController(withIdentifier: "VerifyingViewController") as? VerifyingViewController {
-            vc.isVerified = isVerified
-            vc.isSucced = true
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        let vc = storyboard.instantiateViewController(withIdentifier: "MainVerifyingViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

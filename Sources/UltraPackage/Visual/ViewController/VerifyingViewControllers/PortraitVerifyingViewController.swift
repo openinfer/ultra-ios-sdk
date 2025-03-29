@@ -32,20 +32,6 @@ final class PortraitVerifyingViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         footer.frame = footerContainer.bounds
     }
-    
-    @IBAction func homeTapped() {
-        reset()
-    }
-    
-    @IBAction func saveUUIDTapped() {
-        guard let uuid = self.sessionModel?.identificationResult?.uuid else {
-            ProgressHUD.failed("No active UUID")
-            return
-        }
-        
-        UIPasteboard.general.string = uuid
-        ProgressHUD.succeed("UUID is copied")
-    }
 }
 
 extension PortraitVerifyingViewController {

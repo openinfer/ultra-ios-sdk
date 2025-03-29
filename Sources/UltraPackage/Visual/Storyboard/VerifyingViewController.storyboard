@@ -76,6 +76,11 @@
                             <constraint firstItem="veq-lm-hP8" firstAttribute="top" secondItem="hdZ-pR-euq" secondAttribute="top" id="zPe-is-QRV"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="footerContainer" destination="EBT-Pg-3Qa" id="l4s-pg-wfv"/>
+                        <outlet property="imageView" destination="2qz-Su-qHf" id="FW5-GU-534"/>
+                        <outlet property="titleLabel" destination="G3n-sO-g2K" id="cBc-xt-ikj"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="4006.6901408450703" y="828.75"/>

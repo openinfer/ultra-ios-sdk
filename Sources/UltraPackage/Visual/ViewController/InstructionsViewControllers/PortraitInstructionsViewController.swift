@@ -14,9 +14,7 @@ final class PortraitInstructionsViewController: BaseViewController, UITextViewDe
     private let tappableTexts = ["verify.identity.privacy.policy".localized, "verify.identity.privacy.terms".localized, "learn_word".localized]
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationItem.setHidesBackButton(true, animated: true)
-        
+        super.viewDidLoad()        
         footer.delegate = self
         footerContainer.addSubview(footer)
         

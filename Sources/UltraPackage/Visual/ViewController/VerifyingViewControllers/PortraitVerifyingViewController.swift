@@ -14,7 +14,7 @@ final class PortraitVerifyingViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.setHidesBackButton(true, animated: true)
+        
         titleLabel.text = "wait.a.sec".localized
         footer.delegate = self
         footerContainer.addSubview(footer)

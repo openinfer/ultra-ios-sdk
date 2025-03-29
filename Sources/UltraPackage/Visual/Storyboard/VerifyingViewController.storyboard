@@ -134,6 +134,10 @@
                             <constraint firstItem="hWZ-5O-Q2t" firstAttribute="top" secondItem="l7V-PI-9Fm" secondAttribute="top" id="mso-yZ-Ekh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="landscapeContainer" destination="hWZ-5O-Q2t" id="cS4-Rp-x72"/>
+                        <outlet property="portraitContainer" destination="5Da-Ih-fsr" id="0G2-PW-qBK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4mK-Up-ptt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

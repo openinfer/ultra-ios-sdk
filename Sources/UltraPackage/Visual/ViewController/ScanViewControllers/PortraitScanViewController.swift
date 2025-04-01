@@ -37,6 +37,7 @@ final class PortraitScanViewController: BaseViewController {
     private var mfToken: String = ""
     private var isImageTaking: Bool = false
     private var isFocused: Bool = false
+    private var isFaceIdRunning: Bool = false
     private var lastOrientation: UIDeviceOrientation?
     
     var estimateAttempts: Float = 0.0 {
@@ -718,9 +719,12 @@ extension PortraitScanViewController {
     
     
     func showFaceID() {
+        guard isFaceIdRunning == false else { return }
+        self.isFaceIdRunning = true
+        
         CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
             if isAllowed {
-//                        self.faceIdImage.isHidden = true
+               // TODO:
             } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     ProgressHUD.failed("Passwrod entrance is not available.")

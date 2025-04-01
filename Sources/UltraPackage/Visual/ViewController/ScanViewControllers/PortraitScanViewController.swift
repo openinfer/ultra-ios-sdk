@@ -555,6 +555,8 @@ private extension PortraitScanViewController {
                    self.showFaceID()
                 }
                 
+                self.mfToken = token
+                
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
                     self.handleFaceStatus(faceStatus: status)
                 }

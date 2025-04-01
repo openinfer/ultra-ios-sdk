@@ -377,7 +377,13 @@ extension PortraitScanViewController {
             
             do {
                 let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
-                self.mfToken = model.callStatus?.mfToken ?? ""
+                let token = model.callStatus?.mfToken ?? ""
+                if self.mfToken.isEmpty == true &&
+                   token.isEmpty == false {
+                    self.showFaceID()
+                }
+
+                self.mfToken = token
                 
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
                     self.handleFaceStatus(faceStatus: status)
@@ -702,6 +708,21 @@ extension PortraitScanViewController {
             default:
                 self.changeTitle(attributedText: NSAttributedString(string: "",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+            }
+        }
+    }
+    
+    
+    func showFaceID() {
+        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
+            if isAllowed {
+//                        self.faceIdImage.isHidden = true
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    ProgressHUD.failed("Passwrod entrance is not available.")
+                }
+                
+                self.reset()
             }
         }
     }

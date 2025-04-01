@@ -719,7 +719,6 @@ extension PortraitScanViewController {
         }
     }
     
-    
     func showFaceID() {
         guard isFaceIdRunning == false else { return }
         self.isFaceIdRunning = true

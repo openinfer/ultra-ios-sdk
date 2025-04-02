@@ -388,7 +388,7 @@ extension PortraitScanViewController {
                 }
 
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
-                    self.handleFaceStatus(faceStatus: status)
+                    self.handleFaceStatus(faceStatus: status, image: image)
                 }
                 
                 if self.mfToken.isEmpty == false && self.estimateAttempts <= 100.0 {
@@ -562,7 +562,7 @@ private extension PortraitScanViewController {
                 self.mfToken = token
                 
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
-                    self.handleFaceStatus(faceStatus: status)
+                    self.handleFaceStatus(faceStatus: status, image: image)
                 }
                 
                 if self.mfToken.isEmpty == false && self.estimateAttempts <= 100.0 {
@@ -613,7 +613,7 @@ private extension PortraitScanViewController {
 
 // Error Handlers
 extension PortraitScanViewController {
-    func handleFaceStatus(faceStatus: Int, isAntispoof: Bool = false, isHoldStill: Bool = true) {
+    func handleFaceStatus(faceStatus: Int, isAntispoof: Bool = false, isHoldStill: Bool = true, image: UIImage) {
         let isFailure = faceStatus != 0
         if isFailure {
             self.estimateAttempts = 0
@@ -622,6 +622,7 @@ extension PortraitScanViewController {
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             
             if faceStatus == 10 && FlowManager.shared.current == .enroll {
+                UIImage.saveImageLocally(image: image, fileName: UUID().uuidString)
                 self.changeTitle(attributedText: NSAttributedString(string: "remove.glasses".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             }
@@ -681,6 +682,7 @@ extension PortraitScanViewController {
             case 10:
                 guard FlowManager.shared.current != .signIn,
                       FlowManager.shared.current != .matchFace else { return }
+                UIImage.saveImageLocally(image: image, fileName: UUID().uuidString)
                 self.changeTitle(attributedText: NSAttributedString(string: "Remove glasses",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 11:

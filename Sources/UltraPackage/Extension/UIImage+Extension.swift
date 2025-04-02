@@ -85,4 +85,31 @@ extension UIImage {
         let image:UIImage = UIImage.init(cgImage: cgImage)
         return image
     }
+
+    @discardableResult
+    static func saveImageLocally(image: UIImage, fileName: String) -> URL? {
+        // 1. Get the URL for the Documents directory
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        
+        // 2. Create a URL for your image
+        let fileURL = documentsDirectory.appendingPathComponent("\(fileName).png")
+        
+        // 3. Convert the UIImage to Data (PNG or JPEG format)
+        guard let imageData = image.pngData() else {
+            return nil
+        }
+        
+        // 4. Write the data to the URL
+        do {
+            try imageData.write(to: fileURL)
+            print("Image saved successfully at \(fileURL.path)")
+            return fileURL
+        } catch {
+            print("Error saving image: \(error)")
+            return nil
+        }
+    }
+
 }

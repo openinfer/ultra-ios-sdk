@@ -381,11 +381,12 @@ extension PortraitScanViewController {
                 let token = model.callStatus?.mfToken ?? ""
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
+                    self.mfToken = token
                     self.showFaceID()
+                } else {
+                    self.mfToken = token
                 }
 
-                self.mfToken = token
-                
                 if let status = model.uberOperationResult?.face?.faceValidationStatus {
                     self.handleFaceStatus(faceStatus: status)
                 }
@@ -552,7 +553,10 @@ private extension PortraitScanViewController {
                 let token = model.callStatus?.mfToken ?? ""
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
-                   self.showFaceID()
+                    self.mfToken = token
+                    self.showFaceID()
+                } else {
+                    self.mfToken = token
                 }
                 
                 self.mfToken = token

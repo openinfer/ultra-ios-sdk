@@ -407,7 +407,10 @@ extension LandscapeScanViewController {
                 
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
-                   self.showFaceID()
+                    self.mfToken = token
+                    self.showFaceID()
+                } else {
+                    self.mfToken = token
                 }
                 
                 self.mfToken = token
@@ -579,7 +582,10 @@ private extension LandscapeScanViewController {
                 
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
-                   self.showFaceID()
+                    self.mfToken = token
+                    self.showFaceID()
+                } else {
+                    self.mfToken = token
                 }
                 
                 self.mfToken = token

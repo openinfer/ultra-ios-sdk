@@ -366,7 +366,7 @@ extension PortraitScanViewController {
 // MARK: - Predict
 extension PortraitScanViewController {
     func predict(image: UIImage) {
-        guard isImageTaking == false else { return }
+        guard isImageTaking == false && isFaceIdRunning == false else { return }
         self.isImageTaking = true
         
         let result = CryptonetManager.shared.cryptonet.predict(image: image, config: PredictConfig(skipAntispoof: false, mfToken: self.mfToken))
@@ -537,7 +537,7 @@ extension PortraitScanViewController {
 // MARK:- Enroll
 private extension PortraitScanViewController {
     func enroll(image: UIImage) {
-        guard self.isImageTaking == false else { return }
+        guard self.isImageTaking == false && isFaceIdRunning == false else { return }
         self.isImageTaking = true
         
         let result = CryptonetManager.shared.cryptonet.enroll(image: image, config: EnrollConfig(mfToken: self.mfToken, skipAntispoof: false))
@@ -724,13 +724,9 @@ extension PortraitScanViewController {
         self.isFaceIdRunning = true
         
         CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
-            if isAllowed {
-               // TODO:
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    ProgressHUD.failed("Passwrod entrance is not available.")
-                }
-                
+            self.isFaceIdRunning = false
+            
+            if isAllowed == false {
                 self.reset()
             }
         }

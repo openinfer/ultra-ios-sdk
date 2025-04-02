@@ -391,7 +391,7 @@ extension LandscapeScanViewController {
 // MARK: - Predict
 extension LandscapeScanViewController {
     func predict(image: UIImage) {
-        guard isImageTaking == false else { return }
+        guard isImageTaking == false && isFaceIdRunning == false else { return }
         self.isImageTaking = true
         
         let result = CryptonetManager.shared.cryptonet.predict(image: image, config: PredictConfig(skipAntispoof: false, mfToken: self.mfToken))
@@ -563,7 +563,7 @@ extension LandscapeScanViewController {
 // MARK:- Enroll
 private extension LandscapeScanViewController {
     func enroll(image: UIImage) {
-        guard self.isImageTaking == false else { return }
+        guard self.isImageTaking == false && isFaceIdRunning == false else { return }
         self.isImageTaking = true
         
         let result = CryptonetManager.shared.cryptonet.enroll(image: image, config: EnrollConfig(mfToken: self.mfToken, skipAntispoof: false))
@@ -751,13 +751,9 @@ extension LandscapeScanViewController {
         self.isFaceIdRunning = true
         
         CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
-            if isAllowed {
-               // TODO:
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    ProgressHUD.failed("Passwrod entrance is not available.")
-                }
-                
+            self.isFaceIdRunning = false
+            
+            if isAllowed == false {
                 self.reset()
             }
         }

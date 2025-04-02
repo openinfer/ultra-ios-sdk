@@ -4,6 +4,7 @@ import ProgressHUD
 import CoreMotion
 import AVFoundation
 import ARKit
+import Toaster
 
 final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager?
@@ -133,7 +134,7 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager?.startUpdatingLocation()
         case .denied, .restricted:
-            ProgressHUD.error("Location permission denied. Please enable it in Settings.")
+            Toast(text: "Location permission denied. Please enable it in Settings.", duration: Delay.short).show()
         @unknown default:
             break
         }

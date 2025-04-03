@@ -84,25 +84,24 @@ class LandscapeFaceInstructionViewController: BaseViewController {
         let context = LAContext()
         var error: NSError?
         
-        // Check if Face ID is available
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             if context.biometryType == .faceID {
-                // Trigger Face ID permission prompt (if permission not already granted)
-                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "We need your permission to use Face ID.") { success, authenticationError in
-                    DispatchQueue.main.async {
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "We use Face ID for secure authentication.") { success, error in
+                    DispatchQueue.main.async { [unowned self] in
                         if success {
                             DispatchQueue.main.async { [unowned self] in
                                 self.nextIfModelsReady()
                             }
                         } else {
-                            self.showAlertForDeclinedRequest(title: "FaceID usage is not allowed.",
-                                                             message: "Please, allow FaceID usage in Settings.")
+                            if let laError = error as? LAError, laError.code == .userCancel {
+                                self.showAlertForDeclinedRequest(title: "FaceID usage is not allowed.",
+                                                                 message: "Please, allow FaceID usage in Settings.")
+                            } else {
+                                self.showAlertForDeclinedRequest(title: "FaceID usage is not allowed.",
+                                                                 message: "Please, allow FaceID usage in Settings.")
+                            }
                         }
                     }
-                }
-            } else {
-                DispatchQueue.main.async { [unowned self] in
-                    self.nextIfModelsReady()
                 }
             }
         } else {

@@ -2,7 +2,6 @@ import UIKit
 import ProgressHUD
 import AVFoundation
 import SwiftyGif
-import LocalAuthentication
 
 class PortraitFaceInstructionViewController: BaseViewController {
     
@@ -72,41 +71,12 @@ class PortraitFaceInstructionViewController: BaseViewController {
     @IBAction func nextTapped(sender: UIButton) {
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
             if response {
-                self.requestFaceIDPermission()
+                DispatchQueue.main.async { [unowned self] in
+                    self.nextIfModelsReady()
+                }
             } else {
                 self.showAlertForDeclinedRequest(title: "camera.usage.is.not.allowed".localized,
                                                  message: "allow.camera.usage.in.settings".localized)
-            }
-        }
-    }
-    
-    private func requestFaceIDPermission() {
-        let context = LAContext()
-        var error: NSError?
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            if context.biometryType == .faceID {
-                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "We use Face ID for secure authentication.") { success, error in
-                    DispatchQueue.main.async { [unowned self] in
-                        if success {
-                            DispatchQueue.main.async { [unowned self] in
-                                self.nextIfModelsReady()
-                            }
-                        } else {
-                            if let laError = error as? LAError, laError.code == .userCancel {
-                                self.showAlertForDeclinedRequest(title: "FaceID usage is not allowed.",
-                                                                 message: "Please, allow FaceID usage in Settings.")
-                            } else {
-                                self.showAlertForDeclinedRequest(title: "FaceID usage is not allowed.",
-                                                                 message: "Please, allow FaceID usage in Settings.")
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            DispatchQueue.main.async { [unowned self] in
-                self.nextIfModelsReady()
             }
         }
     }

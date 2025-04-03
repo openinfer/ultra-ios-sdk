@@ -72,11 +72,42 @@ class PortraitFaceInstructionViewController: BaseViewController {
     @IBAction func nextTapped(sender: UIButton) {
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
             if response {
+                self.requestFaceIDPermission()
+            } else {
+                self.showAlertForDeclinedRequest(title: "camera.usage.is.not.allowed".localized,
+                                                 message: "allow.camera.usage.in.settings".localized)
+            }
+        }
+    }
+    
+    private func requestFaceIDPermission() {
+        let context = LAContext()
+        var error: NSError?
+        
+        // Check if Face ID is available
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            if context.biometryType == .faceID {
+                // Trigger Face ID permission prompt (if permission not already granted)
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "We need your permission to use Face ID.") { success, authenticationError in
+                    DispatchQueue.main.async {
+                        if success {
+                            DispatchQueue.main.async { [unowned self] in
+                                self.nextIfModelsReady()
+                            }
+                        } else {
+                            self.showAlertForDeclinedRequest(title: "FaceID usage is not allowed.",
+                                                             message: "Please, allow FaceID usage in Settings.")
+                        }
+                    }
+                }
+            } else {
                 DispatchQueue.main.async { [unowned self] in
                     self.nextIfModelsReady()
                 }
-            } else {
-                self.showAlertForDeclinedRequest()
+            }
+        } else {
+            DispatchQueue.main.async { [unowned self] in
+                self.nextIfModelsReady()
             }
         }
     }
@@ -91,10 +122,10 @@ class PortraitFaceInstructionViewController: BaseViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func showAlertForDeclinedRequest() {
+    private func showAlertForDeclinedRequest(title: String, message: String) {
         DispatchQueue.main.async { [unowned self] in
-            let alert = UIAlertController(title: "camera.usage.is.not.allowed".localized,
-                                          message: "allow.camera.usage.in.settings".localized, preferredStyle: .alert)
+            let alert = UIAlertController(title: title,
+                                          message: message, preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "go.to.settings".localized, style: .default, handler:{ (UIAlertAction) in
                 guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {

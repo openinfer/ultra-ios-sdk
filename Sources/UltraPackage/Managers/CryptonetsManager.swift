@@ -19,6 +19,8 @@ final class CryptonetManager {
     static let privacyURL = "https://privateid.uberverify.com/privacy-policy"
     static let termsURL = "https://privateid.uberverify.com/terms"
     static let learnURL = "https://privateid.uberverify.com/values-privacy"
+    
+    private let isPermissionAcceptedIdentifier = "isPermissionAcceptedIdentifier"
 
     private init() { }
     
@@ -69,6 +71,14 @@ final class CryptonetManager {
         } else {
             return nil
         }
+    }
+    
+    func isPermissionAccepted() -> Bool {
+        return UserDefaults.standard.bool(forKey: isPermissionAcceptedIdentifier)
+    }
+    
+    func askPermissionImplemented() {
+       UserDefaults.standard.set(true, forKey: isPermissionAcceptedIdentifier)
     }
     
     private func isFaceIDAvailableWithoutPasscode() -> Bool {

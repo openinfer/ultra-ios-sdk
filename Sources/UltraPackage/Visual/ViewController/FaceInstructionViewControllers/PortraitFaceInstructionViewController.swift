@@ -3,7 +3,7 @@ import ProgressHUD
 import AVFoundation
 import SwiftyGif
 
-class PortraitFaceInstructionViewController: BaseViewController {
+final class PortraitFaceInstructionViewController: BaseViewController {
     
     @IBOutlet weak var instructionImageView: UIImageView!
     @IBOutlet weak var footerContainer: UIView!
@@ -21,7 +21,9 @@ class PortraitFaceInstructionViewController: BaseViewController {
     @IBOutlet weak var ligthTitle: UILabel!
     @IBOutlet weak var lightSubtitle: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var permissionContainer: UIView!
     
+    private let deviceInfoManager = DeviceInfoManager()
     private let footer: FooterView = .fromNib()
     
     override func viewDidLoad() {
@@ -82,7 +84,13 @@ class PortraitFaceInstructionViewController: BaseViewController {
     }
     
     private func nextIfModelsReady() {
-        self.proceed()
+        if CryptonetManager.shared.isPermissionAccepted() == true {
+            self.proceed()
+        } else {
+            self.permissionContainer.isHidden = false
+            self.deviceInfoManager.delegate = self
+            self.deviceInfoManager.start(with: "")
+        }
     }
     
     private func proceed() {
@@ -119,5 +127,12 @@ extension PortraitFaceInstructionViewController: FooterViewDelegate {
         let storyboard = UIStoryboard(name: "FeedbackViewController", bundle: Bundle.module)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeedbackViewController")
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension PortraitFaceInstructionViewController: DeviceInfoManagerDelegate {
+    func permissionsRequestUpdated() {
+        self.permissionContainer.isHidden = true
+        self.proceed()
     }
 }

@@ -6,7 +6,14 @@ import AVFoundation
 import ARKit
 import Toaster
 
+protocol DeviceInfoManagerDelegate: AnyObject {
+    func permissionsRequestUpdated()
+}
+
 final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
+    
+    weak var delegate: DeviceInfoManagerDelegate?
+    
     private var locationManager: CLLocationManager?
     private var currentLocation: CLLocation?
     
@@ -20,7 +27,10 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     private var deviceMotionData: [String: Any] = [:]
     private var barometerAltimeterData: [String: Any] = [:]
     private var microphoneData: [String: Any] = [:]
-
+    
+    private var motionPermissionHandled = false
+    private var microphonePermissionHandled = false
+    private var locationPermissionHandled = false
 
     func start(with cameraLunchTime: String) {
         locationManager = CLLocationManager()
@@ -29,10 +39,17 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         fetchMagnetometerUpdates()
         fetchDeviceMotionUpdates()
         fetchBarometerAltimeterUpdates()
+        
         getMicrophoneInfo()
+        
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
+        
         self.cameraLunchTime = cameraLunchTime
+        
+        if CryptonetManager.shared.isPermissionAccepted() == false {
+            CryptonetManager.shared.askPermissionImplemented()
+        }
     }
     
     func collectDeviceInformation() -> [String: Any] {
@@ -128,6 +145,8 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         let status = manager.authorizationStatus
         print("🚀 Location Authorization Changed: \(status.rawValue)")
         
+        locationPermissionHandled = true
+        
         switch status {
         case .notDetermined:
             locationManager?.requestWhenInUseAuthorization()
@@ -138,6 +157,8 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
         @unknown default:
             break
         }
+        
+        checkAllPermissionsHandled()
     }
     
     private func getIndicators() -> [String: Any] {
@@ -198,50 +219,58 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     
     private func fetchDeviceMotionUpdates() {
         if motionManager.isDeviceMotionAvailable {
-            motionManager.deviceMotionUpdateInterval = 0.1 // Update every 100ms
-            motionManager.startDeviceMotionUpdates(to: .main) { (motion, error) in
-                if let motion = motion {
-                    // Attitude (Rotation Angles)
-                    let roll = motion.attitude.roll
-                    let pitch = motion.attitude.pitch
-                    let yaw = motion.attitude.yaw
+            let status = CMMotionActivityManager.authorizationStatus()
+            switch status {
+            case .authorized:
+                motionPermissionHandled = true
+                motionManager.deviceMotionUpdateInterval = 0.1
+                motionManager.startDeviceMotionUpdates(to: .main) { (motion, error) in
+                    if let motion = motion {
+                        let roll = motion.attitude.roll
+                        let pitch = motion.attitude.pitch
+                        let yaw = motion.attitude.yaw
 
-                    // Rotation Rate (Gyroscope Data)
-                    let rotationX = motion.rotationRate.x
-                    let rotationY = motion.rotationRate.y
-                    let rotationZ = motion.rotationRate.z
+                        let rotationX = motion.rotationRate.x
+                        let rotationY = motion.rotationRate.y
+                        let rotationZ = motion.rotationRate.z
 
-                    // User Acceleration (Accelerometer Data)
-                    let accelX = motion.userAcceleration.x
-                    let accelY = motion.userAcceleration.y
-                    let accelZ = motion.userAcceleration.z
+                        let accelX = motion.userAcceleration.x
+                        let accelY = motion.userAcceleration.y
+                        let accelZ = motion.userAcceleration.z
 
-                    // Gravity Vector
-                    let gravityX = motion.gravity.x
-                    let gravityY = motion.gravity.y
-                    let gravityZ = motion.gravity.z
-                    
-                    self.deviceMotionData = [
-                        "roll": "\(roll), Pitch: \(pitch), Yaw: \(yaw)",
-                        "rotationRate": "X:\(rotationX), Y:\(rotationY), Z:\(rotationZ)",
-                        "userAcceleration": "X:\(accelX), Y:\(accelY), Z:\(accelZ)",
-                        "gravity": "X:\(gravityX), Y:\(gravityY), Z:\(gravityZ)"
-                    ]
-                } else if let error = error {
-                    print("Error getting device motion data: \(error.localizedDescription)")
+                        let gravityX = motion.gravity.x
+                        let gravityY = motion.gravity.y
+                        let gravityZ = motion.gravity.z
+                        
+                        self.deviceMotionData = [
+                            "roll": "\(roll), Pitch: \(pitch), Yaw: \(yaw)",
+                            "rotationRate": "X:\(rotationX), Y:\(rotationY), Z:\(rotationZ)",
+                            "userAcceleration": "X:\(accelX), Y:\(accelY), Z:\(accelZ)",
+                            "gravity": "X:\(gravityX), Y:\(gravityY), Z:\(gravityZ)"
+                        ]
+                    } else if let error = error {
+                        print("Error getting device motion data: \(error.localizedDescription)")
+                    }
                 }
+            case .denied, .restricted:
+                motionPermissionHandled = true
+            case .notDetermined:
+                motionPermissionHandled = true
+            @unknown default:
+                motionPermissionHandled = true
             }
         } else {
-            print("Device Motion not available")
+            motionPermissionHandled = true
         }
+        checkAllPermissionsHandled()
     }
     
     private func fetchBarometerAltimeterUpdates() {
         if CMAltimeter.isRelativeAltitudeAvailable() {
             altimeter.startRelativeAltitudeUpdates(to: .main) { (data, error) in
                 if let data = data {
-                    let altitude = data.relativeAltitude.doubleValue // Meters
-                    let pressure = data.pressure.doubleValue // kPa
+                    let altitude = data.relativeAltitude.doubleValue
+                    let pressure = data.pressure.doubleValue
 
                     self.barometerAltimeterData = [
                         "altitude": "\(altitude) meters",
@@ -312,11 +341,19 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     private func getMicrophoneInfo() {
         if #available(iOS 17.0, *) {
             AVAudioApplication.requestRecordPermission { [weak self] allowed in
-                self?.handleMicrophonePermission(allowed: allowed)
+                DispatchQueue.main.async {
+                    self?.microphonePermissionHandled = true
+                    self?.handleMicrophonePermission(allowed: allowed)
+                    self?.checkAllPermissionsHandled()
+                }
             }
         } else {
             AVAudioSession.sharedInstance().requestRecordPermission { [weak self] allowed in
-                self?.handleMicrophonePermission(allowed: allowed)
+                DispatchQueue.main.async {
+                    self?.microphonePermissionHandled = true
+                    self?.handleMicrophonePermission(allowed: allowed)
+                    self?.checkAllPermissionsHandled()
+                }
             }
         }
     }
@@ -326,7 +363,6 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
             do {
                 let audioSession = AVAudioSession.sharedInstance()
                 
-                // Get the available audio input ports (microphones)
                 let availableInputs = audioSession.availableInputs
                 
                 if let microphone = availableInputs?.first(where: { $0.portType == .builtInMic }) {
@@ -416,6 +452,12 @@ final class DeviceInfoManager: NSObject, CLLocationManagerDelegate {
     }
     
     private func getMaxTouchPoints() -> Int {
-        return 5 // Commonly assumed value for iOS
+        return 5
+    }
+    
+    private func checkAllPermissionsHandled() {
+        if motionPermissionHandled && microphonePermissionHandled && locationPermissionHandled {
+            delegate?.permissionsRequestUpdated()
+        }
     }
 }

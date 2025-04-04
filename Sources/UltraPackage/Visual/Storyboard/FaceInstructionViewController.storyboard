@@ -63,7 +63,7 @@
                                                     <action selector="nextTappedWithSender:" destination="QLd-0C-QYF" eventType="touchUpInside" id="i4n-kf-crL"/>
                                                 </connections>
                                             </button>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="lv3-jH-TAm">
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="lv3-jH-TAm">
                                                 <rect key="frame" x="147.66666666666666" y="632" width="20" height="20"/>
                                             </activityIndicatorView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="srR-cZ-Vze">
@@ -664,7 +664,7 @@
                                                             <action selector="nextTappedWithSender:" destination="QLd-0C-QYF" eventType="touchUpInside" id="g6e-pD-Y37"/>
                                                         </connections>
                                                     </button>
-                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="oiz-7G-cPF">
+                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="oiz-7G-cPF">
                                                         <rect key="frame" x="173.66666666666663" y="278" width="20" height="20"/>
                                                     </activityIndicatorView>
                                                 </subviews>

@@ -88,8 +88,10 @@ final class LandscapeFaceInstructionViewController: BaseViewController {
             self.proceed()
         } else {
             self.permissionContainer.isHidden = false
-            self.deviceInfoManager.delegate = self
-            self.deviceInfoManager.start(with: "")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.deviceInfoManager.delegate = self
+                self.deviceInfoManager.start(with: "")
+            }
         }
     }
     

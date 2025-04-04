@@ -47,14 +47,6 @@ final class LandscapeFaceInstructionViewController: BaseViewController {
         self.startButton.setTitle("start".localized, for: .normal)
         
         setUpCloseButton()
-        self.startButton.alpha = 0.6
-        self.startButton.isUserInteractionEnabled = false
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.startButton.alpha = 1.0
-            self.startButton.isUserInteractionEnabled = true
-            self.activityIndicator.stopAnimating()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,7 +80,7 @@ final class LandscapeFaceInstructionViewController: BaseViewController {
             self.proceed()
         } else {
             self.permissionContainer.isHidden = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.deviceInfoManager.delegate = self
                 self.deviceInfoManager.start(with: "")
             }

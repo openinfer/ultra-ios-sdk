@@ -14,17 +14,14 @@ public class UltraPackage {
     public init() {}
     
     public func start(path: String,
-                      token: String?,
-                      publicKey: String?,
-                      browser: String?,
-                      universalLink: String?,
+                      deeplinkData: DeeplinkData?,
                       type: NetworkManager.SessionFlow = NetworkManager.SessionFlow.predict,
                       securityModel: SecurityModel,
                       finished: @escaping (Bool) -> Void) {
         
         CryptonetManager.shared.initializeLib(path: NSString(string: path))
-        CryptonetManager.shared.selectedBrowser = browser ?? "chrome"
-        CryptonetManager.shared.universalLink = universalLink
+        CryptonetManager.shared.selectedBrowser = deeplinkData?.selectedBrowser ?? "chrome"
+        CryptonetManager.shared.universalLink = deeplinkData?.universalLink
         
         self.startedType = type
         print("VERSION: - \(CryptonetManager.shared.version())")
@@ -36,7 +33,7 @@ public class UltraPackage {
                 return
             }
             
-            CryptonetManager.shared.sessionToken = token ?? newToken
+            CryptonetManager.shared.sessionToken = deeplinkData?.sessionToken ?? newToken
             NetworkManager.shared.getPublicKey { newPublicKey in
                 guard let newPublicKey = newPublicKey else {
                     ProgressHUD.failed("Empty public key")
@@ -44,7 +41,7 @@ public class UltraPackage {
                     return
                 }
                 
-                CryptonetManager.shared.publicKey = publicKey ?? newPublicKey
+                CryptonetManager.shared.publicKey = deeplinkData?.publicKey ?? newPublicKey
                 
                 let finalToken = CryptonetManager.shared.sessionToken ?? newToken
                 let finalKey = CryptonetManager.shared.publicKey ?? newPublicKey

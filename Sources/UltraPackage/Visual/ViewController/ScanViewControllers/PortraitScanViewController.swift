@@ -40,6 +40,18 @@ final class PortraitScanViewController: BaseViewController {
     private var isFaceIdRunning: Bool = false
     private var lastOrientation: UIDeviceOrientation?
     
+    private var faceIDStartTime: Date?
+    private var faceIDExecutionTime: TimeInterval = 0
+    private var faceIDDurationTime: Double {
+        var defaultTime = 1.5
+        if let faceidDuration = CryptonetManager.shared.deeplinkData?.faceidDuration,
+           let customTime = Double(faceidDuration) {
+            defaultTime = customTime
+        }
+        
+        return defaultTime
+    }
+    
     var estimateAttempts: Float = 0.0 {
         willSet {
             self.changeResultLabel(attributedText: NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
@@ -608,9 +620,6 @@ private extension PortraitScanViewController {
     }
 }
 
-
-
-
 // Error Handlers
 extension PortraitScanViewController {
     func handleFaceStatus(faceStatus: Int, isAntispoof: Bool = false, isHoldStill: Bool = true, image: UIImage) {
@@ -729,10 +738,26 @@ extension PortraitScanViewController {
         guard isFaceIdRunning == false else { return }
         self.isFaceIdRunning = true
         
-        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { isAllowed, error in
-            self.isFaceIdRunning = false
+        faceIDStartTime = Date()
+        
+        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { [weak self] isAllowed, error in
+            guard let self = self else { return }
             
-            if isAllowed == false {
+            var isValidated: Bool = true
+            
+            if let startTime = self.faceIDStartTime {
+                self.faceIDExecutionTime = Date().timeIntervalSince(startTime)
+                print("FaceID execution time: \(self.faceIDExecutionTime) seconds")
+                
+                if self.faceIDExecutionTime > faceIDDurationTime {
+                    isValidated = false
+                }
+            }
+            
+            self.isFaceIdRunning = false
+            self.faceIDStartTime = nil
+            
+            if isAllowed == false || isValidated == false {
                 self.reset()
             }
         }

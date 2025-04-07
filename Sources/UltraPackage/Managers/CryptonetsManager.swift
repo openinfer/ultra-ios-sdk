@@ -16,6 +16,8 @@ final class CryptonetManager {
     var redirectURL: String?
     var universalLink: String?
     
+    var deeplinkData: DeeplinkData?
+    
     static let privacyURL = "https://privateid.uberverify.com/privacy-policy"
     static let termsURL = "https://privateid.uberverify.com/terms"
     static let learnURL = "https://privateid.uberverify.com/values-privacy"

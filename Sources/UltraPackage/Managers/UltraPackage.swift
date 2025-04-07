@@ -22,6 +22,7 @@ public class UltraPackage {
         CryptonetManager.shared.initializeLib(path: NSString(string: path))
         CryptonetManager.shared.selectedBrowser = deeplinkData?.selectedBrowser ?? "chrome"
         CryptonetManager.shared.universalLink = deeplinkData?.universalLink
+        CryptonetManager.shared.deeplinkData = deeplinkData
         
         self.startedType = type
         print("VERSION: - \(CryptonetManager.shared.version())")

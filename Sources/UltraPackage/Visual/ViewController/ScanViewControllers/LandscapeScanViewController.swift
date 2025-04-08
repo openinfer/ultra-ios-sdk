@@ -815,7 +815,7 @@ extension LandscapeScanViewController {
         
         if let startTime = self.sessionStartTime {
             self.sessionExecutionTime = Date().timeIntervalSince(startTime)
-            print("FaceID execution time: \(self.sessionExecutionTime) seconds")
+            print("Session execution time: \(self.sessionExecutionTime) seconds")
             
             if self.sessionExecutionTime > sessionDurationTime {
                 isValidated = false

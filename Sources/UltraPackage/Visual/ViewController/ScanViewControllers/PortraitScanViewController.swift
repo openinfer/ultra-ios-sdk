@@ -52,6 +52,18 @@ final class PortraitScanViewController: BaseViewController {
         return defaultTime
     }
     
+    private var sessionStartTime: Date?
+    private var sessionExecutionTime: TimeInterval = 0
+    private var sessionDurationTime: Double {
+        var defaultTime = 3.5
+        if let sessionDuration = CryptonetManager.shared.deeplinkData?.sessionDuration,
+           let customTime = Double(sessionDuration) {
+            defaultTime = customTime
+        }
+        
+        return defaultTime
+    }
+    
     var estimateAttempts: Float = 0.0 {
         willSet {
             self.changeResultLabel(attributedText: NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
@@ -394,7 +406,7 @@ extension PortraitScanViewController {
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
                     self.mfToken = token
-                    self.showFaceID()
+                    self.startScanSession()
                 } else {
                     self.mfToken = token
                 }
@@ -418,6 +430,7 @@ extension PortraitScanViewController {
                     let gcmAad = model.uberOperationResult?.response?.gcmAad,
                     let gcmTag = model.uberOperationResult?.response?.gcmTag,
                     let iv = model.uberOperationResult?.response?.iv {
+                    self.finishedScanSession()
                     DispatchQueue.main.async {
                         self.stopScan(encryptedKey: encryptedKey,
                                       encryptedMessage: encryptedMessage,
@@ -435,6 +448,7 @@ extension PortraitScanViewController {
                 print("failure")
             }
         case .failure(_):
+            self.enrollFailed()
             print("failure")
             self.isImageTaking = false
         }
@@ -760,6 +774,31 @@ extension PortraitScanViewController {
             if isAllowed == false || isValidated == false {
                 self.reset()
             }
+        }
+    }
+    
+    func startScanSession() {
+        showFaceID()
+        guard self.sessionStartTime == nil else { return }
+        sessionStartTime = Date()
+    }
+    
+    func finishedScanSession() {
+        var isValidated: Bool = true
+        
+        if let startTime = self.sessionStartTime {
+            self.sessionExecutionTime = Date().timeIntervalSince(startTime)
+            print("FaceID execution time: \(self.sessionExecutionTime) seconds")
+            
+            if self.sessionExecutionTime > sessionDurationTime {
+                isValidated = false
+            }
+        }
+        
+        self.sessionStartTime = nil
+        
+        if isValidated == false {
+            self.reset()
         }
     }
 }

@@ -53,6 +53,18 @@ final class LandscapeScanViewController: BaseViewController {
         return defaultTime
     }
     
+    private var sessionStartTime: Date?
+    private var sessionExecutionTime: TimeInterval = 0
+    private var sessionDurationTime: Double {
+        var defaultTime = 3.5
+        if let sessionDuration = CryptonetManager.shared.deeplinkData?.sessionDuration,
+           let customTime = Double(sessionDuration) {
+            defaultTime = customTime
+        }
+        
+        return defaultTime
+    }
+    
     var estimateAttempts: Float = 0.0 {
         willSet {
             self.changeResultLabel(attributedText: NSAttributedString(string: "\(Int(newValue))%" + " " + "recognised".localized,
@@ -420,7 +432,7 @@ extension LandscapeScanViewController {
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
                     self.mfToken = token
-                    self.showFaceID()
+                    self.startScanSession()
                 } else {
                     self.mfToken = token
                 }
@@ -447,6 +459,7 @@ extension LandscapeScanViewController {
                     let gcmTag = model.uberOperationResult?.response?.gcmTag,
                     let iv = model.uberOperationResult?.response?.iv {
                     DispatchQueue.main.async {
+                        self.finishedScanSession()
                         self.stopScan(encryptedKey: encryptedKey,
                                       encryptedMessage: encryptedMessage,
                                       gcmAad: gcmAad,
@@ -464,6 +477,7 @@ extension LandscapeScanViewController {
             }
         case .failure(_):
             print("failure")
+            self.enrollFailed()
             self.isImageTaking = false
         }
     }
@@ -649,9 +663,6 @@ private extension LandscapeScanViewController {
     }
 }
 
-
-
-
 // Error Handlers
 extension LandscapeScanViewController {
     func handleFaceStatus(faceStatus: Int, isAntispoof: Bool = false, isHoldStill: Bool = true) {
@@ -790,6 +801,31 @@ extension LandscapeScanViewController {
             if isAllowed == false || isValidated == false {
                 self.reset()
             }
+        }
+    }
+    
+    func startScanSession() {
+        showFaceID()
+        guard self.sessionStartTime == nil else { return }
+        sessionStartTime = Date()
+    }
+    
+    func finishedScanSession() {
+        var isValidated: Bool = true
+        
+        if let startTime = self.sessionStartTime {
+            self.sessionExecutionTime = Date().timeIntervalSince(startTime)
+            print("FaceID execution time: \(self.sessionExecutionTime) seconds")
+            
+            if self.sessionExecutionTime > sessionDurationTime {
+                isValidated = false
+            }
+        }
+        
+        self.sessionStartTime = nil
+        
+        if isValidated == false {
+            self.reset()
         }
     }
 }

@@ -781,7 +781,7 @@ extension LandscapeScanViewController {
         
         faceIDStartTime = Date()
         
-        CryptonetManager.shared.authenticateWithFaceIDWithoutPasscode { [weak self] isAllowed, error in
+        CryptonetManager.shared.authenticateWithBiometricsWithoutPasscode { [weak self] isAllowed, error in
             guard let self = self else { return }
             
             var isValidated: Bool = true

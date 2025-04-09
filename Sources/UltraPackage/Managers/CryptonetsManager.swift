@@ -42,21 +42,25 @@ final class CryptonetManager {
         CryptonetManager.shared.sessionToken = nil
     }
     
-    func authenticateWithFaceIDWithoutPasscode(completion: @escaping (Bool, Error?) -> Void) {
-        if isFaceIDAvailableWithoutPasscode() {
-            let context = LAContext()
-            context.localizedCancelTitle = "Cancel"
-            context.interactionNotAllowed = false  // Set to true if you want silent authentication (no UI)
-
-            let reason = "Authenticate using Face ID."
-
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
-                DispatchQueue.main.async {
-                    completion(success, error)
-                }
+    func authenticateWithBiometricsWithoutPasscode(completion: @escaping (Bool, Error?) -> Void) {
+        let context = LAContext()
+        context.localizedCancelTitle = "Cancel"
+        context.interactionNotAllowed = false
+        
+        var error: NSError?
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            completion(true, error)
+            return
+        }
+        
+        let reason = context.biometryType == .faceID ?
+            "Authenticate using Face ID." :
+            "Authenticate using Touch ID."
+        
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+            DispatchQueue.main.async {
+                completion(success, error)
             }
-        } else {
-            completion(true, nil)
         }
     }
     
@@ -83,12 +87,12 @@ final class CryptonetManager {
        UserDefaults.standard.set(true, forKey: isPermissionAcceptedIdentifier)
     }
     
-    private func isFaceIDAvailableWithoutPasscode() -> Bool {
+    private func isBiometricsAvailableWithoutPasscode() -> Bool {
         let context = LAContext()
         var error: NSError?
 
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            return context.biometryType == .faceID
+            return context.biometryType == .faceID || context.biometryType == .touchID
         }
         return false
     }

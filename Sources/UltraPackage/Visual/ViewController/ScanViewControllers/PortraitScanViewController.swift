@@ -40,11 +40,11 @@ final class PortraitScanViewController: BaseViewController {
     private var isFaceIdRunning: Bool = false
     private var lastOrientation: UIDeviceOrientation?
     
-    private var faceIDStartTime: Date?
-    private var faceIDExecutionTime: TimeInterval = 0
-    private var faceIDDurationTime: Double {
+    private var biometricStartTime: Date?
+    private var biometricExecutionTime: TimeInterval = 0
+    private var biometricDurationTime: Double {
         var defaultTime = 1.5
-        if let faceidDuration = CryptonetManager.shared.deeplinkData?.faceidDuration,
+        if let faceidDuration = CryptonetManager.shared.deeplinkData?.biometricDuration,
            let customTime = Double(faceidDuration) {
             defaultTime = customTime
         }
@@ -752,24 +752,24 @@ extension PortraitScanViewController {
         guard isFaceIdRunning == false else { return }
         self.isFaceIdRunning = true
         
-        faceIDStartTime = Date()
+        biometricStartTime = Date()
         
         CryptonetManager.shared.authenticateWithBiometricsWithoutPasscode { [weak self] isAllowed, error in
             guard let self = self else { return }
             
             var isValidated: Bool = true
             
-            if let startTime = self.faceIDStartTime {
-                self.faceIDExecutionTime = Date().timeIntervalSince(startTime)
-                print("FaceID execution time: \(self.faceIDExecutionTime) seconds")
+            if let startTime = self.biometricStartTime {
+                self.biometricExecutionTime = Date().timeIntervalSince(startTime)
+                print("FaceID execution time: \(self.biometricExecutionTime) seconds")
                 
-                if self.faceIDExecutionTime > faceIDDurationTime {
+                if self.biometricExecutionTime > biometricDurationTime {
                     isValidated = false
                 }
             }
             
             self.isFaceIdRunning = false
-            self.faceIDStartTime = nil
+            self.biometricStartTime = nil
             
             if isAllowed == false || isValidated == false {
                 self.reset()

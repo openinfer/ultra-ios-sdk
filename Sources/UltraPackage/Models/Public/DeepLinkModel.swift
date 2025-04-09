@@ -5,7 +5,7 @@ public class DeeplinkData {
     var publicKey: String?
     var selectedBrowser: String?
     var universalLink: String?
-    var faceidDuration: String?
+    var biometricDuration: String?
     var sessionDuration: String?
     
     public init(sessionToken: String? = nil,
@@ -18,7 +18,7 @@ public class DeeplinkData {
         self.publicKey = publicKey
         self.selectedBrowser = selectedBrowser
         self.universalLink = universalLink
-        self.faceidDuration = faceidDuration
+        self.biometricDuration = faceidDuration
         self.sessionDuration = sessionDuration
     }
 }

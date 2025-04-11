@@ -69,7 +69,16 @@ final class CryptonetManager {
     }
     
     func getDeviceInfo() -> String? {
-        let jsonData = deviceInfoManager.collectDeviceInformation()
+        var jsonData = deviceInfoManager.collectDeviceInformation()
+        
+        // Get touch events data
+        if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = documentsDirectory.appendingPathComponent("touch_events.json")
+            if let touchEventsData = try? Data(contentsOf: fileURL),
+               let touchEvents = try? JSONSerialization.jsonObject(with: touchEventsData) {
+                jsonData["touch_events"] = touchEvents
+            }
+        }
 
         if let jsonDataEncoded = try? JSONSerialization.data(withJSONObject: jsonData, options: .prettyPrinted),
            let jsonString = String(data: jsonDataEncoded, encoding: .utf8) {

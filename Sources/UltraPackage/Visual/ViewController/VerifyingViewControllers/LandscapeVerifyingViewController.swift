@@ -41,10 +41,12 @@ extension LandscapeVerifyingViewController {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 if UIApplication.shared.applicationState == .active {
+                    self.openRedirectURL()
                     self.reset()
                 }
             }
         } else {
+            self.openRedirectURL()
             self.reset()
         }
     }

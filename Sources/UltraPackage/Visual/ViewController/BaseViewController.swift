@@ -14,6 +14,39 @@ class BaseViewController: UIViewController {
 //        FlowManager.shared.reset()
         navigationController?.popToRootViewController(animated: true)
     }
+    
+    func openRedirectURL() {
+        let link = NetworkManager.shared.redirectURL
+        UIApplication.openIfPossible(link: link)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Add touch tracking
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: nil))
+    }
+    
+    // MARK: - Touch Tracking
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        touches.forEach { touch in
+            TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: true)
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        touches.forEach { touch in
+            TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: false)
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        touches.forEach { touch in
+            TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: false)
+        }
+    }
 }
 
 extension BaseViewController {

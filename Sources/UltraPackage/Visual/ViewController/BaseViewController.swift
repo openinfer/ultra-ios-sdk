@@ -22,8 +22,6 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Add touch tracking
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: nil))
     }
     
     // MARK: - Touch Tracking

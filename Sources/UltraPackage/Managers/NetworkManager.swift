@@ -80,11 +80,11 @@ public final class NetworkManager {
     }
     
     
-    func checkFlowStatus(finished: @escaping (Bool) -> Void) {
+    func checkFlowStatus(finished: @escaping (NetworkManager.SessionFlow?) -> Void) {
         guard let sessionToken = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(sessionToken)") else {
             ProgressHUD.failed("Internal server error")
-            finished(false)
+            finished(nil)
             return
         }
         
@@ -98,12 +98,15 @@ public final class NetworkManager {
             .validate()
             .responseDecodable(of: ResponseModel.self) { [weak self] response in
                 guard let self = self else { return }
+                var flowType: NetworkManager.SessionFlow? = nil
                 switch response.result {
                 case .success(let response):
                     if response.type == "ENROLL" {
                         FlowManager.shared.current = .enroll
+                        flowType = .enroll
                     } else {
                         FlowManager.shared.current = .matchFace
+                        flowType = .predict
                     }
                     
                     let link = response.redirectURL ?? self.redirectURL
@@ -113,11 +116,11 @@ public final class NetworkManager {
                         CryptonetManager.shared.redirectURL = "https://" + link
                     }
                     
-                    finished(true)
+                    finished(flowType)
                 case .failure(let error):
                     print("Failed: \(error.localizedDescription)")
                     ProgressHUD.failed("Internal server error")
-                    finished(false)
+                    finished(nil)
                 }
             }
     }

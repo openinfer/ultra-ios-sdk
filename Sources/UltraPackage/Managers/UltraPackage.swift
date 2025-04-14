@@ -9,7 +9,7 @@ enum CryptonetError: Error {
 public class UltraPackage {
     
     private var sessionPointer: UnsafeMutableRawPointer?
-    private var startedType: NetworkManager.SessionFlow?
+    private var defaultStartedType: NetworkManager.SessionFlow?
     
     public init() {}
     
@@ -24,7 +24,7 @@ public class UltraPackage {
         CryptonetManager.shared.universalLink = deeplinkData?.universalLink
         CryptonetManager.shared.deeplinkData = deeplinkData
         
-        self.startedType = type
+        self.defaultStartedType = type
         print("VERSION: - \(CryptonetManager.shared.version())")
         
         NetworkManager.shared.getSessionToken(type: type) { newToken in
@@ -67,19 +67,15 @@ public class UltraPackage {
     }
     
     public func runVisual(on viewController: UIViewController) {
-        guard let startedType = startedType else {
-            ProgressHUD.failed("Started type is empty")
-            return
-        }
-        switch startedType {
-        case .enroll:
-            NetworkManager.shared.checkFlowStatus { _ in
+        guard let defaultStartedType = self.defaultStartedType else { return }
+        
+        NetworkManager.shared.checkFlowStatus { startedType in
+            switch startedType ?? defaultStartedType {
+            case .enroll:
                 let storyboard = UIStoryboard(name: "InstructionsViewController", bundle: Bundle.module)
                 let vc = storyboard.instantiateViewController(withIdentifier: "MainInstructionsViewController")
                 viewController.navigationController?.pushViewController(vc, animated: true)
-            }
-        case .predict:
-            NetworkManager.shared.checkFlowStatus { _ in
+            case .predict:
                 self.runPredictWithFaceId(on: viewController)
             }
         }

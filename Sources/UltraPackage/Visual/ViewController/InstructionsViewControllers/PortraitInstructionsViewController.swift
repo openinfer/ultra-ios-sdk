@@ -43,7 +43,8 @@ final class PortraitInstructionsViewController: BaseViewController, UITextViewDe
                                           message: "confirmation_message".localized, preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "ok".localized, style: .default, handler:{ (UIAlertAction) in
-                self.navigationController?.popToRootViewController(animated: true)
+                self.openRedirectURL()
+                self.reset()
             }))
             alert.addAction(UIAlertAction(title: "cancel".localized, style: .cancel, handler:{ (UIAlertAction) in
                 

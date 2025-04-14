@@ -22,28 +22,47 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Enable user interaction and multiple touch
+        view.isUserInteractionEnabled = true
+        view.isMultipleTouchEnabled = true
+        
+        // Make sure no views are blocking touches
+        for subview in view.subviews {
+            subview.isUserInteractionEnabled = false
+        }
     }
     
     // MARK: - Touch Tracking
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         touches.forEach { touch in
-            TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: true)
+            if touch.view == self.view {
+                TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: true)
+            }
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         touches.forEach { touch in
-            TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: false)
+            if touch.view == self.view {
+                TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: false)
+            }
         }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         touches.forEach { touch in
-            TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: false)
+            if touch.view == self.view {
+                TouchTrackingManager.shared.recordTouch(touch, with: event, isDown: false)
+            }
         }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        // We don't track moved events, but override to ensure proper touch handling
     }
 }
 

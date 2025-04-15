@@ -16,7 +16,7 @@ class BaseViewController: UIViewController {
     }
     
     func openRedirectURL() {
-        let link = NetworkManager.shared.redirectURL
+        let link = CryptonetManager.shared.redirectURL ?? NetworkManager.shared.redirectURL
         UIApplication.openIfPossible(link: link)
     }
 }

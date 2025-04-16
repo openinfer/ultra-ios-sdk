@@ -34,7 +34,6 @@ public class UltraPackage {
                 return
             }
             
-            CryptonetManager.shared.sessionToken = deeplinkData?.sessionToken ?? newToken
             NetworkManager.shared.getPublicKey { newPublicKey in
                 guard let newPublicKey = newPublicKey else {
                     ProgressHUD.failed("Empty public key")
@@ -44,7 +43,7 @@ public class UltraPackage {
                 
                 CryptonetManager.shared.publicKey = deeplinkData?.publicKey ?? newPublicKey
                 
-                let finalToken = CryptonetManager.shared.sessionToken ?? newToken
+                let finalToken = CryptonetManager.shared.deeplinkData?.sessionToken ?? newToken
                 let finalKey = CryptonetManager.shared.publicKey ?? newPublicKey
                 
                 let settings = """

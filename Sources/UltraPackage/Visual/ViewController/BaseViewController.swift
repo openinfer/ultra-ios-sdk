@@ -16,7 +16,13 @@ class BaseViewController: UIViewController {
     }
     
     func openRedirectURL() {
-        let link = CryptonetManager.shared.redirectURL ?? NetworkManager.shared.redirectURL
+        var link = CryptonetManager.shared.redirectURL ?? NetworkManager.shared.redirectURL
+        
+        if link.contains(CryptonetManager.defaultProject),
+           let token = CryptonetManager.shared.deeplinkData?.sessionToken {
+            link = link + "?sessionId=\(token)"
+        }
+
         UIApplication.openIfPossible(link: link)
     }
 }

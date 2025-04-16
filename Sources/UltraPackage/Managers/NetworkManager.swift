@@ -81,7 +81,7 @@ public final class NetworkManager {
     
     
     func checkFlowStatus(finished: @escaping (NetworkManager.SessionFlow?) -> Void) {
-        guard let sessionToken = CryptonetManager.shared.sessionToken,
+        guard let sessionToken = CryptonetManager.shared.deeplinkData?.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(sessionToken)") else {
             ProgressHUD.failed("Internal server error")
             finished(nil)
@@ -126,7 +126,7 @@ public final class NetworkManager {
     }
     
     func fetchSessionDetails(responseModel: @escaping (SessionDetailsModel?) -> Void) {
-        guard let token = CryptonetManager.shared.sessionToken,
+        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/webhook-payload") else {
             responseModel(nil)
             return
@@ -149,7 +149,7 @@ public final class NetworkManager {
     }
     
     func sendFeedback(feedback: String, finished: @escaping (Bool) -> Void) {
-        guard let token = CryptonetManager.shared.sessionToken,
+        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/feedback") else {
             finished(false)
             return
@@ -176,7 +176,7 @@ public final class NetworkManager {
     }
     
     func updateImage(image: UIImage) {
-        guard let token = CryptonetManager.shared.sessionToken,
+        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/img") else { return }
         
         guard let imageData = image.jpegData(compressionQuality: 0.3) else {
@@ -211,7 +211,7 @@ public final class NetworkManager {
     func updateCollect(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage, finished: @escaping (Bool) -> Void) {
         self.updateImage(image: image)
         
-        guard let token = CryptonetManager.shared.sessionToken,
+        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/collect") else {
             finished(false)
             return
@@ -243,7 +243,7 @@ public final class NetworkManager {
     
     
     func updateEnroll(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
-        guard let token = CryptonetManager.shared.sessionToken,
+        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/enroll") else { return }
         
         let parameters: [String : Any] = [
@@ -271,7 +271,7 @@ public final class NetworkManager {
     }
     
     func updatePredict(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
-        guard let token = CryptonetManager.shared.sessionToken,
+        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/verify") else { return }
         
         let parameters: [String : Any] = [

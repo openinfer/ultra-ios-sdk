@@ -10,7 +10,6 @@ final class CryptonetManager {
     let cryptonet = CryptonetPackage()
     private let deviceInfoManager = DeviceInfoManager()
     
-    var sessionToken: String?
     var publicKey: String?
     var selectedBrowser: String?
     var redirectURL: String?
@@ -18,6 +17,7 @@ final class CryptonetManager {
     
     var deeplinkData: DeeplinkData?
     
+    static let defaultProject = "privateidentity.com"
     static let privacyURL = "https://privateid.uberverify.com/privacy-policy"
     static let termsURL = "https://privateid.uberverify.com/terms"
     static let learnURL = "https://privateid.uberverify.com/values-privacy"
@@ -39,7 +39,7 @@ final class CryptonetManager {
     }
     
     func resetSession() {
-        CryptonetManager.shared.sessionToken = nil
+        CryptonetManager.shared.deeplinkData = nil
     }
     
     func authenticateWithBiometricsWithoutPasscode(completion: @escaping (Bool, Error?) -> Void) {

@@ -23,6 +23,7 @@ class BaseViewController: UIViewController {
             link = link + "?sessionId=\(token)"
         }
 
+        CryptonetManager.shared.resetSession()
         UIApplication.openIfPossible(link: link)
     }
 }

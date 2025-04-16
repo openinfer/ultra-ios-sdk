@@ -19,7 +19,6 @@ final class LandscapeVerifyingViewController: BaseViewController {
         footer.delegate = self
         footerContainer.addSubview(footer)
         imageView.setGifFromURL(URL(string: "https://i.ibb.co/8Jx4hTm/Face-ID.gif")!, levelOfIntegrity: .lowForManyGifs, customLoader: UIActivityIndicatorView(style: .medium))
-        CryptonetManager.shared.resetSession()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             NetworkManager.shared.fetchSessionDetails { [weak self] model in
                 guard let self = self else { return }

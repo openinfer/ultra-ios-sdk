@@ -41,28 +41,39 @@ public class UltraPackage {
                     return
                 }
                 
-                CryptonetManager.shared.publicKey = deeplinkData?.publicKey ?? newPublicKey
-                
-                let finalToken = CryptonetManager.shared.deeplinkData?.sessionToken ?? newToken
-                let finalKey = CryptonetManager.shared.publicKey ?? newPublicKey
-                
-                CryptonetManager.shared.sessionToken = finalToken
-                
-                let settings = """
-                {
-                  "collections": {
-                    "default": {
-                      "named_urls": {
-                        "base_url": "\(NetworkManager.shared.baseURL)v2/verification-session" } } },
-                  "public_key": "\(finalKey)",
-                  "session_token": "\(finalToken)",
-                  "debug_level": "3"
+                NetworkManager.shared.verifyDeviceHash { hashResponse in
+
+                    CryptonetManager.shared.publicKey = deeplinkData?.publicKey ?? newPublicKey
+                    
+                    let finalToken = CryptonetManager.shared.deeplinkData?.sessionToken ?? hashResponse?.sessionId ?? newToken
+                    let finalKey = CryptonetManager.shared.publicKey ?? newPublicKey
+                    
+                    CryptonetManager.shared.sessionToken = finalToken
+                    
+                    let settings = """
+                    {
+                      "collections": {
+                        "default": {
+                          "named_urls": {
+                            "base_url": "\(NetworkManager.shared.baseURL)v2/verification-session" } } },
+                      "public_key": "\(finalKey)",
+                      "session_token": "\(finalToken)",
+                      "debug_level": "3"
+                    }
+                    """
+                    
+                    let securityCheck = self.checkSecurityConditions(securityModel: securityModel)
+                    let result = CryptonetManager.shared.initializeSession(settings: NSString(string: settings))
+                    finished(result && securityCheck)
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 }
-                """
-                
-                let securityCheck = self.checkSecurityConditions(securityModel: securityModel)
-                let result = CryptonetManager.shared.initializeSession(settings: NSString(string: settings))
-                finished(result && securityCheck)
             }
         }
     }

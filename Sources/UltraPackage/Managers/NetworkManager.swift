@@ -83,30 +83,6 @@ public final class NetworkManager {
     func checkFlowStatus(finished: @escaping (NetworkManager.SessionFlow?) -> Void) {
         guard let sessionToken = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(sessionToken)") else {
-            self.verifyDeviceHash { hashResponse in
-                var flowType: NetworkManager.SessionFlow? = nil
-                
-                if let token = hashResponse?.sessionId {
-                    CryptonetManager.shared.sessionToken = token
-                }
-                if hashResponse?.type == "ENROLL" {
-                    FlowManager.shared.current = .enroll
-                    flowType = .enroll
-                } else {
-                    FlowManager.shared.current = .matchFace
-                    flowType = .predict
-                }
-                
-                let link = hashResponse?.redirectURL ?? self.redirectURL
-                if link.hasPrefix("https://") {
-                    CryptonetManager.shared.redirectURL = link
-                } else {
-                    CryptonetManager.shared.redirectURL = "https://" + link
-                }
-                
-                finished(flowType)
-            }
-
             return
         }
         

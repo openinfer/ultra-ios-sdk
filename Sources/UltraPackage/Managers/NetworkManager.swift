@@ -81,10 +81,32 @@ public final class NetworkManager {
     
     
     func checkFlowStatus(finished: @escaping (NetworkManager.SessionFlow?) -> Void) {
-        guard let sessionToken = CryptonetManager.shared.deeplinkData?.sessionToken ?? CryptonetManager.shared.internalToken,
+        guard let sessionToken = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(sessionToken)") else {
-            ProgressHUD.failed("Internal server error")
-            finished(nil)
+            self.verifyDeviceHash { hashResponse in
+                var flowType: NetworkManager.SessionFlow? = nil
+                
+                if let token = hashResponse?.sessionId {
+                    CryptonetManager.shared.sessionToken = token
+                }
+                if hashResponse?.type == "ENROLL" {
+                    FlowManager.shared.current = .enroll
+                    flowType = .enroll
+                } else {
+                    FlowManager.shared.current = .matchFace
+                    flowType = .predict
+                }
+                
+                let link = hashResponse?.redirectURL ?? self.redirectURL
+                if link.hasPrefix("https://") {
+                    CryptonetManager.shared.redirectURL = link
+                } else {
+                    CryptonetManager.shared.redirectURL = "https://" + link
+                }
+                
+                finished(flowType)
+            }
+
             return
         }
         
@@ -126,7 +148,7 @@ public final class NetworkManager {
     }
     
     func fetchSessionDetails(responseModel: @escaping (SessionDetailsModel?) -> Void) {
-        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
+        guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/webhook-payload") else {
             responseModel(nil)
             return
@@ -149,7 +171,7 @@ public final class NetworkManager {
     }
     
     func sendFeedback(feedback: String, finished: @escaping (Bool) -> Void) {
-        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
+        guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/feedback") else {
             finished(false)
             return
@@ -176,7 +198,7 @@ public final class NetworkManager {
     }
     
     func updateImage(image: UIImage) {
-        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
+        guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/img") else { return }
         
         guard let imageData = image.jpegData(compressionQuality: 0.3) else {
@@ -211,7 +233,7 @@ public final class NetworkManager {
     func updateCollect(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage, finished: @escaping (Bool) -> Void) {
         self.updateImage(image: image)
         
-        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
+        guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/collect") else {
             finished(false)
             return
@@ -243,7 +265,7 @@ public final class NetworkManager {
     
     
     func updateEnroll(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
-        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
+        guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/enroll") else { return }
         
         let parameters: [String : Any] = [
@@ -271,7 +293,7 @@ public final class NetworkManager {
     }
     
     func updatePredict(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
-        guard let token = CryptonetManager.shared.deeplinkData?.sessionToken,
+        guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/verify") else { return }
         
         let parameters: [String : Any] = [
@@ -296,5 +318,34 @@ public final class NetworkManager {
                     finished(false)
                 }
             }
+    }
+    
+    func verifyDeviceHash(completion: @escaping (ResponseModel?) -> Void) {
+        let deviceHashProvider = DeviceHashProvider()
+        deviceHashProvider.getDeviceHash { deviceHash in
+            guard let url = URL(string: "\(self.baseURL)v2/verification-session/hash/\(deviceHash)") else {
+                completion(nil)
+                return
+            }
+            
+            let headers: HTTPHeaders = [
+                "Content-Type": "application/json",
+                "Authorization": "skip-auth",
+                "x-api-key": "0000000000000000test"
+            ]
+            
+            AF.request(url, method: .get, headers: headers)
+                .validate()
+                .responseDecodable(of: ResponseModel.self) { response in
+                    switch response.result {
+                    case .success(let model):
+                        completion(model)
+                    case .failure(let error):
+                        print("Failed: \(error.localizedDescription)")
+                        ProgressHUD.failed("Internal server error")
+                        completion(nil)
+                    }
+                }
+        }
     }
 }

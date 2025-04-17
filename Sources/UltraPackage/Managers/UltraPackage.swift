@@ -41,11 +41,12 @@ public class UltraPackage {
                     return
                 }
                 
-                CryptonetManager.shared.internalToken = newToken
                 CryptonetManager.shared.publicKey = deeplinkData?.publicKey ?? newPublicKey
                 
                 let finalToken = CryptonetManager.shared.deeplinkData?.sessionToken ?? newToken
                 let finalKey = CryptonetManager.shared.publicKey ?? newPublicKey
+                
+                CryptonetManager.shared.sessionToken = finalToken
                 
                 let settings = """
                 {

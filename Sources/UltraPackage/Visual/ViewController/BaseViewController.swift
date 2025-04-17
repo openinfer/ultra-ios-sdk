@@ -19,7 +19,7 @@ class BaseViewController: UIViewController {
         var link = CryptonetManager.shared.redirectURL ?? NetworkManager.shared.redirectURL
         
         if link.contains(CryptonetManager.defaultProject),
-           let token = CryptonetManager.shared.deeplinkData?.sessionToken {
+           let token = CryptonetManager.shared.sessionToken {
             link = link + "?sessionId=\(token)"
         }
 

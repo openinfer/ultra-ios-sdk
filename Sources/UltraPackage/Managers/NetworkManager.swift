@@ -318,7 +318,6 @@ public final class NetworkManager {
                         completion(model)
                     case .failure(let error):
                         print("Failed: \(error.localizedDescription)")
-                        ProgressHUD.failed("Internal server error")
                         completion(nil)
                     }
                 }

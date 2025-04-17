@@ -81,7 +81,7 @@ public final class NetworkManager {
     
     
     func checkFlowStatus(finished: @escaping (NetworkManager.SessionFlow?) -> Void) {
-        guard let sessionToken = CryptonetManager.shared.deeplinkData?.sessionToken,
+        guard let sessionToken = CryptonetManager.shared.deeplinkData?.sessionToken ?? CryptonetManager.shared.internalToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(sessionToken)") else {
             ProgressHUD.failed("Internal server error")
             finished(nil)

@@ -16,6 +16,7 @@ final class CryptonetManager {
     var universalLink: String?
     
     var deeplinkData: DeeplinkData?
+    var internalToken: String?
     
     static let defaultProject = "privateidentity.com"
     static let privacyURL = "https://privateid.uberverify.com/privacy-policy"

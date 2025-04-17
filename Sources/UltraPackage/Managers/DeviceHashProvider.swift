@@ -21,9 +21,7 @@ class DeviceHashProvider {
         let screenWidth = Int(screenSize.width)
         let screenHeight = Int(screenSize.height)
         
-        getPublicIpAddress { [weak self] ipAddress in
-            guard let self = self else { return }
-            
+        getPublicIpAddress { ipAddress in
             let components = [
                 self.systemName,
                 UIDevice.current.systemVersion,

@@ -64,15 +64,7 @@ public class UltraPackage {
                     
                     let securityCheck = self.checkSecurityConditions(securityModel: securityModel)
                     let result = CryptonetManager.shared.initializeSession(settings: NSString(string: settings))
-                    finished(result && securityCheck)
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+                    finished(result && securityCheck)  
                 }
             }
         }

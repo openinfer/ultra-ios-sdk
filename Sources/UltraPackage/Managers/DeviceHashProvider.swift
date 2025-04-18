@@ -16,11 +16,8 @@ class DeviceHashProvider {
         let offsetHours = offsetSeconds / 3600
         let timeZoneString = "GMT\(offsetHours >= 0 ? "+" : "")\(offsetHours)"
         
-        // Get language identifier in "en-US" format
-        let locale = Locale.current
-        let languageCode = locale.languageCode ?? "en"
-        let regionCode = locale.regionCode ?? "US"
-        let languageId = "\(languageCode)-\(regionCode)"
+        // Get system language (equivalent to navigator.language)
+        let languageId = Locale.preferredLanguages.first ?? "en-US"
         
         // Get screen scale (equivalent to devicePixelRatio)
         let screenScale = Int(UIScreen.main.scale)

@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import CommonCrypto
+import CryptoKit
 
 class DeviceHashProvider {
     private let systemName = "iOS"
@@ -30,7 +30,7 @@ class DeviceHashProvider {
             ]
             
             let hashString = components.joined(separator: "-")
-            let hash = self.hashSHA256(input: hashString)
+            let hash = self.hashSHA256(str: hashString)
             completion(hash)
         }
     }
@@ -68,14 +68,10 @@ class DeviceHashProvider {
     /**
      * Computes the SHA-256 hash of the given input string.
      */
-    private func hashSHA256(input: String) -> String {
-        guard let data = input.data(using: .utf8) else { return "" }
+    func hashSHA256(str: String) -> String {
+        let inputData = Data(str.utf8)
+        let hashed = SHA256.hash(data: inputData)
         
-        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        data.withUnsafeBytes { buffer in
-            _ = CC_SHA256(buffer.baseAddress, CC_LONG(buffer.count), &hash)
-        }
-        
-        return hash.map { String(format: "%02x", $0) }.joined()
+        return hashed.compactMap { String(format: "%02x", $0) }.joined()
     }
 }

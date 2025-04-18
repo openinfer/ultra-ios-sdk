@@ -39,24 +39,29 @@ class DeviceHashProvider {
      * Retrieves the device's public IP address by making a network request.
      */
     private func getPublicIpAddress(completion: @escaping (String?) -> Void) {
-        guard let url = URL(string: "https://api.ipify.org") else {
+        guard let url = URL(string: "https://api.ipify.org?format=json") else {
             completion(nil)
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, _, error in
-            if let error = error {
-                print("Error fetching IP address: \(error)")
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
                 completion(nil)
                 return
             }
             
-            if let data = data, let ipAddress = String(data: data, encoding: .utf8) {
-                completion(ipAddress)
-            } else {
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let ip = json["ip"] as? String {
+                    completion(ip)
+                } else {
+                    completion(nil)
+                }
+            } catch {
                 completion(nil)
             }
         }
+        
         task.resume()
     }
     

@@ -758,14 +758,21 @@ extension PortraitScanViewController {
             guard let self = self else { return }
             
             var isValidated: Bool = true
+            let isFirstTimeFaceIDRequest = !UserDefaults.standard.bool(forKey: "hasRequestedFaceIDBefore")
             
             if let startTime = self.biometricStartTime {
                 self.biometricExecutionTime = Date().timeIntervalSince(startTime)
                 print("FaceID execution time: \(self.biometricExecutionTime) seconds")
                 
-                if self.biometricExecutionTime > biometricDurationTime {
-                    isValidated = false
+                // Only check duration if it's not the first time
+                if !isFirstTimeFaceIDRequest {
+                    isValidated = self.biometricExecutionTime <= biometricDurationTime
                 }
+            }
+            
+            // If this was first time request and authentication was allowed, mark it
+            if isFirstTimeFaceIDRequest && isAllowed {
+                UserDefaults.standard.set(true, forKey: "hasRequestedFaceIDBefore")
             }
             
             self.isFaceIdRunning = false

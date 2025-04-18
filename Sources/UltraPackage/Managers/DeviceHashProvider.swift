@@ -80,7 +80,8 @@ class DeviceHashProvider {
         print("Input bytes:", Array(str.utf8))
         print("Character count:", str.count)
 
-        guard let inputData = str.data(using: .utf8) else {
+        let cleanedInput = str.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let inputData = cleanedInput.data(using: .utf8) else {
             return ""
         }
         let hashed = SHA256.hash(data: inputData)

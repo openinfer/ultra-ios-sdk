@@ -63,6 +63,9 @@ final class LandscapeFaceInstructionViewController: BaseViewController {
     }
 
     @IBAction func nextTapped(sender: UIButton) {
+        sender.isUserInteractionEnabled = false
+        sender.alpha = 0.5
+        
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
             if response {
                 DispatchQueue.main.async { [unowned self] in

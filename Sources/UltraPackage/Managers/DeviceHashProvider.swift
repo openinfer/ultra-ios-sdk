@@ -76,9 +76,10 @@ class DeviceHashProvider {
      * Computes the SHA-256 hash of the given input string.
      */
     func hashSHA256(str: String) -> String {
-        let inputData = Data(str.utf8)
+        guard let inputData = str.data(using: .utf8) else {
+            return ""
+        }
         let hashed = SHA256.hash(data: inputData)
-        
         return hashed.map { String(format: "%02x", $0) }.joined()
     }
 }

@@ -31,6 +31,13 @@ class DeviceHashProvider {
             
             let hashString = components.joined(separator: "-")
             let hash = self.hashSHA256(str: hashString)
+            
+            // Usage:
+            let inputTest = "iOS-18.4-430x932-188.190.179.192"
+            let hashTest = self.hashSHA256(str: inputTest)
+            print(hashTest)
+            
+            
             completion(hash)
         }
     }
@@ -72,6 +79,6 @@ class DeviceHashProvider {
         let inputData = Data(str.utf8)
         let hashed = SHA256.hash(data: inputData)
         
-        return hashed.compactMap { String(format: "%02x", $0) }.joined()
+        return hashed.map { String(format: "%02x", $0) }.joined()
     }
 }

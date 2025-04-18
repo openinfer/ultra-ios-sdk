@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import CryptoKit
+import WebKit
 
 class DeviceHashProvider {
     private let systemName = "iOS"
@@ -31,13 +32,7 @@ class DeviceHashProvider {
             
             let hashString = components.joined(separator: "-")
             let hash = self.hashSHA256(str: hashString)
-            
-            // Usage:
-            let inputTest = "iOS-18.4-430x932-188.190.179.192"
-            let hashTest = self.hashSHA256(str: inputTest)
-            print(hashTest)
-            
-            
+
             completion(hash)
         }
     }
@@ -46,34 +41,14 @@ class DeviceHashProvider {
      * Retrieves the device's public IP address by making a network request.
      */
     private func getPublicIpAddress(completion: @escaping (String?) -> Void) {
-        guard let url = URL(string: "https://api.ipify.org?format=json") else {
-            completion(nil)
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148", forHTTPHeaderField: "User-Agent")
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                completion(nil)
-                return
-            }
-            
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let ip = json["ip"] as? String {
-                    completion(ip)
-                } else {
-                    completion(nil)
-                }
-            } catch {
+        let ipFetcher = IPFetcherViewController()
+        ipFetcher.getPublicIpAddressUsingWebView { ip in
+            if let ip = ip {
+                completion(ip)
+            } else {
                 completion(nil)
             }
         }
-        
-        task.resume()
     }
     
     /**
@@ -90,5 +65,45 @@ class DeviceHashProvider {
         }
         let hashed = SHA256.hash(data: inputData)
         return hashed.map { String(format: "%02x", $0) }.joined()
+    }
+}
+
+class IPFetcherViewController: UIViewController, WKNavigationDelegate {
+    private var webView: WKWebView!
+    private var completion: ((String?) -> Void)?
+    
+    func getPublicIpAddressUsingWebView(completion: @escaping (String?) -> Void) {
+        self.completion = completion
+        
+        let webConfiguration = WKWebViewConfiguration()
+        webConfiguration.websiteDataStore = .nonPersistent() // optional: no cookies
+        
+        webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        webView.navigationDelegate = self
+        view.addSubview(webView) // you can keep it hidden if you want
+        
+        if let url = URL(string: "https://api.ipify.org?format=json") {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        } else {
+            completion(nil)
+        }
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        webView.evaluateJavaScript("document.body.innerText") { [weak self] (result, error) in
+            guard let self = self else { return }
+            if let text = result as? String {
+                if let data = text.data(using: .utf8),
+                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let ip = json["ip"] as? String {
+                    self.completion?(ip)
+                } else {
+                    self.completion?(nil)
+                }
+            } else {
+                self.completion?(nil)
+            }
+        }
     }
 }

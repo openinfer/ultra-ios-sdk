@@ -8,5 +8,11 @@ struct ResponseModel: Decodable {
     let type: String?
     let status: String?
     let redirectURL: String?
+    let config: ResponseConfig?
 }
 
+// MARK: - Config
+struct ResponseConfig: Codable {
+    let sessionDuration, biometricDuration: Double?
+    let browser, universalLink: String?
+}

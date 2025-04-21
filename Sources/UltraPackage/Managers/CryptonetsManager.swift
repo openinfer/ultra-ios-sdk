@@ -14,8 +14,9 @@ final class CryptonetManager {
     var selectedBrowser: String?
     var redirectURL: String?
     var universalLink: String?
+    var sessionDuration: String?
+    var biometricDuration: String?
     
-    var deeplinkData: DeeplinkData?
     var sessionToken: String?
     
     static let defaultProject = "privateidentity.com"
@@ -40,7 +41,6 @@ final class CryptonetManager {
     }
     
     func resetSession() {
-        CryptonetManager.shared.deeplinkData = nil
         CryptonetManager.shared.sessionToken = nil
     }
     

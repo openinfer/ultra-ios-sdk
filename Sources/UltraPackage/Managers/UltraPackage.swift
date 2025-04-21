@@ -22,7 +22,8 @@ public class UltraPackage {
         CryptonetManager.shared.initializeLib(path: NSString(string: path))
         CryptonetManager.shared.selectedBrowser = deeplinkData?.selectedBrowser ?? "chrome"
         CryptonetManager.shared.universalLink = deeplinkData?.universalLink
-        CryptonetManager.shared.deeplinkData = deeplinkData
+        CryptonetManager.shared.sessionDuration = deeplinkData?.sessionDuration
+        CryptonetManager.shared.biometricDuration = deeplinkData?.biometricDuration
         
         self.defaultStartedType = type
         print("VERSION: - \(CryptonetManager.shared.version())")
@@ -45,10 +46,26 @@ public class UltraPackage {
 
                     CryptonetManager.shared.publicKey = deeplinkData?.publicKey ?? newPublicKey
                     
-                    let finalToken = CryptonetManager.shared.deeplinkData?.sessionToken ?? hashResponse?.sessionId ?? newToken
+                    let finalToken = deeplinkData?.sessionToken ?? hashResponse?.sessionId ?? newToken
                     let finalKey = CryptonetManager.shared.publicKey ?? newPublicKey
                     
                     CryptonetManager.shared.sessionToken = finalToken
+                    
+                    if let configSessionDuration = hashResponse?.config?.sessionDuration {
+                        CryptonetManager.shared.sessionDuration = String(configSessionDuration)
+                    }
+                    
+                    if let configBiometricDuration = hashResponse?.config?.biometricDuration {
+                        CryptonetManager.shared.biometricDuration = String(configBiometricDuration)
+                    }
+                    
+                    if let configUniversalLink = hashResponse?.config?.universalLink {
+                        CryptonetManager.shared.universalLink = String(configUniversalLink)
+                    }
+                    
+                    if let configBrowser = hashResponse?.config?.browser {
+                        CryptonetManager.shared.selectedBrowser = String(configBrowser)
+                    }
                     
                     let settings = """
                     {

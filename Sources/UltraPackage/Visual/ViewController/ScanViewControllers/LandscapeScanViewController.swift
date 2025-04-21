@@ -44,7 +44,7 @@ final class LandscapeScanViewController: BaseViewController {
     private var biometricStartTime: Date?
     private var biometricExecutionTime: TimeInterval = 0
     private var biometricDurationTime: Double {
-        var defaultTime = 1.5
+        var defaultTime = 3.5
         if let faceidDuration = CryptonetManager.shared.deeplinkData?.biometricDuration,
            let customTime = Double(faceidDuration) {
             defaultTime = customTime
@@ -56,7 +56,7 @@ final class LandscapeScanViewController: BaseViewController {
     private var sessionStartTime: Date?
     private var sessionExecutionTime: TimeInterval = 0
     private var sessionDurationTime: Double {
-        var defaultTime = 3.5
+        var defaultTime = 5.0
         if let sessionDuration = CryptonetManager.shared.deeplinkData?.sessionDuration,
            let customTime = Double(sessionDuration) {
             defaultTime = customTime

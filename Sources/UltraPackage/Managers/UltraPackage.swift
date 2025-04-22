@@ -29,19 +29,7 @@ public class UltraPackage {
         print("VERSION: - \(CryptonetManager.shared.version())")
         
         NetworkManager.shared.getSessionToken(type: type) { newToken in
-            guard let newToken = newToken else {
-                ProgressHUD.failed("Empty session token")
-                finished(false)
-                return
-            }
-            
             NetworkManager.shared.getPublicKey { newPublicKey in
-                guard let newPublicKey = newPublicKey else {
-                    ProgressHUD.failed("Empty public key")
-                    finished(false)
-                    return
-                }
-                
                 NetworkManager.shared.verifyDeviceHash { hashResponse in
 
                     CryptonetManager.shared.publicKey = deeplinkData?.publicKey ?? newPublicKey

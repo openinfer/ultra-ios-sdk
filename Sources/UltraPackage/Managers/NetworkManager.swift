@@ -47,7 +47,6 @@ public final class NetworkManager {
                     token(response.sessionId)
                 case .failure(let error):
                     print("Failed: \(error.localizedDescription)")
-                    ProgressHUD.failed("Internal server error")
                     token(nil)
                 }
             }
@@ -73,7 +72,6 @@ public final class NetworkManager {
                     publicKey(response.publicKey)
                 case .failure(let error):
                     print("Failed: \(error.localizedDescription)")
-                    ProgressHUD.failed("Internal server error")
                     publicKey(nil)
                 }
             }

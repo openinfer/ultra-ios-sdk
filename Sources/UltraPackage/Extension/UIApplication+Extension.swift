@@ -21,9 +21,15 @@ extension UIApplication {
                 if UIApplication.shared.applicationState == .active {
                     UIApplication.shared.open(url)
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    exit(0)
+                }
             }
         } else {
             UIApplication.shared.open(url)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                exit(0)
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ public final class NetworkManager {
     static let shared = NetworkManager()
     
     var baseURL = "https://api-orchestration-privateid.uberverify.com/"
-    var redirectURL = "https://privateid.uberverify.com"
+    var redirectURL = "https://test.privateidentity.com/success"
     
     private init() { }
     

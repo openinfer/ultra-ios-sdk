@@ -9,6 +9,12 @@ public final class NetworkManager {
         case predict = "VERIFY"
     }
     
+    public enum ErrorCode: Int {
+      case spoof = 1
+      case desktop = -5
+      case cameraFail = -7
+    }
+    
     static let shared = NetworkManager()
     
     var baseURL = "https://api-orchestration-privateid.uberverify.com/"
@@ -237,7 +243,6 @@ public final class NetworkManager {
             }
     }
     
-    
     func updateEnroll(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
         guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/enroll") else { return }
@@ -320,5 +325,37 @@ public final class NetworkManager {
                     }
                 }
         }
+    }
+    
+    func detectSpoof(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
+        
+        guard let token = CryptonetManager.shared.sessionToken,
+              let url = URL(string: "\(baseURL)v2/verification-session/\(token)/code") else {
+            finished(false)
+            return
+        }
+        
+        let parameters: [String : Any] = [
+            "encryptedKey": encryptedKey,
+            "encryptedMessage": encryptedMessage,
+            "gcmAad": gcmAad,
+            "gcmTag": gcmTag,
+            "iv": iv
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseModel.self) { response in
+                switch response.result {
+                case .success:
+                    finished(true)
+                case .failure:
+                    finished(false)
+                }
+            }
     }
 }

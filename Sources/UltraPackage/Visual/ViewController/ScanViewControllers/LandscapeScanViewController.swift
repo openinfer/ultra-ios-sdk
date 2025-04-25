@@ -549,6 +549,44 @@ extension LandscapeScanViewController {
         }
     }
     
+    private func updateSpoofData() {
+        let dataString = "{\"code\": \(NetworkManager.ErrorCode.spoof.rawValue)}"
+        
+        let result = CryptonetManager.shared.cryptonet.encryptPayload(json: NSString(string: dataString))
+        switch result {
+        case .success(let json):
+            let jsonData = Data(json.utf8)
+            do {
+                let model = try JSONDecoder().decode(CollectModel.self, from: jsonData)
+                
+                if  let collectEncryptedKey = model.uberOperationResult?.request?.encryptedKey,
+                    let collectEncryptedMessage = model.uberOperationResult?.request?.encryptedMessage,
+                    let collectGcmAad = model.uberOperationResult?.request?.gcmAad,
+                    let collectGcmTag = model.uberOperationResult?.request?.gcmTag,
+                    let collectIv = model.uberOperationResult?.request?.iv {
+                    
+                    NetworkManager.shared.detectSpoof(encryptedKey: collectEncryptedKey,
+                                                        encryptedMessage: collectEncryptedMessage,
+                                                        gcmAad: collectGcmAad,
+                                                        gcmTag: collectGcmTag,
+                                                        iv: collectIv) { result in
+                        if result == true {
+                            print("detect spoof success")
+                        } else {
+                            print("detect spoof failure")
+                        }
+                    }
+                } else {
+                    print("detect spoof failure")
+                }
+            } catch {
+                print("detect spoof failure")
+            }
+        case .failure(_):
+            print("detect spoof failure")
+        }
+    }
+    
     private func updateFinalData(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String) {
         switch FlowManager.shared.current {
         case .signIn, .matchFace:
@@ -697,7 +735,7 @@ extension LandscapeScanViewController {
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             default: break
             }
-            
+            updateSpoofData()
         } else {
             switch faceStatus {
             case -100, -1:

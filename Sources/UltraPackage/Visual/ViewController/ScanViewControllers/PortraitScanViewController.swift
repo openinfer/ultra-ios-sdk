@@ -82,9 +82,6 @@ final class PortraitScanViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        // Delete after testin
-        updateSpoofData()
     }
     
     override func viewDidAppear(_ animated: Bool) {

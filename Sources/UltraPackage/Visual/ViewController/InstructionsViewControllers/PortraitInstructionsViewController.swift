@@ -44,7 +44,6 @@ final class PortraitInstructionsViewController: BaseViewController, UITextViewDe
             
             alert.addAction(UIAlertAction(title: "ok".localized, style: .default, handler:{ (UIAlertAction) in
                 self.openRedirectURL()
-                self.reset()
             }))
             alert.addAction(UIAlertAction(title: "cancel".localized, style: .cancel, handler:{ (UIAlertAction) in
                 

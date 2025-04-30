@@ -206,7 +206,7 @@ final class LandscapeScanViewController: BaseViewController {
             ToastView.appearance().textColor = .white
             Toast(text: String("session_timer_error".localized), duration: Delay.short).show()
             stopSessionTimer()
-            reset()
+            openRedirectURL()
         }
     }
     
@@ -844,7 +844,7 @@ extension LandscapeScanViewController {
             self.biometricStartTime = nil
             
             if isAllowed == false || isValidated == false {
-                self.reset()
+                self.openRedirectURL()
             }
         }
     }
@@ -870,7 +870,7 @@ extension LandscapeScanViewController {
         self.sessionStartTime = nil
         
         if isValidated == false {
-            self.reset()
+            self.openRedirectURL()
         }
     }
 }

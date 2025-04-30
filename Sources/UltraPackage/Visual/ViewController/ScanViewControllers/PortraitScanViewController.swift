@@ -161,7 +161,7 @@ final class PortraitScanViewController: BaseViewController {
             ToastView.appearance().textColor = .white
             Toast(text: String("session_timer_error".localized), duration: Delay.short).show()
             stopSessionTimer()
-            reset()
+            openRedirectURL()
         }
     }
     
@@ -615,6 +615,9 @@ private extension PortraitScanViewController {
             do {
                 let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
                 let token = model.callStatus?.mfToken ?? ""
+                
+//                UIImage.saveImageLocally(image: image, fileName: UUID().uuidString)
+                
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
                     self.mfToken = token
@@ -683,7 +686,6 @@ extension PortraitScanViewController {
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             
             if faceStatus == 10 && FlowManager.shared.current == .enroll {
-                UIImage.saveImageLocally(image: image, fileName: UUID().uuidString)
                 self.changeTitle(attributedText: NSAttributedString(string: "remove.glasses".localized,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             }
@@ -743,7 +745,6 @@ extension PortraitScanViewController {
             case 10:
                 guard FlowManager.shared.current != .signIn,
                       FlowManager.shared.current != .matchFace else { return }
-                UIImage.saveImageLocally(image: image, fileName: UUID().uuidString)
                 self.changeTitle(attributedText: NSAttributedString(string: "Remove glasses",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 11:
@@ -817,7 +818,7 @@ extension PortraitScanViewController {
             self.biometricStartTime = nil
             
             if isAllowed == false || isValidated == false {
-                self.reset()
+                self.openRedirectURL()
             }
         }
     }
@@ -843,7 +844,7 @@ extension PortraitScanViewController {
         self.sessionStartTime = nil
         
         if isValidated == false {
-            self.reset()
+            self.openRedirectURL()
         }
     }
 }

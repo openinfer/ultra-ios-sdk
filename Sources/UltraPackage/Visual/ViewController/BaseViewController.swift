@@ -25,6 +25,7 @@ class BaseViewController: UIViewController {
 
         CryptonetManager.shared.resetSession()
         UIApplication.openIfPossible(link: link)
+        self.reset()
     }
 }
 

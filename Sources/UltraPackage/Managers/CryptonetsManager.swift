@@ -18,6 +18,7 @@ final class CryptonetManager {
     var biometricDuration: String?
     
     var sessionToken: String?
+    var tokenSource: String?
     
     static let defaultProject = "privateidentity.com"
     static let privacyURL = "https://privateid.uberverify.com/privacy-policy"

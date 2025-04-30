@@ -16,6 +16,8 @@ final class PortraitScanViewController: BaseViewController {
     @IBOutlet weak var faceIdImage: UIImageView!
     @IBOutlet weak var circularProgressView: CircularProgressView!
     
+    @IBOutlet weak var debugLabel: UILabel!
+    
     private let footer: FooterView = .fromNib()
     
     private let session = AVCaptureSession()
@@ -71,12 +73,20 @@ final class PortraitScanViewController: BaseViewController {
         }
     }
     
+    private lazy var tripleTapGesture: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTripleTap))
+        tap.numberOfTapsRequired = 3
+        return tap
+    }()
+    
+    
     // MARK: Life circule
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(checkOrientationUI), name: UIDevice.orientationDidChangeNotification, object: nil)
         self.setupUI()
+        self.setupTripleTapGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,6 +120,9 @@ final class PortraitScanViewController: BaseViewController {
     }
     
     // MARK:- Actions
+    @objc private func handleTripleTap() {
+        debugLabel.text = "Source:\(CryptonetManager.shared.tokenSource ?? "N/A");\nID:\(CryptonetManager.shared.sessionToken ?? "N/A")"
+    }
     
     @objc func checkOrientationUI() {
         DispatchQueue.main.async {
@@ -207,6 +220,10 @@ private extension PortraitScanViewController {
             self.videoFrame.layer.cornerRadius = self.videoFrame.frame.width / 2
             self.circularProgressView.alpha = 1.0
         }
+    }
+    
+    func setupTripleTapGesture() {
+        view.addGestureRecognizer(tripleTapGesture)
     }
     
     func setupTimer() {

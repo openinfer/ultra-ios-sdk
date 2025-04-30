@@ -480,12 +480,21 @@
                                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sn8-nn-kek">
+                                                                <rect key="frame" x="20" y="20" width="353" height="0.0"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                         </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="KLl-fZ-KXc" firstAttribute="leading" secondItem="Nd3-3a-UUf" secondAttribute="leading" constant="40" id="1sF-b4-Gss"/>
+                                                            <constraint firstAttribute="trailing" secondItem="sn8-nn-kek" secondAttribute="trailing" constant="20" id="8DB-UJ-vu2"/>
                                                             <constraint firstAttribute="trailing" secondItem="KLl-fZ-KXc" secondAttribute="trailing" constant="40" id="MBP-QT-I4Z"/>
+                                                            <constraint firstItem="sn8-nn-kek" firstAttribute="leading" secondItem="Nd3-3a-UUf" secondAttribute="leading" constant="20" id="X3g-zw-2bI"/>
                                                             <constraint firstItem="KLl-fZ-KXc" firstAttribute="centerY" secondItem="Nd3-3a-UUf" secondAttribute="centerY" id="aYl-Uc-8JI"/>
+                                                            <constraint firstItem="sn8-nn-kek" firstAttribute="top" secondItem="Nd3-3a-UUf" secondAttribute="top" constant="20" id="z8N-Rh-60X"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -553,6 +562,7 @@
                     <connections>
                         <outlet property="activityLoading" destination="pzT-Cx-u3P" id="4Ce-cA-8yn"/>
                         <outlet property="circularProgressView" destination="idl-rA-hVw" id="Zy9-RL-HcO"/>
+                        <outlet property="debugLabel" destination="sn8-nn-kek" id="alD-Dw-CE4"/>
                         <outlet property="faceIdImage" destination="oZV-LN-eXB" id="wbJ-HS-lPz"/>
                         <outlet property="footerContainer" destination="fGV-S7-w5j" id="gKD-by-zXA"/>
                         <outlet property="resultLabel" destination="KLl-fZ-KXc" id="mNq-Ps-BHe"/>
@@ -573,7 +583,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
-            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

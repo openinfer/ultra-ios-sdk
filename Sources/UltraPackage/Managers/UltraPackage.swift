@@ -39,6 +39,14 @@ public class UltraPackage {
                     
                     CryptonetManager.shared.sessionToken = finalToken
                     
+                    if let _ = deeplinkData?.sessionToken {
+                        CryptonetManager.shared.tokenSource = "Deep link"
+                    } else if let _ = hashResponse?.sessionId {
+                        CryptonetManager.shared.tokenSource = "Hash"
+                    } else {
+                        CryptonetManager.shared.tokenSource = "Internal"
+                    }
+                    
                     if let configSessionDuration = hashResponse?.config?.sessionDuration {
                         CryptonetManager.shared.sessionDuration = String(configSessionDuration)
                     }

@@ -5,6 +5,7 @@ import Toaster
 import ProgressHUD
 import CryptonetPackage
 import Alamofire
+import Foundation
 
 final class PortraitScanViewController: BaseViewController {
     
@@ -406,6 +407,33 @@ extension PortraitScanViewController {
 
 // MARK: - Predict
 extension PortraitScanViewController {
+    private func saveJSON(_ json: String, prefix: String = "predict") {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+        let timestamp = formatter.string(from: Date())
+        
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileName = "ultra_sdk_logs.txt"
+        let fileURL = documentsPath.appendingPathComponent(fileName)
+        
+        let logEntry = "\n[\(timestamp)] [\(prefix)]\n\(json)\n-------------------\n"
+        
+        do {
+            if !FileManager.default.fileExists(atPath: fileURL.path) {
+                try logEntry.write(to: fileURL, atomically: true, encoding: .utf8)
+            } else {
+                if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
+                    fileHandle.seekToEndOfFile()
+                    fileHandle.write(logEntry.data(using: .utf8)!)
+                    fileHandle.closeFile()
+                }
+            }
+            print("JSON logged to: \(fileURL.path)")
+        } catch {
+            print("Failed to save JSON: \(error)")
+        }
+    }
+    
     func predict(image: UIImage) {
         guard isImageTaking == false && isFaceIdRunning == false else { return }
         self.isImageTaking = true
@@ -414,6 +442,7 @@ extension PortraitScanViewController {
         switch result {
         case .success(let json):
             print(json)
+            self.saveJSON(json)
             self.isImageTaking = false
             let jsonData = Data(json.utf8)
             
@@ -626,6 +655,7 @@ private extension PortraitScanViewController {
         switch result {
         case .success(let json):
             print(json)
+            self.saveJSON(json, prefix: "enroll")
             self.isImageTaking = false
             let jsonData = Data(json.utf8)
             

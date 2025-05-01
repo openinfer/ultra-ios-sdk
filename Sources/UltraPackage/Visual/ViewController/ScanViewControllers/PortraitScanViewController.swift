@@ -668,7 +668,7 @@ private extension PortraitScanViewController {
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
                     self.mfToken = token
-//                    self.showFaceID()
+                    self.showFaceID()
                 } else {
                     self.mfToken = token
                 }

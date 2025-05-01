@@ -662,9 +662,7 @@ private extension PortraitScanViewController {
             do {
                 let model = try JSONDecoder().decode(NewEnrollModel.self, from: jsonData)
                 let token = model.callStatus?.mfToken ?? ""
-                
-                UIImage.saveImageLocally(image: image, fileName: UUID().uuidString)
-                
+
                 if self.mfToken.isEmpty == true &&
                    token.isEmpty == false {
                     self.mfToken = token
@@ -807,6 +805,7 @@ extension PortraitScanViewController {
                 self.changeTitle(attributedText: NSAttributedString(string: "Lower phone level to face",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 16:
+                UIImage.saveImageLocally(image: image, fileName: UUID().uuidString)
                 self.changeTitle(attributedText: NSAttributedString(string: "Too dim - increase lighting",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             case 17:

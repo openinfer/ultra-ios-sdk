@@ -861,7 +861,10 @@ extension PortraitScanViewController {
                 UserDefaults.standard.set(true, forKey: "hasRequestedFaceIDBefore")
             }
             
-            self.isFaceIdRunning = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.isFaceIdRunning = false
+            }
+           
             self.biometricStartTime = nil
             
             if isAllowed == false || isValidated == false {

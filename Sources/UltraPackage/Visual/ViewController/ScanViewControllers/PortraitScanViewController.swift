@@ -25,7 +25,7 @@ final class PortraitScanViewController: BaseViewController {
     private var previewLayer: AVCaptureVideoPreviewLayer?
     
     private var timer: Timer?
-    private var timeInterval: TimeInterval = 0.3
+    private var timeInterval: TimeInterval = 1
     
     var sessionTimer: Timer?
     var sessionTimeInterval: TimeInterval = 1.0
@@ -40,7 +40,15 @@ final class PortraitScanViewController: BaseViewController {
     private var mfToken: String = ""
     private var isImageTaking: Bool = false
     private var isFocused: Bool = false
-    private var isFaceIdRunning: Bool = false
+    private var isFaceIdRunning: Bool = false  {
+        willSet {
+            if newValue == true {
+                stopTimer()
+            } else if newValue == true {
+                setupTimer()
+            }
+        }
+    }
     private var lastOrientation: UIDeviceOrientation?
     
     private var biometricStartTime: Date?
@@ -860,7 +868,7 @@ extension PortraitScanViewController {
                 UserDefaults.standard.set(true, forKey: "hasRequestedFaceIDBefore")
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.isFaceIdRunning = false
             }
            

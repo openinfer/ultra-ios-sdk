@@ -840,7 +840,7 @@ extension LandscapeScanViewController {
                 UserDefaults.standard.set(true, forKey: "hasRequestedFaceIDBefore")
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.isFaceIdRunning = false
             }
    

@@ -44,7 +44,7 @@ final class PortraitScanViewController: BaseViewController {
         willSet {
             if newValue == true {
                 stopTimer()
-            } else if newValue == true {
+            } else if newValue == false {
                 setupTimer()
             }
         }

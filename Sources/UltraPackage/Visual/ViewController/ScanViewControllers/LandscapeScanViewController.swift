@@ -215,6 +215,7 @@ final class LandscapeScanViewController: BaseViewController {
             Toast(text: String("session_timer_error".localized), duration: Delay.short).show()
             stopSessionTimer()
             openRedirectURL()
+            updateSpoofData()
         }
     }
     
@@ -856,6 +857,7 @@ extension LandscapeScanViewController {
             
             if isAllowed == false || isValidated == false {
                 self.openRedirectURL()
+                self.updateSpoofData()
             }
         }
     }
@@ -882,6 +884,7 @@ extension LandscapeScanViewController {
         
         if isValidated == false {
             self.openRedirectURL()
+            self.updateSpoofData()
         }
     }
 }

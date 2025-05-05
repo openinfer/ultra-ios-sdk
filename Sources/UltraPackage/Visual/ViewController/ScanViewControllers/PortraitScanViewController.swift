@@ -183,6 +183,7 @@ final class PortraitScanViewController: BaseViewController {
             ToastView.appearance().textColor = .white
             Toast(text: String("session_timer_error".localized), duration: Delay.short).show()
             stopSessionTimer()
+            updateSpoofData()
             openRedirectURL()
         }
     }
@@ -875,6 +876,7 @@ extension PortraitScanViewController {
             self.biometricStartTime = nil
             
             if isAllowed == false || isValidated == false {
+                self.updateSpoofData()
                 self.openRedirectURL()
             }
         }
@@ -901,6 +903,7 @@ extension PortraitScanViewController {
         self.sessionStartTime = nil
         
         if isValidated == false {
+            self.updateSpoofData()
             self.openRedirectURL()
         }
     }

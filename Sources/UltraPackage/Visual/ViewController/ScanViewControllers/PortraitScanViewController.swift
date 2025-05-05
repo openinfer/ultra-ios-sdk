@@ -860,7 +860,7 @@ extension PortraitScanViewController {
                 UserDefaults.standard.set(true, forKey: "hasRequestedFaceIDBefore")
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 self.isFaceIdRunning = false
             }
            

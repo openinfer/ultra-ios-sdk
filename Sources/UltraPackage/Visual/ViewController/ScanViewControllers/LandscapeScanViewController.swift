@@ -22,7 +22,7 @@ final class LandscapeScanViewController: BaseViewController {
     private var previewLayer: AVCaptureVideoPreviewLayer?
     
     private var timer: Timer?
-    private var timeInterval: TimeInterval = 0.3
+    private var timeInterval: TimeInterval = 0.75
     
     var sessionTimer: Timer?
     var sessionTimeInterval: TimeInterval = 1.0
@@ -37,7 +37,15 @@ final class LandscapeScanViewController: BaseViewController {
     private var mfToken: String = ""
     private var isImageTaking: Bool = false
     private var isFocused: Bool = false
-    private var isFaceIdRunning: Bool = false
+    private var isFaceIdRunning: Bool = false  {
+        willSet {
+            if newValue == true {
+                stopTimer()
+            } else if newValue == false {
+                setupTimer()
+            }
+        }
+    }
     private var currentOrientation: AVCaptureVideoOrientation = .portrait
     private var lastOrientation: UIDeviceOrientation?
     

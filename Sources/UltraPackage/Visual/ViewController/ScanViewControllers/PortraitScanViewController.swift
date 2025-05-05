@@ -25,7 +25,7 @@ final class PortraitScanViewController: BaseViewController {
     private var previewLayer: AVCaptureVideoPreviewLayer?
     
     private var timer: Timer?
-    private var timeInterval: TimeInterval = 1
+    private var timeInterval: TimeInterval = 0.75
     
     var sessionTimer: Timer?
     var sessionTimeInterval: TimeInterval = 1.0

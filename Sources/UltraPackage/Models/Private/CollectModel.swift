@@ -27,7 +27,7 @@ struct CollectCallStatus: Codable {
 
 // MARK: - UberOperationResult
 struct CollectUberOperationResult: Codable {
-    let request: CollectRequest?
+    let request: [String?]
 }
 
 // MARK: - Request

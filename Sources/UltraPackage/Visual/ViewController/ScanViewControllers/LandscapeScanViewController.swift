@@ -511,18 +511,8 @@ extension LandscapeScanViewController {
             do {
                 let model = try JSONDecoder().decode(CollectModel.self, from: jsonData)
                 
-                if  let collectEncryptedKey = model.uberOperationResult?.request?.encryptedKey,
-                    let collectEncryptedMessage = model.uberOperationResult?.request?.encryptedMessage,
-                    let collectGcmAad = model.uberOperationResult?.request?.gcmAad,
-                    let collectGcmTag = model.uberOperationResult?.request?.gcmTag,
-                    let collectIv = model.uberOperationResult?.request?.iv {
-                    
-                    NetworkManager.shared.updateCollect(encryptedKey: collectEncryptedKey,
-                                                        encryptedMessage: collectEncryptedMessage,
-                                                        gcmAad: collectGcmAad,
-                                                        gcmTag: collectGcmTag,
-                                                        iv: collectIv,
-                                                        image: image) { [weak self] result in
+                if  let request = model.uberOperationResult?.request {
+                    NetworkManager.shared.updateCollect(response: request, image: image) { [weak self] result in
                         if result == true {
                             self?.updateFinalData(response: response)
                         } else {
@@ -550,17 +540,8 @@ extension LandscapeScanViewController {
             do {
                 let model = try JSONDecoder().decode(CollectModel.self, from: jsonData)
                 
-                if  let collectEncryptedKey = model.uberOperationResult?.request?.encryptedKey,
-                    let collectEncryptedMessage = model.uberOperationResult?.request?.encryptedMessage,
-                    let collectGcmAad = model.uberOperationResult?.request?.gcmAad,
-                    let collectGcmTag = model.uberOperationResult?.request?.gcmTag,
-                    let collectIv = model.uberOperationResult?.request?.iv {
-                    
-                    NetworkManager.shared.detectSpoof(encryptedKey: collectEncryptedKey,
-                                                        encryptedMessage: collectEncryptedMessage,
-                                                        gcmAad: collectGcmAad,
-                                                        gcmTag: collectGcmTag,
-                                                        iv: collectIv) { result in
+                if let request = model.uberOperationResult?.request {
+                    NetworkManager.shared.detectSpoof(response: request) { result in
                         if result == true {
                             print("detect spoof success")
                         } else {

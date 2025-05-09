@@ -210,7 +210,7 @@ public final class NetworkManager {
         }
     }
     
-    func updateCollect(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage, finished: @escaping (Bool) -> Void) {
+    func updateCollect(response: [String?], image: UIImage, finished: @escaping (Bool) -> Void) {
         self.updateImage(image: image)
         
         guard let token = CryptonetManager.shared.sessionToken,
@@ -218,20 +218,12 @@ public final class NetworkManager {
             finished(false)
             return
         }
-        
-        let parameters: [String : Any] = [
-            "encryptedKey": encryptedKey,
-            "encryptedMessage": encryptedMessage,
-            "gcmAad": gcmAad,
-            "gcmTag": gcmTag,
-            "iv": iv
-        ]
-        
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-        ]
-        
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+
+        AF.request(url,
+                   method: .post,
+                   parameters: response,
+                   encoder: JSONParameterEncoder.default,
+                   headers: ["Content-Type": "application/json"])
             .validate()
             .responseDecodable(of: ResponseModel.self) { response in
                 switch response.result {
@@ -311,27 +303,18 @@ public final class NetworkManager {
         }
     }
     
-    func detectSpoof(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
-        
+    func detectSpoof(response: [String?], finished: @escaping (Bool) -> Void) {
         guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/code") else {
             finished(false)
             return
         }
-        
-        let parameters: [String : Any] = [
-            "encryptedKey": encryptedKey,
-            "encryptedMessage": encryptedMessage,
-            "gcmAad": gcmAad,
-            "gcmTag": gcmTag,
-            "iv": iv
-        ]
-        
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-        ]
-        
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+
+        AF.request(url,
+                   method: .post,
+                   parameters: response,
+                   encoder: JSONParameterEncoder.default,
+                   headers: ["Content-Type": "application/json"])
             .validate()
             .responseDecodable(of: ResponseModel.self) { response in
                 switch response.result {

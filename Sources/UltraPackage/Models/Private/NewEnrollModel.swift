@@ -47,7 +47,7 @@ struct EnrollOnefa: Codable {
 
 struct UberOperationResult: Codable {
     let face: FaceValidationData?
-    let response: Response?
+    let response: [String?]?
     let embedding: String?
 }
 

@@ -454,7 +454,7 @@ extension LandscapeScanViewController {
                 
                 if self.mfToken.isEmpty == false && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 33.33
-                } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
+                } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response == nil {
                     self.estimateAttempts = 0
                 }
                 
@@ -462,19 +462,10 @@ extension LandscapeScanViewController {
                     self.circularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
-                if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
-                    let encryptedMessage = model.uberOperationResult?.response?.encryptedMessage,
-                    let gcmAad = model.uberOperationResult?.response?.gcmAad,
-                    let gcmTag = model.uberOperationResult?.response?.gcmTag,
-                    let iv = model.uberOperationResult?.response?.iv {
+                if  let response = model.uberOperationResult?.response {
                     DispatchQueue.main.async {
                         self.finishedScanSession()
-                        self.stopScan(encryptedKey: encryptedKey,
-                                      encryptedMessage: encryptedMessage,
-                                      gcmAad: gcmAad,
-                                      gcmTag: gcmTag,
-                                      iv: iv,
-                                      image: image)
+                        self.stopScan(response: response, image: image)
                     }
                 } else {
                     self.isImageTaking = false
@@ -491,7 +482,7 @@ extension LandscapeScanViewController {
         }
     }
     
-    func stopScan(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage) {
+    func stopScan(response: [String?], image: UIImage) {
         self.stopSession()
         self.stopTimer()
         self.circularProgressView.timeToFill = 0.5
@@ -503,16 +494,11 @@ extension LandscapeScanViewController {
                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             self.changeResultLabel(attributedText: NSAttributedString(string: "100%" + " " + "recognised".localized,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
-            self.updateCollectWithData(encryptedKey: encryptedKey,
-                                       encryptedMessage: encryptedMessage,
-                                       gcmAad: gcmAad,
-                                       gcmTag: gcmTag,
-                                       iv: iv,
-                                       image: image)
+            self.updateCollectWithData(response: response, image: image)
         }
     }
     
-    private func updateCollectWithData(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, image: UIImage) {
+    private func updateCollectWithData(response: [String?], image: UIImage) {
         guard let info = CryptonetManager.shared.getDeviceInfo() else {
             print("Failure during getting getDeviceInfo")
             return
@@ -538,11 +524,7 @@ extension LandscapeScanViewController {
                                                         iv: collectIv,
                                                         image: image) { [weak self] result in
                         if result == true {
-                            self?.updateFinalData(encryptedKey: encryptedKey,
-                                                  encryptedMessage: encryptedMessage,
-                                                  gcmAad: gcmAad,
-                                                  gcmTag: gcmTag,
-                                                  iv: iv)
+                            self?.updateFinalData(response: response)
                         } else {
                             print("failure")
                         }
@@ -596,23 +578,16 @@ extension LandscapeScanViewController {
         }
     }
     
-    private func updateFinalData(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String) {
+    private func updateFinalData(response: [String?]) {
         switch FlowManager.shared.current {
         case .signIn, .matchFace:
-            NetworkManager.shared.updatePredict(encryptedKey: encryptedKey,
-                                                encryptedMessage: encryptedMessage,
-                                                gcmAad: gcmAad,
-                                                gcmTag: gcmTag,
-                                                iv: iv, finished: { [weak self] finished in
+            NetworkManager.shared.updatePredict(response: response,
+                                                finished: { [weak self] finished in
                 self?.updateFinalUI(isFinished: finished)
                 
             })
         case .enroll:
-            NetworkManager.shared.updateEnroll(encryptedKey: encryptedKey,
-                                               encryptedMessage: encryptedMessage,
-                                               gcmAad: gcmAad,
-                                               gcmTag: gcmTag,
-                                               iv: iv,
+            NetworkManager.shared.updateEnroll(response: response,
                                                finished: { [weak self] finished in
                 self?.updateFinalUI(isFinished: finished)
             })
@@ -669,7 +644,7 @@ private extension LandscapeScanViewController {
                 
                 if self.mfToken.isEmpty == false && self.estimateAttempts <= 100.0 {
                     self.estimateAttempts = self.estimateAttempts + 20
-                } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response?.encryptedKey == nil {
+                } else if self.mfToken.isEmpty == true && model.uberOperationResult?.response == nil {
                     self.estimateAttempts = 0
                 }
                 
@@ -677,17 +652,8 @@ private extension LandscapeScanViewController {
                     self.circularProgressView.progress = self.estimateAttempts > 100.0 ? 1.0 : (self.estimateAttempts / 100)
                 }
                 
-                if  let encryptedKey = model.uberOperationResult?.response?.encryptedKey,
-                    let encryptedMessage = model.uberOperationResult?.response?.encryptedMessage,
-                    let gcmAad = model.uberOperationResult?.response?.gcmAad,
-                    let gcmTag = model.uberOperationResult?.response?.gcmTag,
-                    let iv = model.uberOperationResult?.response?.iv {
-                    self.stopScan(encryptedKey: encryptedKey,
-                                  encryptedMessage: encryptedMessage,
-                                  gcmAad: gcmAad,
-                                  gcmTag: gcmTag,
-                                  iv: iv,
-                                  image: image)
+                if  let response = model.uberOperationResult?.response {
+                    self.stopScan(response: response, image: image)
                 } else {
                     self.isImageTaking = false
                 }

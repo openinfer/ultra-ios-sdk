@@ -243,23 +243,15 @@ public final class NetworkManager {
             }
     }
     
-    func updateEnroll(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
+    func updateEnroll(response: [String?], finished: @escaping (Bool) -> Void) {
         guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/enroll") else { return }
         
-        let parameters: [String : Any] = [
-            "encryptedKey": encryptedKey,
-            "encryptedMessage": encryptedMessage,
-            "gcmAad": gcmAad,
-            "gcmTag": gcmTag,
-            "iv": iv
-        ]
-        
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-        ]
-        
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        AF.request(url,
+                   method: .post,
+                   parameters: response,
+                   encoder: JSONParameterEncoder.default,
+                   headers: ["Content-Type": "application/json"])
             .validate()
             .responseDecodable(of: ResponseModel.self) { response in
                 switch response.result {
@@ -271,23 +263,15 @@ public final class NetworkManager {
             }
     }
     
-    func updatePredict(encryptedKey: String, encryptedMessage: String, gcmAad: String, gcmTag: String, iv: String, finished: @escaping (Bool) -> Void) {
+    func updatePredict(response: [String?], finished: @escaping (Bool) -> Void) {
         guard let token = CryptonetManager.shared.sessionToken,
               let url = URL(string: "\(baseURL)v2/verification-session/\(token)/verify") else { return }
         
-        let parameters: [String : Any] = [
-            "encryptedKey": encryptedKey,
-            "encryptedMessage": encryptedMessage,
-            "gcmAad": gcmAad,
-            "gcmTag": gcmTag,
-            "iv": iv
-        ]
-        
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-        ]
-        
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        AF.request(url,
+                   method: .post,
+                   parameters: response,
+                   encoder: JSONParameterEncoder.default,
+                   headers: ["Content-Type": "application/json"])
             .validate()
             .responseDecodable(of: ResponseModel.self) { response in
                 switch response.result {
